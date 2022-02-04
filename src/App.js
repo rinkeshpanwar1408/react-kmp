@@ -31,6 +31,8 @@ import { FiHome, FiClock, FiTrash } from "react-icons/fi";
 import { MdOutlineKeyboardVoice, MdSearch } from "react-icons/md";
 
 import background from "./assests/image/Image2.png";
+import SearchListItem from "./components/SearchListItem";
+import RoundCornerCard from "./components/RoundCornerCard";
 
 const { Sider, Footer, Content } = Layout;
 const { Title, Text } = Typography;
@@ -44,7 +46,7 @@ function App() {
   useEffect(() => {
     const getdata = async () => {
       const response = await Axios.get("/albums");
-      const albumsData = response.data.slice(0, 4);
+      const albumsData = response.data.slice(0, 10);
       setAlbums(albumsData);
     };
     getdata();
@@ -164,14 +166,7 @@ function App() {
     <div className="main-container">
       <Content
         className="mainheader"
-        style={{
-          backgroundColor: "#fff",
-          display: "flex",
-          backgroundImage: `url(${background})`,
-          backgroundPosition: "center center",
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "cover",
-        }}
+        style={{ backgroundImage: `url(${background})` }}
       >
         <div className="mainheader_container">
           <div className="mainheader_container_navbar">
@@ -190,7 +185,6 @@ function App() {
                 overlayClassName="mainheader_container_navbar_menuContainer_items"
                 overlay={menu}
                 placement="bottomLeft"
-                trigger={"click"}
               >
                 <div className="mainheader_container_navbar_menuContainer_menu">
                   <Text className="mainheader_container_navbar_menuContainer_menu-title">
@@ -213,123 +207,43 @@ function App() {
                 </div>
               </Dropdown>
             </div>
-            <div
-              style={{
-                width: "10rem",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
+            <div className="mainheader_container_navbar_userContainer">
               <FiHome size={20} color="#fff" />
-              <div
-                style={{
-                  width: "1.8rem",
-                  height: "1.8rem",
-                  border: "1px solid #fff",
-                  padding: "2rem",
-                  borderRadius: "2rem",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  color: "#fff",
-                  marginLeft: "3rem",
-                }}
-              >
+              <div className="mainheader_container_navbar_userContainer-user">
                 {name}
               </div>
             </div>
           </div>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              marginBottom: "2rem",
-            }}
-          >
+          <div className="mainheader_container-icon">
             <FaSlackHash size={80} color="#f15a24" />
           </div>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              marginBottom: "2rem",
-            }}
-          >
-            <Title style={{ color: "#fff" }}>Hi, how can we help you?</Title>
+          <div className="mainheader_container_title">
+            <Title className="mainheader_container_title-text">
+              Hi, how can we help you?
+            </Title>
           </div>
-          <div
-            style={{
-              marginBottom: "8rem",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <div
-              style={{
-                width: "35%",
-                position: "relative",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
+          <div className="mainheader_container_searchcontainer">
+            <div className="mainheader_container_searchcontainer_inputBox">
               <Input
                 placeholder="Search here..."
-                style={{
-                  padding: "1.2rem 8rem 1.2rem 1.5rem",
-                  borderRadius: "4rem",
-                }}
+                className="mainheader_container_searchcontainer_inputBox-input"
                 onFocus={() => setvisibleRecentSearch(true)}
                 onBlur={() => setvisibleRecentSearch(false)}
               />
 
-              <div
-                style={{
-                  position: "absolute",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  right: "1.5rem",
-                }}
-              >
-                <MdOutlineKeyboardVoice color="#000" size={18} />
-                <div
-                  style={{
-                    width: "3.5rem",
-                    height: "3.5rem",
-                    backgroundColor: "#120E38",
-                    borderRadius: "2rem",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    marginLeft: "1rem",
-                  }}
-                >
-                  <MdSearch color="#fff" size={20} />
+              <div className="mainheader_container_searchcontainer_actionBox">
+                <MdOutlineKeyboardVoice size={18} />
+                <div className="mainheader_container_searchcontainer_actionBox-search">
+                  <MdSearch size={20} />
                 </div>
               </div>
 
               {visibleRecentSearch && (
-                <Card className="mainheader_searchlist_container">
+                <RoundCornerCard className="mainheader_searchlist_container">
                   {albums.map((item, i) => {
-                    return (
-                      <div
-                        className="mainheader_searchlist_container_item"
-                        key={i}
-                      >
-                        <FiClock color="#707070" />
-                        <Text className="mainheader_searchlist_container_item-title">
-                          {item.title}
-                        </Text>
-                        <FiTrash color="red" />
-                      </div>
-                    );
+                    return <SearchListItem item={item} key={i} />;
                   })}
-                </Card>
+                </RoundCornerCard>
               )}
             </div>
           </div>

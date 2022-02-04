@@ -6,6 +6,7 @@ import Axios from "../utility/axios";
 import RecentActivityCard from "./RecentActivityCard";
 import PopularTopicItem from "./PopularTopicItem";
 import AnnouncementsItem from "./AnnouncementsItem";
+import RoundCornerCard from "./RoundCornerCard";
 
 const { Text, Link, Title } = Typography;
 
@@ -31,20 +32,20 @@ function PopularTopics(props) {
       <Row gutter={[16, 16]}>
         <Col lg={{ span: 14 }} sm={{ span: 24 }} xs={{ span: 24 }}>
           <TitleText title="Popular Topics"></TitleText>
-          <Card className="popular_topics-card">
+          <RoundCornerCard className="popular_topics-card">
             {popularTopics.map((item, i) => {
               return <PopularTopicItem item={item} key={i}/>;
             })}
-          </Card>
+          </RoundCornerCard>
         </Col>
 
         <Col lg={{ span: 10 }} sm={{ span: 24 }} xs={{ span: 24 }}>
           <TitleText title="Announcements" />
-          <Card className="popular_topics-card">
+          <RoundCornerCard className="popular_topics-card">
             {announcements.map((item, i) => {
               return <AnnouncementsItem item={item} index={i}  key={i}/>;
             })}
-          </Card>
+          </RoundCornerCard>
         </Col>
       </Row>
     </React.Fragment>
