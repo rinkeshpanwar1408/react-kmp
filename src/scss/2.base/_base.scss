@@ -1,0 +1,23 @@
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+html {
+  //1rem = 10px
+  //10/16px = 62.5%
+  font-size: 62.5%;
+}
+
+.ant-card{
+  line-height: 1.4;
+}

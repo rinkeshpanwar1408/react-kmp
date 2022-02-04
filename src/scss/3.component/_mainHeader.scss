@@ -1,0 +1,111 @@
+.mainheader {
+  &_container {
+    backdrop-filter: blur(2px);
+    padding: 2rem 6rem 0px;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+
+    &_navbar {
+      display: flex;
+      height: 6rem;
+      align-items: center;
+      margin-bottom: 2rem;
+
+      &_brandContainer {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        &-divider {
+          height: 3.5rem;
+          border-right: 0.2rem solid $color-7;
+          margin: 0px 1rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        &-title {
+          margin: 0px !important;
+          color: $color-white !important;
+          letter-spacing: 0.5rem;
+        }
+      }
+
+      &_menuContainer {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+
+        &_items {
+
+          &-title{
+              color: $color-6;
+              font-weight: 600;
+          }
+
+          &-link{
+              color: $color-8;
+          }
+
+          &-viewall{
+              color: $color-5 !important;
+              font-weight: 600;
+          }
+
+          &-item {
+            padding: 1.5rem;
+            border-radius: 1rem;
+
+            .ant-dropdown-menu-item:hover,
+            .ant-dropdown-menu-submenu-title:hover {
+                background: none;
+            }
+          }
+        }
+
+        &_menu {
+          margin-right: 8rem;
+          display: flex;
+          align-items: center;
+
+          &-title {
+            color: $color-white;
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin-right: 0.5rem;
+          }
+
+          & .anticon {
+            color: $color-white;
+            font-weight: 600;
+          }
+        }
+      }
+    }
+  }
+  &_searchlist_container {
+    border-radius: 1rem;
+    position: absolute;
+    width: 95%;
+    top: 100%;
+    margin-top: 1rem;
+    box-shadow: 0px 3px 6px #00000029;
+
+    .ant-card-body {
+      padding: 1rem 2rem;
+    }
+
+    &_item {
+      display: flex;
+      align-items: center;
+      padding: 0.5rem 0.2rem;
+
+      &-title {
+        flex: 1;
+        margin-left: 1rem;
+        display: inline-block;
+      }
+    }
+  }
+}
