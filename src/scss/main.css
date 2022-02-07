@@ -425,7 +425,6 @@ html {
 .mainheader_container_navbar_brandContainer-title {
   margin: 0px !important;
   color: #FFFFFF !important;
-  letter-spacing: 0.5rem;
 }
 
 .mainheader_container_navbar_menuContainer {
@@ -549,7 +548,7 @@ html {
 }
 
 .mainheader_container_searchcontainer {
-  margin-bottom: 6rem;
+  margin-bottom: 2rem;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -662,12 +661,13 @@ html {
 }
 
 .site-layout-background {
-  padding: 2rem 6rem 0 6rem;
+  padding: 2rem 6rem 8rem 6rem;
 }
 
 .main-container {
   min-height: 100%;
   background: #f0f2f5;
+  position: relative;
 }
 
 .footer {
@@ -681,6 +681,9 @@ html {
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
+  position: absolute;
+  width: 100%;
+  bottom: 0;
 }
 
 .footer_text_container {
