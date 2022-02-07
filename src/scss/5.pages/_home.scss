@@ -27,7 +27,9 @@
   background-color: $color-9;
   margin-top: 5rem;
   padding: 2.2rem 6rem !important;
-
+  display: flex;
+  justify-content: space-between;
+  
   &_text_container {
       margin: 0 6rem;
       &-text {
