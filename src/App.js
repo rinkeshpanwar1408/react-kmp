@@ -35,7 +35,7 @@ import SearchListItem from "./components/SearchListItem";
 import RoundCornerCard from "./components/RoundCornerCard";
 
 const { Sider, Footer, Content } = Layout;
-const { Title, Text } = Typography;
+const { Title, Text, Link } = Typography;
 
 function App() {
   const [collapsed, setcollapsed] = useState(false);
@@ -253,7 +253,17 @@ function App() {
         <RecentArticals />
         <PopularTopics />
       </Content>
-      <Footer className="footer">©2022 Created by Infosys</Footer>
+      <Footer className="footer">
+        <div className="footer_text_container">
+          <Text className="footer_text_container-text">©2022 Created by Infosys</Text>
+        </div>
+        <div>
+          <Link href="#" className="footer-link">Send Feedback</Link>
+          <Link href="#" className="footer-link">Contact Us</Link>
+          <Link href="#" className="footer-link">Terms of Use</Link>
+          <Link href="#" className="footer-link">Privacy Policy</Link>
+        </div>
+      </Footer>
     </div>
   );
 }

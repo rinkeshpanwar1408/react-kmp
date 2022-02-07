@@ -672,8 +672,21 @@ html {
 
 .footer {
   text-align: center;
-  background-color: #2E3097;
-  color: #fff;
+  background-color: #120E38;
   margin-top: 5rem;
+  padding: 2.2rem 6rem !important;
+}
+
+.footer_text_container {
+  margin: 0 6rem;
+}
+
+.footer_text_container-text {
+  color: #FFFFFF;
+}
+
+.footer-link {
+  color: #FFFFFF !important;
+  margin: 0 2rem;
 }
 /*# sourceMappingURL=main.css.map */

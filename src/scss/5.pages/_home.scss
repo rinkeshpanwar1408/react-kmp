@@ -2,7 +2,7 @@
   background-color: #f4f4f4;
 }
 
-.site-layout-background{
+.site-layout-background {
   padding: 2rem 6rem 0 6rem;
 }
 
@@ -22,10 +22,21 @@
   // padding: 2rem 6rem 5rem 6rem;
 }
 
-.footer{
-    text-align: center;
-    background-color: $color-1;
-    color: #fff;
-    margin-top: 5rem;
-}
+.footer {
+  text-align: center;
+  background-color: $color-9;
+  margin-top: 5rem;
+  padding: 2.2rem 6rem !important;
 
+  &_text_container {
+      margin: 0 6rem;
+      &-text {
+      color: $color-white;
+    }
+  }
+
+  &-link {
+    color: $color-white !important;
+    margin: 0 2rem;
+  }
+}
