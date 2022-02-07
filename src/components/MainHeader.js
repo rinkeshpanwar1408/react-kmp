@@ -147,14 +147,27 @@ function MainHeader(props) {
       <div className="mainheader_container">
         <div className="mainheader_container_navbar">
           <div className="mainheader_container_navbar_brandContainer">
-            <FaSlackHash size={40} color="#f15a24" />
-            <div className="mainheader_container_navbar_brandContainer-divider"></div>
-            <Title
+          <Title
               level={5}
               className="mainheader_container_navbar_brandContainer-title"
             >
-              {String("SYNAPSE").toUpperCase()}
+              {String("Infosys").toUpperCase()}
             </Title>
+            <div className="mainheader_container_navbar_brandContainer-divider"></div>
+            <div>
+              <Title
+                level={5}
+                className="mainheader_container_navbar_brandContainer-title"
+              >
+                Text Analytics  
+              </Title>
+              <Title
+                level={5}
+                className="mainheader_container_navbar_brandContainer-title"
+              >
+                Platform | Enterprise Search
+              </Title>
+            </div>
           </div>
           <div className="mainheader_container_navbar_menuContainer">
             <Dropdown
@@ -189,9 +202,6 @@ function MainHeader(props) {
               {username}
             </div>
           </div>
-        </div>
-        <div className="mainheader_container-icon">
-          <FaSlackHash size={80} color="#f15a24" />
         </div>
         <div className="mainheader_container_title">
           <Title className="mainheader_container_title-text">
