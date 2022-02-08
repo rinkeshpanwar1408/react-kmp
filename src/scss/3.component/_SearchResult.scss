@@ -1,0 +1,124 @@
+.search_result {
+  margin-bottom: 1rem;
+
+  .ant-card-body {
+    padding: 0;
+  }
+
+  .ant-card-head-title {
+    padding: 1rem 0;
+  }
+  .ant-card-head {
+    padding: 0 1.5rem;
+  }
+
+  &_header {
+    display: flex;
+    border-bottom: 0.1rem solid $color-10;
+    padding: 1.2rem 1.5rem;
+    align-items: center;
+
+    &_icons {
+      display: flex;
+      margin-right: 1rem;
+      &-confluence {
+        color: $color-5;
+      }
+    }
+    &-title {
+      font-size: 1.4rem;
+      color: $color-9;
+      font-weight: 600;
+    }
+    &-content {
+      margin: 0 !important;
+      // background-color: $color-10;
+    }
+
+    &-pdf {
+      background-color: $color-11;
+      padding: 0.2rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 2rem;
+      color: $color-12 !important;
+      font-weight: 600;
+    }
+  }
+
+  &_body {
+    padding: 1.2rem 1.5rem;
+
+    &_othercontainer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      &_department {
+        background-color: $color-11;
+        padding: 0.5rem 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 0.5rem;
+        color: $color-1;
+
+        &-title {
+          color: $color-12;
+          font-weight: 600;
+          margin-right: 0.5rem;
+        }
+
+        &-value {
+          color: $color-8;
+        }
+      }
+
+      &_icons {
+        display: flex;
+        align-items: center;
+
+        .ant-badge-count {
+          right: -0.1rem;
+          top: -0.1rem;
+          font-size: 1rem;
+          line-height: 1.8rem;
+        }
+
+        &_views {
+          display: flex;
+          align-items: center;
+          color: $color-1;
+          margin-right: 2rem;
+
+          &-count {
+            margin-left: 0.5rem;
+            color: $color-1;
+          }
+        }
+        &-like {
+          margin-right: 1.5rem;
+        }
+        &-dislike {
+          margin-right: 1.5rem;
+        }
+      }
+    }
+
+    &_contentcontainer {
+      padding: 1rem;
+      background-color: $color-11;
+      border-radius: 1rem;
+
+      &-text {
+        color: $color-12;
+        margin-bottom: 0.2rem !important;
+      }
+
+      &-link {
+        color: $color-5 !important;
+      }
+    }
+  }
+}
