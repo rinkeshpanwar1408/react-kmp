@@ -1,0 +1,39 @@
+.collapsibleFilter {
+  &_container {
+    .ant-collapse-header {
+      border-bottom: 2px solid #2e3097;
+    }
+    &_panel {
+      display: flex;
+      align-items: center;
+      &-text {
+        margin-left: 0.5rem;
+      }
+    }
+    &_filters {
+      .ant-collapse {
+        border: none;
+      }
+      .ant-collapse-item {
+        border: none;
+      }
+      .ant-collapse-content-active {
+        border: none;
+      }
+      .ant-collapse-header {
+        height: 34px;
+        display: flex !important;
+        align-items: center !important;
+        border: none;
+      }
+      .ant-collapse-content-box {
+        padding: 12px;
+      }
+      &_source {
+        &_panel {
+          border: none;
+        }
+      }
+    }
+  }
+}

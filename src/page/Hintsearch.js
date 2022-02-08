@@ -1,5 +1,5 @@
 import React from "react";
-import { Layout } from "antd";
+import { Row, Col, Slider, Layout } from "antd";
 import MainFooter from "../components/MainFooter";
 import MainHeader from "../components/MainHeader";
 import { Route, Switch } from "react-router-dom";
