@@ -12,6 +12,7 @@
         "3.component/_button.scss",
         "3.component/_mainheader.scss",
         "3.component/_roundcornerCard.scss",
+        "3.component/_SearchResult.scss",
         "5.pages/_home.scss"
     ],
     "names": [],
