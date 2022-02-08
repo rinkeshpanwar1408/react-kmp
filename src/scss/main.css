@@ -656,6 +656,54 @@ html {
           box-shadow: 0px 3px 6px #e3e3e3;
 }
 
+.collapsibleFilter_container .ant-collapse-header {
+  border-bottom: 2px solid #2e3097;
+}
+
+.collapsibleFilter_container_panel {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.collapsibleFilter_container_panel-text {
+  margin-left: 0.5rem;
+}
+
+.collapsibleFilter_container_filters .ant-collapse {
+  border: none;
+}
+
+.collapsibleFilter_container_filters .ant-collapse-item {
+  border: none;
+}
+
+.collapsibleFilter_container_filters .ant-collapse-content-active {
+  border: none;
+}
+
+.collapsibleFilter_container_filters .ant-collapse-header {
+  height: 34px;
+  display: -webkit-box !important;
+  display: -ms-flexbox !important;
+  display: flex !important;
+  -webkit-box-align: center !important;
+      -ms-flex-align: center !important;
+          align-items: center !important;
+  border: none;
+}
+
+.collapsibleFilter_container_filters .ant-collapse-content-box {
+  padding: 12px;
+}
+
+.collapsibleFilter_container_filters_source_panel {
+  border: none;
+}
+
 .ant-layout {
   background-color: #f4f4f4;
 }
