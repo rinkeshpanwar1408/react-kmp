@@ -7,19 +7,19 @@ const { Title, Text, Link } = Typography;
 
 function SearchResultItemHeader(props) {
   return (
-    <div className="search_result_header">
-      <div className="search_result_header_icons">
+    <div className={`search_result_header ${props.isFromQuickLinks && 'quickLinks'}`}>
+      {!props.isFromQuickLinks && <div className="search_result_header_icons">
         <FiGrid
           fontSize={25}
           className="search_result_container_header_icons-confluence"
         />
         {/* <FiCommand /> */}
-      </div>
+      </div>}
       <Text className="search_result_header-title">{props.title}</Text>
 
-      <Link className="search_result_header-pdf">
+      {!props.isFromQuickLinks && <Link className="search_result_header-pdf">
         <AiOutlineFilePdf /> PDF
-      </Link>
+      </Link>}
     </div>
   );
 }

@@ -371,7 +371,7 @@ html {
 .mainheader_container {
   -webkit-backdrop-filter: blur(2px);
           backdrop-filter: blur(2px);
-  padding: 2rem 6rem 0px;
+  padding: 2rem 2rem 0px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -731,6 +731,10 @@ html {
           align-items: center;
 }
 
+.search_result_header.quickLinks {
+  padding: 1.2rem 2.5rem;
+}
+
 .search_result_header_icons {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -871,7 +875,7 @@ html {
 }
 
 .site-layout-background {
-  padding: 2rem 6rem 8rem 6rem;
+  padding: 2rem 2rem 8rem 2rem;
 }
 
 .main-container {
