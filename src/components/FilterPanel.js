@@ -1,28 +1,23 @@
 import React, { useState } from "react";
 import { Collapse, Typography, Checkbox } from "antd";
 const { Panel } = Collapse;
+const { Text, Link } = Typography;
+
 function FilterPanel({ header, array, key }) {
-  //   const [active, setActive] = useState();
   return (
-    <Collapse
-      accordion
-      className="collapsibleFilter_container_filters_source"
-      expandIconPosition={"right"}
-    >
-      <Panel
-        className="collapsibleFilter_container_filters_source_panel"
-        header={header}
-        key={key}
-      >
-        <Checkbox.Group
-          className="collapsibleFilter_container_filters_source_checkbox"
-          options={array}
-          onChange={() => {
-            // console.log(item);
-          }}
-        />
-      </Panel>
-    </Collapse>
+    <div className="filter">
+      <Text className="filter-headertext">{header}</Text>
+      <div className="filter_lists">
+        {array.map((item) => {
+          return (
+            <div className="filter_lists_item">
+              <Checkbox>{item}</Checkbox>
+              {/* <Text className="filter_lists_item-count">{1}</Text> */}
+            </div>
+          );
+        })}
+      </div>
+    </div>
   );
 }
 
