@@ -54,6 +54,11 @@
   &_body {
     padding: 1.2rem 1.5rem;
 
+    &.scrollable{
+      overflow-y: auto;
+      max-height: 25rem;
+    }
+
     &_tagcontainer {
       display: flex;
       align-items: center;

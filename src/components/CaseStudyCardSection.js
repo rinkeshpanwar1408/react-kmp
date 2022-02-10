@@ -1,18 +1,28 @@
 import React from "react";
-import RoundCornerCard from "./RoundCornerCard";
-import SearchResultItemHeader from "./SearchResultItemHeader";
-import parse from "html-react-parser";
 import { Typography } from "antd";
-import TechnologyTag from "./TechnologyTag";
 import CaseStudyCard from "./CaseStudyCard";
+import { useSelector } from "react-redux";
 
-const { Paragraph } = Typography;
+const { Link } = Typography;
+
 function CaseStudyCardSection(props) {
-  return (
-    <CaseStudyCard title="SAP">
-
-    </CaseStudyCard>
+  const caseStudydata = useSelector(
+    (state) => state.searchresults.caseStudyDetail
   );
+
+  if (caseStudydata) {
+    return (
+      <CaseStudyCard title={caseStudydata.title}>
+        {caseStudydata.data.map((item) => {
+          return <Link href={item.url} target="_blank" className="casestudySection-link">
+            {item.name}
+          </Link>;
+        })}
+      </CaseStudyCard>
+    );
+  } else {
+    return null;
+  }
 }
 
 export default CaseStudyCardSection;

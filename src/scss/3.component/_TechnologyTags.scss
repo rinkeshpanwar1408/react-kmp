@@ -1,8 +1,12 @@
 .tag {
+  cursor: pointer;
   &-text {
     font-size: 1.2rem !important;
-    border: 1px solid black;
+    border: 0.1rem solid $color-10;
     padding: 1rem;
-    margin: 0.5rem !important;
+    margin: 0 .5rem .5rem 0 !important;
+    color: $color-8 !important;
+    border-radius: 0.5rem;
+    cursor: pointer;
   }
 }

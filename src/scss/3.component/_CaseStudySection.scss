@@ -1,0 +1,8 @@
+.casestudySection{
+    &-link{
+        display: inline-block;
+        border-bottom: 0.1rem solid $color-10;
+        color: $color-5 !important;
+        padding:  1rem 0;
+    }
+}

@@ -5,9 +5,17 @@ import parse from "html-react-parser";
 import { Badge, Typography } from "antd";
 import { FiThumbsUp, FiThumbsDown, FiEye } from "react-icons/fi";
 import { BsEyeFill } from "react-icons/bs";
+import * as ActionCreator from "../store/action/actions";
+import { useDispatch } from "react-redux";
 
 const { Paragraph, Link, Text } = Typography;
 function SearchResultItem(props) {
+  const dispatch = useDispatch();
+
+  const onSearchResultItemClickHandler = (id) => {
+    dispatch(ActionCreator.getQuickLinkDetails(id));
+  };
+
   const [ellipsis, setEllipsis] = useState(true);
   const likeCount = props.item.elasticDocumentRating
     ? props.item.elasticDocumentRating.thumbsUpCount
@@ -23,7 +31,7 @@ function SearchResultItem(props) {
   return (
     <RoundCornerCard
       className="search_result"
-      onClick={() => props.onSearchResultItemClick(props.item.id)}
+      onClick={() => onSearchResultItemClickHandler(props.item.id)}
     >
       <SearchResultItemHeader title={props.item.fileName} />
 

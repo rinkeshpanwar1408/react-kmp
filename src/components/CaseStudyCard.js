@@ -16,7 +16,7 @@ function CaseStudyCard(props) {
         </div>}
         <Text className="search_result_header-title">{props.title}</Text>
       </div>
-      <div className="search_result_body">{props.children}</div>
+      <div className= {`search_result_body ${!props.isQuickLinks && "scrollable" }`}>{props.children}</div>
     </RoundCornerCard>
   );
 }

@@ -131,8 +131,9 @@ html {
 }
 
 .title-text {
-  color: #4A4A4A !important;
+  color: #7F7F7F !important;
   margin: 1.5rem 1rem;
+  border-radius: 0.5rem;
 }
 
 .popular_topics-card {
@@ -815,6 +816,11 @@ html {
   padding: 1.2rem 1.5rem;
 }
 
+.search_result_body.scrollable {
+  overflow-y: auto;
+  max-height: 25rem;
+}
+
 .search_result_body_tagcontainer {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -920,11 +926,25 @@ html {
   color: #5550FF !important;
 }
 
+.tag {
+  cursor: pointer;
+}
+
 .tag-text {
   font-size: 1.2rem !important;
-  border: 1px solid black;
+  border: 0.1rem solid #e3e3e3;
   padding: 1rem;
-  margin: 0.5rem !important;
+  margin: 0 .5rem .5rem 0 !important;
+  color: #7F7F7F !important;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+.casestudySection-link {
+  display: inline-block;
+  border-bottom: 0.1rem solid #e3e3e3;
+  color: #5550FF !important;
+  padding: 1rem 0;
 }
 
 .ant-layout {

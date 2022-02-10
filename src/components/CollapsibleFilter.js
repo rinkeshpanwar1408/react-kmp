@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { FiFilter } from "react-icons/fi";
-import { Collapse, Typography, Checkbox } from "antd";
+import { Collapse, Typography } from "antd";
 import { searchData } from "../utility/sampleData";
 import FilterPanel from "./FilterPanel";
 
-const { Title, Text, Link } = Typography;
+const { Text } = Typography;
 const { Panel } = Collapse;
 
 function CollapsibleFilter() {
@@ -48,7 +48,11 @@ function CollapsibleFilter() {
 
   return (
     <div className="filters">
-      <Collapse className="filters_container" expandIconPosition={"right"}>
+      <Collapse
+        className="filters_container"
+        defaultActiveKey={1}
+        expandIconPosition={"right"}
+      >
         <Panel
           header={
             <div className="filters_container_header">
