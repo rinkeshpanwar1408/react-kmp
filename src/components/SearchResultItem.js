@@ -9,7 +9,6 @@ import { BsEyeFill } from "react-icons/bs";
 const { Paragraph, Link, Text } = Typography;
 function SearchResultItem(props) {
   const [ellipsis, setEllipsis] = useState(true);
-  debugger;
   const likeCount = props.item.elasticDocumentRating
     ? props.item.elasticDocumentRating.thumbsUpCount
     : 0;
@@ -22,7 +21,10 @@ function SearchResultItem(props) {
   };
 
   return (
-    <RoundCornerCard className="search_result">
+    <RoundCornerCard
+      className="search_result"
+      onClick={() => props.onSearchResultItemClick(props.item.id)}
+    >
       <SearchResultItemHeader title={props.item.fileName} />
 
       <div className="search_result_body">

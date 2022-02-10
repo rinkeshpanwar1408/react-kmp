@@ -18,6 +18,10 @@
     padding: 1.2rem 1.5rem;
     align-items: center;
 
+    &.quickLinks {
+      padding: 1.2rem 2.5rem;
+    }
+
     &_icons {
       display: flex;
       margin-right: 1rem;
@@ -49,6 +53,13 @@
 
   &_body {
     padding: 1.2rem 1.5rem;
+
+    &_tagcontainer {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+    }
 
     &_othercontainer {
       display: flex;
