@@ -23,13 +23,13 @@ function SearchResultItemHeader(props) {
       )}
       <Text className="search_result_header-title">{props.title}</Text>
 
-      <Link className="search_result_header-pdf">
-        <AiOutlineFilePdf onClick={openPdfModal} /> PDF
+      <Link className="search_result_header-pdf" onClick={openPdfModal}>
+        <AiOutlineFilePdf /> PDF
       </Link>
       {enablePdfModal ? (
         <Modal
           width={1000}
-          className="search_result_header-pdf_modal"
+          className="search_result_header_pdfModal"
           centered
           title={props.title}
           visible={enablePdfModal}

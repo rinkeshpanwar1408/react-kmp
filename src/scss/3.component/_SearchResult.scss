@@ -50,9 +50,25 @@
       font-weight: 600;
     }
     &_pdfModal {
-      .ant-modal-content .ant-modal-body {
+      .ant-modal-body {
         overflow: auto;
         max-height: 80vh;
+      }
+      // .react-pdf__Page {
+      //   margin-top: 10px;
+      // }
+      .react-pdf__Page__textContent {
+        border: 1px solid darkgrey;
+        box-shadow: 5px 5px 5px 1px #ccc;
+        border-radius: 0.5rem;
+      }
+
+      .react-pdf__Page__annotations.annotationLayer {
+        padding: 1rem;
+      }
+
+      .react-pdf__Page__canvas {
+        margin: 0 auto;
       }
     }
   }
