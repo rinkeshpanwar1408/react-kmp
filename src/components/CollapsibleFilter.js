@@ -10,6 +10,7 @@ const { Panel } = Collapse;
 function CollapsibleFilter() {
   const [source, setSource] = useState([]);
   const [role, setRole] = useState([]);
+  const [open, setOpen] = useState(false);
   const [author, setAuthor] = useState([]);
 
   const checkDuplicateArrValue = (compareVal, destinationArr) => {
@@ -45,6 +46,8 @@ function CollapsibleFilter() {
     setRole(roleArray);
     setAuthor(authorArray);
   }, []);
+  const [numPages, setNumPages] = useState(null);
+  const [pageNumber, setPageNumber] = useState(1);
 
   return (
     <div className="filters">
