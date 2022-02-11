@@ -1,18 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { MdFilterListAlt } from "react-icons/md";
-import { Collapse, Typography, Checkbox } from "antd";
+import { Collapse, Typography, Checkbox, Modal, Button } from "antd";
 import { searchData } from "../utility/sampleData";
 import FilterPanel from "./FilterPanel";
+// import PDFViewer from "pdf-viewer-reactjs";
+
+import PdfViewerModal from "./PdfViewerModal";
 const { Title, Text, Link } = Typography;
 const { Panel } = Collapse;
 
 function callback(key) {
   console.log(key);
 }
+const url = "http://isvhintp01:8001/pdf/FTS_CaseStudy_2.pdf/1";
 
 function CollapsibleFilter() {
   const [source, setSource] = useState([]);
   const [role, setRole] = useState([]);
+  const [open, setOpen] = useState(false);
   const [author, setAuthor] = useState([]);
   useEffect(() => {
     let sourceArray = [];
@@ -47,7 +52,13 @@ function CollapsibleFilter() {
       })
     );
   }, []);
+  const [numPages, setNumPages] = useState(null);
+  const [pageNumber, setPageNumber] = useState(1);
 
+  function onDocumentLoadSuccess({ numPages }) {
+    setNumPages(numPages);
+    setPageNumber(1);
+  }
   // let uniqueChars = chars.filter((c, index) => {
   //   return chars.indexOf(c) === index;
   // });
@@ -80,6 +91,26 @@ function CollapsibleFilter() {
           </Panel>
         </Collapse>
       </div>
+      <Button
+        onClick={() => {
+          setOpen(!open);
+        }}
+      >
+        Open Pdf
+      </Button>
+      {open ? (
+        <Modal
+          width={1200}
+          className="collapsibleFilter_modal"
+          centered
+          title="Basic Modal"
+          visible={open}
+          onOk={() => setOpen(!open)}
+          onCancel={() => setOpen(!open)}
+        >
+          <PdfViewerModal />
+        </Modal>
+      ) : null}
     </div>
   );
 }
