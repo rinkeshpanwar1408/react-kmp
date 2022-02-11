@@ -1,5 +1,21 @@
 import * as Actions from "./index";
 
+export const getSearchedData = () => {
+  return (dispatch) => {
+    dispatch({
+      type: Actions.GETSEARCHDATA,
+    });
+  };
+};
+
+export const getFilters = () => {
+  return (dispatch) => {
+    dispatch({
+      type: Actions.GETFILTERS,
+    });
+  };
+};
+
 export const getQuickLinkDetails = (id) => {
   return (dispatch) => {
     dispatch({
@@ -21,3 +37,4 @@ export const getCaseStudyDetails = (techName) => {
     });
   };
 };
+

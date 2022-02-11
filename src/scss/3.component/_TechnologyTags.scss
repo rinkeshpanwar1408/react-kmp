@@ -4,9 +4,20 @@
     font-size: 1.2rem !important;
     border: 0.1rem solid $color-10;
     padding: 1rem;
-    margin: 0 .5rem .5rem 0 !important;
+    margin: 0 0.5rem 0.5rem 0 !important;
     color: $color-8 !important;
     border-radius: 0.5rem;
-    cursor: pointer;
+    text-transform: lowercase;
+
+    &.active {
+      background-color: $color-1;
+      color: $color-white !important;
+    }
+
+    &.disable {
+      background-color: $color-11;
+      color: $color-12 !important;
+      
+    }
   }
 }

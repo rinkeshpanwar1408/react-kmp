@@ -1,50 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { FiFilter } from "react-icons/fi";
-import { Collapse, Typography } from "antd";
-import { searchData } from "../utility/sampleData";
+import { Button, Collapse, Typography } from "antd";
 import FilterPanel from "./FilterPanel";
+import { useSelector } from "react-redux";
 
 const { Text } = Typography;
 const { Panel } = Collapse;
 
 function CollapsibleFilter() {
-  const [source, setSource] = useState([]);
-  const [role, setRole] = useState([]);
-  const [author, setAuthor] = useState([]);
-
-  const checkDuplicateArrValue = (compareVal, destinationArr) => {
-    if (destinationArr.indexOf(compareVal) === -1) {
-      destinationArr.push(compareVal);
-    }
-  };
-
-  useEffect(() => {
-    let sourceArray = [];
-    let roleArray = [];
-    let authorArray = [];
-
-    searchData.forEach((element) => {
-      if (element.source) {
-        checkDuplicateArrValue(element.source, sourceArray);
-      }
-
-      if (element.departments) {
-        element.departments.forEach((item) => {
-          checkDuplicateArrValue(item, roleArray);
-        });
-      }
-
-      if (element.author) {
-        element.author.forEach((item) => {
-          checkDuplicateArrValue(item, authorArray);
-        });
-      }
-    });
-
-    setSource(sourceArray);
-    setRole(roleArray);
-    setAuthor(authorArray);
-  }, []);
+  const filters = useSelector((state) => state.searchresults.filters);
 
   return (
     <div className="filters">
@@ -62,17 +26,26 @@ function CollapsibleFilter() {
           }
           key="1"
         >
-          <React.Fragment>
-            {source.length > 0 ? (
-              <FilterPanel header={"Source"} array={source} key="1" />
-            ) : null}
-            {role.length > 0 ? (
-              <FilterPanel header={"Role"} array={role} key="2" />
-            ) : null}
-            {author.length > 0 ? (
-              <FilterPanel header={"Author"} array={author} key="3" />
-            ) : null}
-          </React.Fragment>
+          <div>
+            <Button type="primary" block>
+              Apply Filter
+            </Button>
+            <Button type="default" block>
+              Reset Filter
+            </Button>
+          </div>
+
+          {filters.length > 0
+            ? filters.map((filter) => {
+                return (
+                  <FilterPanel
+                    header={filter.title}
+                    array={filter.data}
+                    key="1"
+                  />
+                );
+              })
+            : null}
         </Panel>
       </Collapse>
     </div>

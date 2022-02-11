@@ -6,17 +6,17 @@ import { FiGrid } from "react-icons/fi";
 const { Text } = Typography;
 function CaseStudyCard(props) {
   return (
-    <RoundCornerCard className="search_result">
-      <div className="search_result_header quickLinks">
-        {!props.isQuickLinks && <div className="search_result_header_icons">
+    <RoundCornerCard className="caseStudyResult">
+      <div className="caseStudyResult_header">
+        {!props.isQuickLinks && <div className="caseStudyResult_header_icons">
           <FiGrid
             fontSize={25}
-            className="search_result_container_header_icons-confluence"
+            className="caseStudyResult_header_icons-confluence"
           />
         </div>}
-        <Text className="search_result_header-title">{props.title}</Text>
+        <Text className="caseStudyResult_header-title">{props.title}</Text>
       </div>
-      <div className= {`search_result_body ${!props.isQuickLinks && "scrollable" }`}>{props.children}</div>
+      <div className= {`caseStudyResult_body ${!props.isQuickLinks && "scrollable" }`}>{props.children}</div>
     </RoundCornerCard>
   );
 }

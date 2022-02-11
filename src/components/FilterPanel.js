@@ -1,7 +1,6 @@
-import React, { useState } from "react";
-import { Collapse, Typography, Checkbox } from "antd";
-const { Panel } = Collapse;
-const { Text, Link } = Typography;
+import React from "react";
+import { Typography, Checkbox } from "antd";
+const { Text } = Typography;
 
 function FilterPanel({ header, array, key }) {
   return (

@@ -8,30 +8,27 @@ import { useSelector } from "react-redux";
 
 const { Paragraph } = Typography;
 function OrganizationDetailCard(props) {
-
   const OrganizationDetail = useSelector(
     (state) => state.searchresults.quickLinkDetail
   );
 
+  const Tags = useSelector((state) => state.searchresults.tags);
+
   return (
     <React.Fragment>
       <CaseStudyCard title={OrganizationDetail.clients[0]} isQuickLinks>
-        <div className="search_result_body_contentcontainer">
-          <Paragraph className="search_result_body_contentcontainer-text">
+        <div className="caseStudyResult_body_contentcontainer">
+          <Paragraph className="caseStudyResult_body_contentcontainer-text">
             {parse(OrganizationDetail.clientDetails)}
           </Paragraph>
         </div>
-
-        <div className="search_result_body_tagcontainer">
-          {OrganizationDetail.technology.map((technology) => {
-            return (
-              <TechnologyTag
-                title={technology}
-                id={OrganizationDetail.id}
-              />
-            );
-          })}
-        </div>
+        {Tags && (
+          <div className="caseStudyResult_body_tagcontainer">
+            {Tags.map((technology) => {
+              return <TechnologyTag item={technology} />;
+            })}
+          </div>
+        )}
       </CaseStudyCard>
       <CaseStudyCardSection />
     </React.Fragment>

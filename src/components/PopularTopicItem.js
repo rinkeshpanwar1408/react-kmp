@@ -1,14 +1,12 @@
 import React, { useState } from "react";
-import { Row, Col, Slider, Typography } from "antd";
+import { Typography, Button } from "antd";
 import img from "../assests/image/image1.png";
 import { MdShare, MdOutlineBookmarkAdd } from "react-icons/md";
-import { BiSmile } from "react-icons/bi";
 import { MdRemoveRedEye } from "react-icons/md";
 
-const { Text, Link, Title } = Typography;
+const { Text } = Typography;
 
 function PopularTopicItem(props) {
-  const [popularTopics, setpopularTopics] = useState([]);
   const [isVisible, setisVisible] = useState(false);
   return (
     <div
@@ -17,7 +15,7 @@ function PopularTopicItem(props) {
       onMouseOut={() => setisVisible(false)}
     >
       <div className="popular_topics_imagecontainer">
-        <img src={img} className="popular_topics_imagecontainer-image" />
+        <img src={img} className="popular_topics_imagecontainer-image" alt="not-found" />
       </div>
       <div className="popular_topics_textcontainer">
         <Text className="popular_topics_textcontainer-title">
@@ -46,8 +44,9 @@ function PopularTopicItem(props) {
             className="recent_activity_article_item_footer_iconContainer-icon"
           />
         </div>
-
-        <button className="btn-primary">Read</button>
+        <Button type="primary" shape="round">
+          Read
+        </Button>
       </div>
     </div>
   );

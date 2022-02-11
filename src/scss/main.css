@@ -352,13 +352,50 @@ html {
           justify-content: center;
 }
 
-.btn-primary {
+.ant-btn {
+  margin: 0 0.5rem 0.5rem 0;
+  border-radius: 0.5rem;
+  border-color: #e3e3e3;
+}
+
+.ant-btn:hover,
+.ant-btn:focus,
+.ant-btn:active {
+  border-color: #2E3097;
+  color: #2E3097;
+}
+
+.ant-btn-primary {
   background-color: #2E3097;
   border: none;
-  padding: .6rem 1rem;
+  padding: 0.6rem 1rem;
+  min-width: 8rem;
+  color: #FFFFFF;
+}
+
+.ant-btn-primary:hover,
+.ant-btn-primary:focus,
+.ant-btn-primary:active {
+  background-color: rgba(46, 48, 151, 0.8);
+  color: #FFFFFF;
+}
+
+.btn-default {
+  background-color: #2E3097;
+  padding: 0.6rem 1rem;
   min-width: 8rem;
   border-radius: 2rem;
   color: #FFFFFF;
+}
+
+.ant-btn-primary:hover,
+.ant-btn-primary:focus,
+.ant-btn-primary:active {
+  background-color: rgba(46, 48, 151, 0.8);
+}
+
+.ant-btn-round {
+  border-radius: 3.2rem;
 }
 
 .mainheader {
@@ -915,6 +952,7 @@ html {
   padding: 1rem;
   background-color: #F5F5F5;
   border-radius: 1rem;
+  font-size: 1.5rem;
 }
 
 .search_result_body_contentcontainer-text {
@@ -934,17 +972,105 @@ html {
   font-size: 1.2rem !important;
   border: 0.1rem solid #e3e3e3;
   padding: 1rem;
-  margin: 0 .5rem .5rem 0 !important;
+  margin: 0 0.5rem 0.5rem 0 !important;
   color: #7F7F7F !important;
   border-radius: 0.5rem;
-  cursor: pointer;
+  text-transform: lowercase;
 }
 
-.casestudySection-link {
+.tag-text.active {
+  background-color: #2E3097;
+  color: #FFFFFF !important;
+}
+
+.tag-text.disable {
+  background-color: #F5F5F5;
+  color: #999999 !important;
+}
+
+.caseStudyResult {
+  margin-bottom: 1rem;
+}
+
+.caseStudyResult-link {
   display: inline-block;
   border-bottom: 0.1rem solid #e3e3e3;
   color: #5550FF !important;
   padding: 1rem 0;
+}
+
+.caseStudyResult .ant-card-body {
+  padding: 0;
+}
+
+.caseStudyResult .ant-card-head-title {
+  padding: 1rem 0;
+}
+
+.caseStudyResult .ant-card-head {
+  padding: 0 1.5rem;
+}
+
+.caseStudyResult_header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  border-bottom: 0.1rem solid #e3e3e3;
+  padding: 1.2rem 1.5rem;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.caseStudyResult_header_icons {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-right: 1rem;
+}
+
+.caseStudyResult_header_icons-confluence {
+  color: #5550FF;
+}
+
+.caseStudyResult_header-title {
+  font-size: 1.4rem;
+  color: #120E38;
+  font-weight: 600;
+}
+
+.caseStudyResult_header-content {
+  margin: 0 !important;
+}
+
+.caseStudyResult_body {
+  padding: 1.2rem 1.5rem;
+}
+
+.caseStudyResult_body.scrollable {
+  overflow-y: auto;
+  max-height: 25rem;
+}
+
+.caseStudyResult_body_tagcontainer {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  margin-top: 1rem;
+}
+
+.caseStudyResult_body_contentcontainer-text {
+  color: #999999;
+  margin-bottom: 0.2rem !important;
+}
+
+.caseStudyResult_body_contentcontainer-link {
+  color: #5550FF !important;
 }
 
 .ant-layout {

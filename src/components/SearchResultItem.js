@@ -3,7 +3,7 @@ import RoundCornerCard from "./RoundCornerCard";
 import SearchResultItemHeader from "./SearchResultItemHeader";
 import parse from "html-react-parser";
 import { Badge, Typography } from "antd";
-import { FiThumbsUp, FiThumbsDown, FiEye } from "react-icons/fi";
+import { FiThumbsUp, FiThumbsDown } from "react-icons/fi";
 import { BsEyeFill } from "react-icons/bs";
 import * as ActionCreator from "../store/action/actions";
 import { useDispatch } from "react-redux";

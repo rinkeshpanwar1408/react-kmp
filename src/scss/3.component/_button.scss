@@ -1,8 +1,45 @@
-.btn-primary{
-    background-color: $color-1;
-    border: none;
-    padding: .6rem 1rem;
-    min-width: 8rem;
-    border-radius: 2rem;
-    color: $color-white;
+.ant-btn {
+  margin: 0 0.5rem 0.5rem 0;
+  border-radius: 0.5rem;
+  border-color: $color-10;
+}
+
+.ant-btn:hover,
+.ant-btn:focus,
+.ant-btn:active{
+  border-color: $color-1;
+  color: $color-1;
+}
+
+.ant-btn-primary {
+  background-color: $color-1;
+  border: none;
+  padding: 0.6rem 1rem;
+  min-width: 8rem;
+  color: $color-white;
+}
+
+.ant-btn-primary:hover,
+.ant-btn-primary:focus,
+.ant-btn-primary:active {
+  background-color: rgba($color: $color-1, $alpha: 0.8);
+  color: $color-white;
+}
+
+.btn-default {
+  background-color: $color-1;
+  padding: 0.6rem 1rem;
+  min-width: 8rem;
+  border-radius: 2rem;
+  color: $color-white;
+}
+
+.ant-btn-primary:hover,
+.ant-btn-primary:focus,
+.ant-btn-primary:active {
+  background-color: rgba($color: $color-1, $alpha: 0.8);
+}
+
+.ant-btn-round {
+  border-radius: 3.2rem;
 }
