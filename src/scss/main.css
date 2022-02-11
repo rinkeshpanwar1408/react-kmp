@@ -780,6 +780,27 @@ html {
   border-color: #5550FF;
 }
 
+.filter_page_container {
+  height: 100%;
+  max-height: 500px;
+  overflow: auto;
+}
+
+.filter_page_container .react-pdf__Page {
+  margin-top: 10px;
+}
+
+.filter_page_container .react-pdf__Page__textContent {
+  border: 1px solid darkgrey;
+  -webkit-box-shadow: 5px 5px 5px 1px #ccc;
+          box-shadow: 5px 5px 5px 1px #ccc;
+  border-radius: 5px;
+}
+
+.filter_page_container .react-pdf__Page__canvas {
+  margin: 0 auto;
+}
+
 .search_result {
   margin-bottom: 1rem;
 }
@@ -999,6 +1020,7 @@ html {
   padding: 1rem 0;
 }
 
+<<<<<<< Updated upstream
 .caseStudyResult .ant-card-body {
   padding: 0;
 }
@@ -1073,6 +1095,8 @@ html {
   color: #5550FF !important;
 }
 
+=======
+>>>>>>> Stashed changes
 .ant-layout {
   background-color: #f4f4f4;
 }

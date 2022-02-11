@@ -49,12 +49,18 @@
       color: $color-12 !important;
       font-weight: 600;
     }
+    &_pdfModal {
+      .ant-modal-content .ant-modal-body {
+        overflow: auto;
+        max-height: 80vh;
+      }
+    }
   }
 
   &_body {
     padding: 1.2rem 1.5rem;
 
-    &.scrollable{
+    &.scrollable {
       overflow-y: auto;
       max-height: 25rem;
     }

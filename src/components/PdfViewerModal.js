@@ -3,11 +3,11 @@ import { Document, Page, pdfjs } from "react-pdf";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
-export default function AllPages(props) {
+export default function PdfViewerModal({ url }) {
   const [numPages, setNumPages] = useState(null);
   const [pageNumber, setPageNumber] = useState(1);
 
-  function onDocumentLoadSuccess({ numPages }) {
+  function onDocumentLoadSuccess({ numPages, url }) {
     setNumPages(numPages);
     setPageNumber(1);
   }
@@ -27,10 +27,7 @@ export default function AllPages(props) {
   return (
     <>
       <div className="collapsibleFilter-page-container">
-        <Document
-          file="http://isvhintp01:8001/pdf/FTS_CaseStudy_2.pdf/1"
-          onLoadSuccess={onDocumentLoadSuccess}
-        >
+        <Document file={url} onLoadSuccess={onDocumentLoadSuccess}>
           {Array.from(new Array(numPages), (el, index) => (
             <Page key={`page_${index + 1}`} pageNumber={index + 1} />
           ))}
