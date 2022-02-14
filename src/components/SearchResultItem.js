@@ -11,7 +11,7 @@ import { useDispatch } from "react-redux";
 const { Paragraph, Link, Text } = Typography;
 function SearchResultItem(props) {
   const dispatch = useDispatch();
-
+  
   const onSearchResultItemClickHandler = (id) => {
     dispatch(ActionCreator.getQuickLinkDetails(id));
   };
@@ -30,7 +30,7 @@ function SearchResultItem(props) {
 
   return (
     <RoundCornerCard
-      className="search_result"
+      className={`search_result ${props.active && "active"}`}
       onClick={() => onSearchResultItemClickHandler(props.item.id)}
     >
       <SearchResultItemHeader title={props.item.fileName} />

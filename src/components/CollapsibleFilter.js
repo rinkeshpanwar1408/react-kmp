@@ -4,12 +4,13 @@ import { Button, Collapse, Typography } from "antd";
 import FilterPanel from "./FilterPanel";
 import { useSelector } from "react-redux";
 
+import { MenuUnfoldOutlined } from "@ant-design/icons";
+
 const { Text } = Typography;
 const { Panel } = Collapse;
 
 function CollapsibleFilter() {
   const filters = useSelector((state) => state.searchresults.filters);
-
   return (
     <div className="filters">
       <Collapse
@@ -48,6 +49,13 @@ function CollapsibleFilter() {
             : null}
         </Panel>
       </Collapse>
+
+      {/* <Button
+        type="primary"
+        style={{ marginBottom: 16 }}
+      >
+        {React.createElement(MenuUnfoldOutlined        )}
+      </Button> */}
     </div>
   );
 }

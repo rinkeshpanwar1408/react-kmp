@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { Row, Col } from "antd";
+import React, { useEffect, useState } from "react";
+import { Row, Col, Switch } from "antd";
 import SearchResultItem from "../components/SearchResultItem";
 import CollapsibleFilter from "../components/CollapsibleFilter";
 import OrganizationDetailCard from "../components/OrganizationDetailCard";
@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import * as ActionCreators from "../store/action/actions";
 
 function SearchResult(props) {
+  const [test, setTest] = useState(false);
   const searchedData = useSelector((state) => state.searchresults.searchedData);
   const Dispatch = useDispatch();
 
@@ -17,13 +18,14 @@ function SearchResult(props) {
 
   return (
     <React.Fragment>
+
       <Row gutter={[8, 8]}>
         <Col span={5}>
           <CollapsibleFilter />
         </Col>
         <Col span={13}>
-          {searchedData.map((item) => {
-            return <SearchResultItem item={item} />;
+          {searchedData.map((item, i) => {
+            return <SearchResultItem item={item} key={i} />;
           })}
         </Col>
         <Col span={6}>

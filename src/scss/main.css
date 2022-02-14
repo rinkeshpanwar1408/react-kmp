@@ -409,43 +409,40 @@ html {
 .mainheader_container {
   -webkit-backdrop-filter: blur(2px);
           backdrop-filter: blur(2px);
-  padding: 2rem 2rem 0px;
+  padding: 2rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-transition: 5s;
+  transition: 5s;
+}
+
+.mainheader_container_brandContainer {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-flex: 1;
       -ms-flex: 1;
           flex: 1;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-}
-
-.mainheader_container_navbar {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  height: 6rem;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  margin-bottom: 2rem;
-}
-
-.mainheader_container_navbar_brandContainer {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
 }
 
-.mainheader_container_navbar_brandContainer-divider {
+.mainheader_container_brandContainer-divider {
   height: 3.5rem;
   border-right: 0.2rem solid #f15a24;
   margin: 0px 1rem;
@@ -460,49 +457,57 @@ html {
           justify-content: center;
 }
 
-.mainheader_container_navbar_brandContainer-title {
+.mainheader_container_brandContainer-title {
   margin: 0px !important;
   color: #FFFFFF !important;
 }
 
-.mainheader_container_navbar_menuContainer {
-  -webkit-box-flex: 1;
-      -ms-flex: 1;
-          flex: 1;
+.mainheader_container_menuContainer {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.mainheader_container_menuContainer_menus {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-bottom: 2.5rem;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
 }
 
-.mainheader_container_navbar_menuContainer_items-title {
+.mainheader_container_menuContainer_items-title {
   color: #4A4A4A;
   font-weight: 600;
 }
 
-.mainheader_container_navbar_menuContainer_items-link {
+.mainheader_container_menuContainer_items-link {
   color: #7F7F7F;
 }
 
-.mainheader_container_navbar_menuContainer_items-viewall {
+.mainheader_container_menuContainer_items-viewall {
   color: #5550FF !important;
   font-weight: 600;
 }
 
-.mainheader_container_navbar_menuContainer_items-item {
+.mainheader_container_menuContainer_items-item {
   padding: 1.5rem;
   border-radius: 1rem;
 }
 
-.mainheader_container_navbar_menuContainer_items-item .ant-dropdown-menu-item:hover,
-.mainheader_container_navbar_menuContainer_items-item .ant-dropdown-menu-submenu-title:hover {
+.mainheader_container_menuContainer_items-item .ant-dropdown-menu-item:hover,
+.mainheader_container_menuContainer_items-item .ant-dropdown-menu-submenu-title:hover {
   background: none;
 }
 
-.mainheader_container_navbar_menuContainer_menu {
-  margin-right: 8rem;
+.mainheader_container_menuContainer_menu {
+  margin-right: 5rem;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -511,32 +516,35 @@ html {
           align-items: center;
 }
 
-.mainheader_container_navbar_menuContainer_menu-title {
+.mainheader_container_menuContainer_menu-title {
   color: #FFFFFF;
   font-weight: 600;
   font-size: 1.2rem;
   margin-right: 0.5rem;
 }
 
-.mainheader_container_navbar_menuContainer_menu .anticon {
+.mainheader_container_menuContainer_menu .anticon {
   color: #FFFFFF;
   font-weight: 600;
 }
 
-.mainheader_container_navbar_userContainer {
+.mainheader_container_userContainer {
   width: 10rem;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
 }
 
-.mainheader_container_navbar_userContainer-user {
+.mainheader_container_userContainer-user {
   width: 1.8rem;
   height: 1.8rem;
   border: 1px solid #FFFFFF;
@@ -583,6 +591,8 @@ html {
 
 .mainheader_container_title-text {
   color: #FFFFFF !important;
+  margin-bottom: 2.5rem !important;
+  width: 100%;
 }
 
 .mainheader_container_searchcontainer {
@@ -599,7 +609,6 @@ html {
 }
 
 .mainheader_container_searchcontainer_inputBox {
-  width: 35%;
   position: relative;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -686,6 +695,29 @@ html {
 
 .mainheader_searchlist_container_item-trash {
   color: #808080;
+}
+
+.small .mainheader_container_menuContainer {
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: reverse;
+      -ms-flex-direction: row-reverse;
+          flex-direction: row-reverse;
+  -webkit-transition: 5s;
+  transition: 5s;
+}
+
+.small .mainheader_container_menuContainer_menus {
+  margin-bottom: 0;
+}
+
+.small .mainheader_container_title-text {
+  height: 0;
+  width: 0;
+  opacity: 0;
+}
+
+.small .mainheader_container_searchcontainer_inputBox {
+  margin-right: 2.5rem;
 }
 
 .roundcornerCard {
@@ -847,6 +879,9 @@ html {
   font-size: 1.4rem;
   color: #120E38;
   font-weight: 600;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
 }
 
 .search_result_header-content {
@@ -877,8 +912,6 @@ html {
 
 .search_result_header_pdfModal .react-pdf__Page__textContent {
   border: 1px solid darkgrey;
-  -webkit-box-shadow: 5px 5px 5px 1px #ccc;
-          box-shadow: 5px 5px 5px 1px #ccc;
   border-radius: 0.5rem;
 }
 

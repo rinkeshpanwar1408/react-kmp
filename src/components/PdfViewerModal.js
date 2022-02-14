@@ -1,3 +1,4 @@
+import { Button } from "antd";
 import React, { useState } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 
@@ -29,7 +30,11 @@ export default function PdfViewerModal({ url }) {
       <div className="collapsibleFilter-page-container">
         <Document file={url} onLoadSuccess={onDocumentLoadSuccess}>
           {Array.from(new Array(numPages), (el, index) => (
-            <Page key={`page_${index + 1}`} pageNumber={index + 1} />
+            <Page
+              key={`page_${index + 1}`}
+              pageNumber={index + 1}
+              scale={1.4}
+            />
           ))}
         </Document>
       </div>

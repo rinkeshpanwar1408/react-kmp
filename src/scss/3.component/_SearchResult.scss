@@ -33,6 +33,7 @@
       font-size: 1.4rem;
       color: $color-9;
       font-weight: 600;
+      flex: 1;
     }
     &-content {
       margin: 0 !important;
@@ -49,6 +50,7 @@
       color: $color-12 !important;
       font-weight: 600;
     }
+
     &_pdfModal {
       .ant-modal-body {
         overflow: auto;
@@ -59,7 +61,6 @@
       // }
       .react-pdf__Page__textContent {
         border: 1px solid darkgrey;
-        box-shadow: 5px 5px 5px 1px #ccc;
         border-radius: 0.5rem;
       }
 

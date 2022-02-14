@@ -15,12 +15,106 @@ const checkDuplicateArrValue = (compareVal, destinationArr) => {
   }
 };
 
+const getQuickLinks = (searchedData, id) => {
+  const activetags = [];
+  const disabletags = [];
+
+  const quickLinkDetail = searchedData.find((item) => item.id === String(id));
+
+  if (quickLinkDetail) {
+    quickLinkDetail.technology.forEach((item, i) => {
+      const sameTechData = JSON.parse(quickLinkDetail.graphDetails.sameTech);
+      const sameIndustryData = JSON.parse(
+        quickLinkDetail.graphDetails.sameIndustry
+      );
+
+      if (sameTechData[item] && sameTechData[item][0].name) {
+        activetags.push({
+          active: i === 0 && true,
+          disable: false,
+          title: item,
+        });
+      } else if (sameIndustryData[item] && sameIndustryData[item][0].name) {
+        activetags.push({
+          active: i === 0 && true,
+          disable: false,
+          title: item,
+        });
+      } else {
+        disabletags.push({
+          active: i === 0 && true,
+          disable: true,
+          title: item,
+        });
+      }
+    });
+
+    return {
+      quickLinkDetail,
+      tags: [...activetags, ...disabletags],
+    };
+  }
+};
+
+const getCaseStudyLinks = (quickLinkDetails, techName) => {
+  const sameTechData = JSON.parse(quickLinkDetails.graphDetails.sameTech);
+  const sameIndustryData = JSON.parse(
+    quickLinkDetails.graphDetails.sameIndustry
+  );
+
+  if (sameTechData[techName]) {
+    return {
+      caseStudyDetail: {
+        title: techName,
+        data: sameTechData[techName],
+      },
+    };
+  } else {
+    return {
+      caseStudyDetail: {
+        title: techName,
+        data: sameIndustryData[techName],
+      },
+    };
+  }
+};
+
 const SearchResultsReducer = (state = intialState, action) => {
   switch (action.type) {
     case Actions.GETSEARCHDATA:
+      const searchedData = data;
+
+      if (searchedData && searchedData.length > 0) {
+        const result = getQuickLinks(searchedData, searchedData[0].id);
+
+        if (result.quickLinkDetail && result.tags.length > 0) {
+          const activeTag = result.tags.find((tag) => tag.active);
+
+          const otherCaseStudyData = getCaseStudyLinks(
+            result.quickLinkDetail,
+            activeTag.title
+          );
+
+          return {
+            ...state,
+            searchedData: searchedData,
+            quickLinkDetail: result.quickLinkDetail,
+            tags: result.tags,
+            ...otherCaseStudyData,
+          };
+        }
+
+        return {
+          ...state,
+          searchedData: searchedData,
+          quickLinkDetail: result.quickLinkDetail,
+          tags: result.tags,
+        };
+      }
+
       return {
         ...state,
-        searchedData: data,
+        searchedData: searchedData,
       };
 
     case Actions.GETFILTERS:
@@ -69,56 +163,30 @@ const SearchResultsReducer = (state = intialState, action) => {
       }
 
     case Actions.GETQUICKLINKDETAIL:
-      const activetags = [];
-      const disabletags = [];
+      const result = getQuickLinks(state.searchedData, action.payload.id);
 
-      const filterdata = state.searchedData.find(
-        (item) => item.id === String(action.payload.id)
-      );
+      if (result) {
+        const activeTag = result.tags.find((tag) => tag.active);
+        const otherCaseStudyData = getCaseStudyLinks(
+          result.quickLinkDetail,
+          activeTag.title
+        );
 
-      if (filterdata) {
-        filterdata.technology.forEach((item, i) => {
-          const sameTechData = JSON.parse(filterdata.graphDetails.sameTech);
-          const sameIndustryData = JSON.parse(
-            filterdata.graphDetails.sameIndustry
-          );
-
-          if (sameTechData[item] && sameTechData[item][0].name) {
-            activetags.push({
-              active: i === 0 && true,
-              disable: false,
-              title: item,
-            });
-          } else if (sameIndustryData[item] && sameIndustryData[item][0].name) {
-            activetags.push({
-              active: i === 0 && true,
-              disable: false,
-              title: item,
-            });
-          } else {
-            disabletags.push({
-              active: i === 0 && true,
-              disable: true,
-              title: item,
-            });
-          }
-        });
+        return {
+          ...state,
+          quickLinkDetail: result.quickLinkDetail,
+          tags: result.tags,
+          ...otherCaseStudyData
+        };
       }
 
       return {
         ...state,
-        quickLinkDetail: filterdata,
-        tags: [...activetags, ...disabletags],
+        quickLinkDetail: result.quickLinkDetail,
+        tags: result.tags,
       };
 
     case Actions.GETCASESTUDYDETAIL:
-      const sameTechData = JSON.parse(
-        state.quickLinkDetail.graphDetails.sameTech
-      );
-      const sameIndustryData = JSON.parse(
-        state.quickLinkDetail.graphDetails.sameIndustry
-      );
-
       const tagdata = [...state.tags];
       const activeTag = state.tags.find((item) => item.active === true);
       const activeTagIndex = state.tags.findIndex(
@@ -137,24 +205,16 @@ const SearchResultsReducer = (state = intialState, action) => {
       tagdata[activeTagIndex] = activeTag;
       tagdata[currentTagIndex] = currentTag;
 
-      if (sameTechData[action.payload.techName]) {
-        return {
-          ...state,
-          caseStudyDetail: {
-            title: action.payload.techName,
-            data: sameTechData[action.payload.techName],
-          },
-          tags: tagdata,
-        };
-      } else {
-        return {
-          ...state,
-          caseStudyDetail: {
-            title: action.payload.techName,
-            data: sameIndustryData[action.payload.techName],
-          },
-        };
-      }
+      const caseStudyResult = getCaseStudyLinks(
+        state.quickLinkDetail,
+        action.payload.techName
+      );
+
+      return {
+        ...state,
+        ...caseStudyResult,
+        tags: tagdata,
+      };
 
     default:
       return state;

@@ -1,13 +1,15 @@
 import React, { useState } from "react";
-import { Typography, Modal } from "antd";
+import { Typography, Modal, Button } from "antd";
 import { FiGrid } from "react-icons/fi";
 import { AiOutlineFilePdf } from "react-icons/ai";
 import PdfViewerModal from "./PdfViewerModal";
 const { Title, Text, Link } = Typography;
 
 function SearchResultItemHeader(props) {
+  const ext = props.title.split(".").pop();
+
   const [enablePdfModal, setEnablePdfModal] = useState(false);
-  const openPdfModal = () => {
+  const togglePdfModal = () => {
     setEnablePdfModal(!enablePdfModal);
   };
   return (
@@ -22,19 +24,20 @@ function SearchResultItemHeader(props) {
         </div>
       )}
       <Text className="search_result_header-title">{props.title}</Text>
-
-      <Link className="search_result_header-pdf" onClick={openPdfModal}>
-        <AiOutlineFilePdf /> PDF
-      </Link>
+      {ext === "pdf" && (
+        <Link className="search_result_header-pdf" onClick={togglePdfModal}>
+          <AiOutlineFilePdf /> PDF
+        </Link>
+      )}
       {enablePdfModal ? (
         <Modal
-          width={1000}
+          footer={<Button onClick={togglePdfModal}>Close</Button>}
+          width={"70%"}
           className="search_result_header_pdfModal"
           centered
           title={props.title}
           visible={enablePdfModal}
-          // onOk={}
-          onCancel={openPdfModal}
+          onCancel={togglePdfModal}
         >
           <PdfViewerModal
             url={"http://isvhintp01:8001/pdf/FTS_CaseStudy_2.pdf/1"}
