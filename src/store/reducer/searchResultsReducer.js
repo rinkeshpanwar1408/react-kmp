@@ -7,6 +7,7 @@ const intialState = {
   caseStudyDetail: null,
   tags: null,
   filters: [],
+  searchValue: "",
 };
 
 const checkDuplicateArrValue = (compareVal, destinationArr) => {
@@ -176,7 +177,7 @@ const SearchResultsReducer = (state = intialState, action) => {
           ...state,
           quickLinkDetail: result.quickLinkDetail,
           tags: result.tags,
-          ...otherCaseStudyData
+          ...otherCaseStudyData,
         };
       }
 
@@ -214,6 +215,12 @@ const SearchResultsReducer = (state = intialState, action) => {
         ...state,
         ...caseStudyResult,
         tags: tagdata,
+      };
+
+    case Actions.GETSEARCHVALUE:
+      return {
+        ...state,
+        searchValue: action.payload.searchValue,
       };
 
     default:

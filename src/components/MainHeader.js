@@ -11,7 +11,8 @@ import Axios from "../utility/axios";
 import { useHistory, useRouteMatch } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { useLocation } from "react-router-dom/cjs/react-router-dom.min";
-
+import { useDispatch } from "react-redux";
+import * as ActionCreator from "../store/action/actions";
 const { Sider, Footer, Content } = Layout;
 const { Title, Text, Link } = Typography;
 
@@ -132,8 +133,8 @@ function MainHeader(props) {
   const [visibleRecentSearch, setvisibleRecentSearch] = useState(false);
   const [username, setusername] = useState("GM");
   const [albums, setAlbums] = useState([]);
-
-
+  const [searchValue, setSearchValue] = useState("");
+  const dispatch = useDispatch();
 
   const history = useHistory();
   const match = useRouteMatch();
@@ -147,6 +148,10 @@ function MainHeader(props) {
     getdata();
   }, []);
 
+  const handleSearch = (e) => {
+    history.push(`${match.url}/search`);
+    dispatch(ActionCreator.getSearchValue(searchValue));
+  };
   return (
     <Content
       className="mainheader"
@@ -246,7 +251,7 @@ function MainHeader(props) {
         </div>
       </div> */}
 
-       <div className={`mainheader_container`}>
+      <div className={`mainheader_container`}>
         <div className="mainheader_container_brandContainer">
           <Title
             level={5}
@@ -271,7 +276,7 @@ function MainHeader(props) {
           </div>
         </div>
         <div className="mainheader_container_menuContainer">
-          <div className="mainheader_container_menuContainer_menus"> 
+          <div className="mainheader_container_menuContainer_menus">
             <Dropdown
               overlayClassName="mainheader_container_menuContainer_items"
               overlay={menu}
@@ -307,6 +312,8 @@ function MainHeader(props) {
             <Input
               placeholder="Search here..."
               className="mainheader_container_searchcontainer_inputBox-input"
+              value={searchValue}
+              onChange={(e) => setSearchValue(e.target.value)}
               onFocus={() => setvisibleRecentSearch(true)}
               onBlur={() => setvisibleRecentSearch(false)}
             />
@@ -314,7 +321,7 @@ function MainHeader(props) {
             <div className="mainheader_container_searchcontainer_actionBox">
               <MdOutlineKeyboardVoice size={18} />
               <div
-                onClick={() => history.push(`${match.url}/search`)}
+                onClick={handleSearch}
                 className="mainheader_container_searchcontainer_actionBox-search"
               >
                 <MdSearch size={20} />
@@ -337,10 +344,10 @@ function MainHeader(props) {
           </div>
         </div>
 
-         {/* <div className="mainheader_container_navbar"></div>
+        {/* <div className="mainheader_container_navbar"></div>
         <div className="mainheader_container_title"></div>
         <div className="mainheader_container_searchcontainer"></div>  */}
-      </div> 
+      </div>
     </Content>
   );
 }

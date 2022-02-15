@@ -11,7 +11,7 @@ import { useDispatch } from "react-redux";
 const { Paragraph, Link, Text } = Typography;
 function SearchResultItem(props) {
   const dispatch = useDispatch();
-  
+
   const onSearchResultItemClickHandler = (id) => {
     dispatch(ActionCreator.getQuickLinkDetails(id));
   };

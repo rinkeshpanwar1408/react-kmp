@@ -52,6 +52,10 @@
     }
 
     &_pdfModal {
+      .highlight {
+        background-color: yellow !important;
+      }
+
       .ant-modal-body {
         overflow: auto;
         max-height: 80vh;
@@ -62,6 +66,10 @@
       .react-pdf__Page__textContent {
         border: 1px solid darkgrey;
         border-radius: 0.5rem;
+
+        // span {
+        //   transform: scale(1) translateY(-100%) !important;
+        // }
       }
 
       .react-pdf__Page__annotations.annotationLayer {

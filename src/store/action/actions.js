@@ -38,3 +38,13 @@ export const getCaseStudyDetails = (techName) => {
   };
 };
 
+export const getSearchValue = (searchValue) => {
+  return (dispatch) => {
+    dispatch({
+      type: Actions.GETSEARCHVALUE,
+      payload: {
+        searchValue: searchValue,
+      },
+    });
+  };
+};

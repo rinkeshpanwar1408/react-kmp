@@ -905,6 +905,10 @@ html {
   font-weight: 600;
 }
 
+.search_result_header_pdfModal .highlight {
+  background-color: yellow !important;
+}
+
 .search_result_header_pdfModal .ant-modal-body {
   overflow: auto;
   max-height: 80vh;
