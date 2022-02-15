@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Typography, Layout, Menu, Input, Dropdown, Space } from "antd";
 import "antd/dist/antd.css";
+import 'swiper/css';
+import 'swiper/css/bundle';
 import "./scss/main.css";
 import { Redirect, Route, Switch } from "react-router-dom";
 import HintSearch from "./page/Hintsearch";

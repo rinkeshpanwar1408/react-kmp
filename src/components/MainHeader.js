@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Typography, Layout, Menu, Input, Dropdown, Space, Switch } from "antd";
+import { Typography, Layout, Menu, Input, Dropdown, Space } from "antd";
 import background from "../assests/image/Image2.png";
-import { FaSlackHash } from "react-icons/fa";
 import { DownOutlined } from "@ant-design/icons";
 import { FiHome } from "react-icons/fi";
 import { MdOutlineKeyboardVoice, MdSearch } from "react-icons/md";
@@ -9,11 +8,10 @@ import SearchListItem from "../components/SearchListItem";
 import RoundCornerCard from "../components/RoundCornerCard";
 import Axios from "../utility/axios";
 import { useHistory, useRouteMatch } from "react-router-dom";
-import { useParams } from "react-router-dom";
-import { useLocation } from "react-router-dom/cjs/react-router-dom.min";
+import { useLocation } from "react-router-dom";
 
-const { Sider, Footer, Content } = Layout;
-const { Title, Text, Link } = Typography;
+const {  Content } = Layout;
+const { Title, Text } = Typography;
 
 const menu = (
   <Menu
@@ -125,18 +123,13 @@ const menu2 = (
   </Menu>
 );
 function MainHeader(props) {
-  const location = useLocation();
-
-  console.log(location);
+  const Location = useLocation();
+  const match = useRouteMatch();
+  const history = useHistory();
 
   const [visibleRecentSearch, setvisibleRecentSearch] = useState(false);
   const [username, setusername] = useState("GM");
   const [albums, setAlbums] = useState([]);
-
-
-
-  const history = useHistory();
-  const match = useRouteMatch();
 
   useEffect(() => {
     const getdata = async () => {
@@ -152,7 +145,7 @@ function MainHeader(props) {
       className="mainheader"
       style={{ backgroundImage: `url(${background})` }}
     >
-      {/* <div className="mainheader_container">
+      <div className="mainheader_container">
         <div className="mainheader_container_navbar">
           <div className="mainheader_container_navbar_brandContainer">
             <Title
@@ -167,13 +160,13 @@ function MainHeader(props) {
                 level={5}
                 className="mainheader_container_navbar_brandContainer-title"
               >
-                Text Analytics
+                Text Analytics Platform
               </Title>
               <Title
                 level={5}
                 className="mainheader_container_navbar_brandContainer-title"
               >
-                Platform | Enterprise Search
+                Enterprise Search
               </Title>
             </div>
           </div>
@@ -211,8 +204,12 @@ function MainHeader(props) {
             </div>
           </div>
         </div>
-        <div className="mainheader_container_title">
-          <Title className="mainheader_container_title-text">
+        <div
+          className={`mainheader_container_title ${
+            match.url + "/search" === Location.pathname ? "hidden" : ""
+          }`}
+        >
+          <Title className={`mainheader_container_title-text`}>
             Hi, how can we help you?
           </Title>
         </div>
@@ -244,103 +241,7 @@ function MainHeader(props) {
             )}
           </div>
         </div>
-      </div> */}
-
-       <div className={`mainheader_container`}>
-        <div className="mainheader_container_brandContainer">
-          <Title
-            level={5}
-            className="mainheader_container_brandContainer-title"
-          >
-            {String("Infosys").toUpperCase()}
-          </Title>
-          <div className="mainheader_container_brandContainer-divider"></div>
-          <div>
-            <Title
-              level={5}
-              className="mainheader_container_brandContainer-title"
-            >
-              Text Analytics
-            </Title>
-            <Title
-              level={5}
-              className="mainheader_container_brandContainer-title"
-            >
-              Platform | Enterprise Search
-            </Title>
-          </div>
-        </div>
-        <div className="mainheader_container_menuContainer">
-          <div className="mainheader_container_menuContainer_menus"> 
-            <Dropdown
-              overlayClassName="mainheader_container_menuContainer_items"
-              overlay={menu}
-              placement="bottomLeft"
-            >
-              <div className="mainheader_container_menuContainer_menu">
-                <Text className="mainheader_container_menuContainer_menu-title">
-                  Prouduct Journeys
-                </Text>
-                <DownOutlined />
-              </div>
-            </Dropdown>
-
-            <Dropdown
-              overlayClassName="mainheader_container_menuContainer_items"
-              overlay={menu2}
-              placement="bottomLeft"
-            >
-              <div className="mainheader_container_menuContainer_menu">
-                <Text className="mainheader_container_menuContainer_menu-title">
-                  Transactionary
-                </Text>
-                <DownOutlined />
-              </div>
-            </Dropdown>
-          </div>
-
-          <Title className="mainheader_container_title-text">
-            Hi, how can we help you?
-          </Title>
-
-          <div className="mainheader_container_searchcontainer_inputBox">
-            <Input
-              placeholder="Search here..."
-              className="mainheader_container_searchcontainer_inputBox-input"
-              onFocus={() => setvisibleRecentSearch(true)}
-              onBlur={() => setvisibleRecentSearch(false)}
-            />
-
-            <div className="mainheader_container_searchcontainer_actionBox">
-              <MdOutlineKeyboardVoice size={18} />
-              <div
-                onClick={() => history.push(`${match.url}/search`)}
-                className="mainheader_container_searchcontainer_actionBox-search"
-              >
-                <MdSearch size={20} />
-              </div>
-            </div>
-
-            {visibleRecentSearch && (
-              <RoundCornerCard className="mainheader_searchlist_container">
-                {albums.map((item, i) => {
-                  return <SearchListItem item={item} key={i} />;
-                })}
-              </RoundCornerCard>
-            )}
-          </div>
-        </div>
-        <div className="mainheader_container_userContainer">
-          <FiHome size={20} color="#fff" />
-          <div className="mainheader_container_userContainer-user">
-            {username}
-          </div>
-        </div>
-
-         {/* <div className="mainheader_container_navbar"></div>
-        <div className="mainheader_container_title"></div>
-        <div className="mainheader_container_searchcontainer"></div>  */}
-      </div> 
+      </div>
     </Content>
   );
 }

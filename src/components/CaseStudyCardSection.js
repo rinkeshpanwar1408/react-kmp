@@ -12,7 +12,7 @@ function CaseStudyCardSection(props) {
 
   if (caseStudydata) {
     return (
-      <CaseStudyCard title={caseStudydata.title}>
+      <CaseStudyCard title={caseStudydata.title} subtitle={"Other Case Studies"}>
         {caseStudydata.data.map((item) => {
           return <Link href={item.url} target="_blank" className="caseStudyResult-link">
             {item.name}

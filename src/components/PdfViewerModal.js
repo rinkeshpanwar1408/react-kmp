@@ -1,7 +1,6 @@
 import { Button } from "antd";
 import React, { useState } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
-
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 export default function PdfViewerModal({ url }) {

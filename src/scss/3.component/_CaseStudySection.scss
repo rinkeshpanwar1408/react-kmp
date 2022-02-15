@@ -1,78 +1,83 @@
-
-
-
 .caseStudyResult {
-    margin-bottom: 1rem;
+  margin-bottom: 1rem;
 
-    &-link{
-        display: inline-block;
-        border-bottom: 0.1rem solid $color-10;
-        color: $color-5 !important;
-        padding:  1rem 0;
-    }
-  
-    .ant-card-body {
-      padding: 0;
-    }
-  
-    .ant-card-head-title {
-      padding: 1rem 0;
-    }
-    .ant-card-head {
-      padding: 0 1.5rem;
-    }
-  
-    &_header {
+  &-link {
+    display: inline-block;
+    border-bottom: 0.1rem solid $color-10;
+    color: $color-5 !important;
+    padding: 1rem 0;
+  }
+
+  .ant-card-body {
+    padding: 0;
+  }
+
+  .ant-card-head-title {
+    padding: 1rem 0;
+  }
+  .ant-card-head {
+    padding: 0 1.5rem;
+  }
+
+  &_header {
+    display: flex;
+    border-bottom: 0.1rem solid $color-10;
+    padding: 1.2rem 1.5rem;
+    align-items: center;
+
+    &_icons {
       display: flex;
-      border-bottom: 0.1rem solid $color-10;
-      padding: 1.2rem 1.5rem;
-      align-items: center;
-  
-      &_icons {
-        display: flex;
-        margin-right: 1rem;
-        &-confluence {
-          color: $color-5;
-        }
+      margin-right: 1rem;
+      &-confluence {
+        color: $color-5;
       }
+    }
+
+    &_textContainer {
+      display: flex;
+      flex-direction: column;
+      
       &-title {
         font-size: 1.4rem;
         color: $color-9;
         font-weight: 600;
       }
-      &-content {
-        margin: 0 !important;
-        // background-color: $color-10;
+      &-subtitle{
+        font-size: 1.2rem;
+        color: #999999;
       }
-  
     }
-  
-    &_body {
-      padding: 1.2rem 1.5rem;
-  
-      &.scrollable{
-        overflow-y: auto;
-        max-height: 25rem;
+
+    &-content {
+      margin: 0 !important;
+      // background-color: $color-10;
+    }
+  }
+
+  &_body {
+    padding: 1.2rem 1.5rem;
+
+    &.scrollable {
+      overflow-y: auto;
+      max-height: 25rem;
+    }
+
+    &_tagcontainer {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+    }
+
+    &_contentcontainer {
+      &-text {
+        color: $color-12;
+        margin-bottom: 0.2rem !important;
       }
-  
-      &_tagcontainer {
-        display: flex;
-        align-items: center;
-        flex-wrap: wrap;
-        margin-top: 1rem;
-      }
-  
-      &_contentcontainer {
-  
-        &-text {
-          color: $color-12;
-          margin-bottom: 0.2rem !important;
-        }
-  
-        &-link {
-          color: $color-5 !important;
-        }
+
+      &-link {
+        color: $color-5 !important;
       }
     }
   }
-  
+}

@@ -1,17 +1,18 @@
-.ant-btn {
+
+.ant-btn:not(.ant-btn-circle) {
   margin: 0 0.5rem 0.5rem 0;
   border-radius: 0.5rem;
   border-color: $color-10;
 }
 
-.ant-btn:hover,
-.ant-btn:focus,
-.ant-btn:active{
+.ant-btn:not(.ant-btn-circle):hover,
+.ant-btn:not(.ant-btn-circle):focus,
+.ant-btn:not(.ant-btn-circle):active{
   border-color: $color-1;
   color: $color-1;
 }
 
-.ant-btn-primary {
+.ant-btn-primary:not(.ant-btn-circle) {
   background-color: $color-1;
   border: none;
   padding: 0.6rem 1rem;
@@ -19,9 +20,9 @@
   color: $color-white;
 }
 
-.ant-btn-primary:hover,
-.ant-btn-primary:focus,
-.ant-btn-primary:active {
+.ant-btn-primary:not(.ant-btn-circle):hover,
+.ant-btn-primary:not(.ant-btn-circle):focus,
+.ant-btn-primary:not(.ant-btn-circle):active {
   background-color: rgba($color: $color-1, $alpha: 0.8);
   color: $color-white;
 }
@@ -34,12 +35,7 @@
   color: $color-white;
 }
 
-.ant-btn-primary:hover,
-.ant-btn-primary:focus,
-.ant-btn-primary:active {
-  background-color: rgba($color: $color-1, $alpha: 0.8);
-}
-
 .ant-btn-round {
   border-radius: 3.2rem;
 }
+

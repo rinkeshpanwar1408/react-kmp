@@ -1,5 +1,9 @@
+
 .filters {
+
+
   .ant-collapse {
+    position: relative;
     border-radius: 1rem;
     background-color: $color-white;
     border: none !important;
@@ -9,6 +13,8 @@
   .ant-collapse-content {
     border-radius: 0 0 1rem 1rem !important;
     border-top: 0.2rem solid $color-1 !important;
+    max-height: 50rem;
+    overflow-y: auto;
   }
 
   .ant-collapse-item {
@@ -62,8 +68,8 @@
         top: 0.4rem;
       }
 
-      .ant-checkbox + span{
-       color: $color-8;
+      .ant-checkbox + span {
+        color: $color-8;
       }
 
       .ant-checkbox-inner::after {
