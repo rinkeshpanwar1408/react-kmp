@@ -43,6 +43,7 @@
 
   &-headertext {
     font-weight: 600;
+    color: $color-1;
   }
 
   &_lists {
@@ -57,6 +58,7 @@
         width: 2rem;
         height: 2rem;
         border-radius: 0.3rem;
+        border-color: rgba($color: $color-black, $alpha: .5) ;
       }
 
       .ant-checkbox-checked .ant-checkbox-inner {
@@ -69,7 +71,7 @@
       }
 
       .ant-checkbox + span {
-        color: $color-8;
+        color:rgba($color: $color-black, $alpha: .8);
       }
 
       .ant-checkbox-inner::after {

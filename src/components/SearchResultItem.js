@@ -38,11 +38,12 @@ function SearchResultItem(props) {
           Invite to Edit
         </Text>
       </Menu.Item>
-      <Menu.Item key="2" className="search_result_action_menu_item">
-        <div
-          className="search_result_action_menu_item_iconContainer"
-          onClick={() => props.onSearchItemInfoClick(props.item.id)}
-        >
+      <Menu.Item
+        key="2"
+        className="search_result_action_menu_item"
+        onClick={() => props.onSearchItemInfoClick(props.item.id)}
+      >
+        <div className="search_result_action_menu_item_iconContainer">
           <BiInfoCircle size={20} />
         </div>
         <Text className="search_result_action_menu_item-title">Info</Text>
@@ -114,9 +115,7 @@ function SearchResultItem(props) {
               placement="bottomCenter"
               overlayClassName="search_result_action_menu"
             >
-              <BiDotsHorizontalRounded
-                size={20}
-              />
+              <BiDotsHorizontalRounded size={20} />
             </Dropdown>
           </div>
         </div>

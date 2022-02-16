@@ -93,7 +93,6 @@ html {
 }
 
 .recent_activity_article_item_footer_readerContainer_customer {
-  width: 60%;
   background-color: #f3e6ff;
   padding: 0.5rem;
   display: -webkit-box;
@@ -745,6 +744,7 @@ html {
 
 .filter-headertext {
   font-weight: 600;
+  color: #2E3097;
 }
 
 .filter_lists {
@@ -765,6 +765,7 @@ html {
   width: 2rem;
   height: 2rem;
   border-radius: 0.3rem;
+  border-color: rgba(0, 0, 0, 0.5);
 }
 
 .filter_lists_item .ant-checkbox-checked .ant-checkbox-inner {
@@ -777,7 +778,7 @@ html {
 }
 
 .filter_lists_item .ant-checkbox + span {
-  color: #7F7F7F;
+  color: rgba(0, 0, 0, 0.8);
 }
 
 .filter_lists_item .ant-checkbox-inner::after {
@@ -1006,13 +1007,12 @@ html {
 
 .search_result_body_contentcontainer {
   padding: 1rem;
-  background-color: #F5F5F5;
   border-radius: 1rem;
   font-size: 1.5rem;
 }
 
 .search_result_body_contentcontainer-text {
-  color: #999999;
+  color: rgba(0, 0, 0, 0.8);
   margin-bottom: 0.2rem !important;
 }
 
@@ -1093,7 +1093,7 @@ html {
   position: absolute;
   top: 0;
   height: 100%;
-  width: 100%;
+  width: 0%;
   border-radius: 1rem;
   opacity: 0;
   -webkit-transition: all 0.2s linear;
@@ -1171,6 +1171,8 @@ html {
 
 .hideFilter.search_result_container-filterContainer .filters .filters_collapse_container {
   opacity: 1;
+  width: 100%;
+  height: 100%;
 }
 
 .tag {
@@ -1289,7 +1291,7 @@ html {
 }
 
 .caseStudyResult_body_contentcontainer-text {
-  color: #999999;
+  color: rgba(0, 0, 0, 0.8);
   margin-bottom: 0.2rem !important;
 }
 
@@ -1358,6 +1360,30 @@ html {
 
 .ant-modal-header {
   border-radius: 1rem !important;
+}
+
+.ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
+  background-color: rgba(46, 48, 151, 0.8);
+}
+
+.ant-menu-item-selected {
+  color: #FFFFFF;
+}
+
+.ant-menu-light .ant-menu-item:hover, .ant-menu-light .ant-menu-item-active, .ant-menu-light .ant-menu:not(.ant-menu-inline) .ant-menu-submenu-open, .ant-menu-light .ant-menu-submenu-active, .ant-menu-light .ant-menu-submenu-title:hover {
+  color: #2E3097;
+}
+
+.ant-menu-vertical .ant-menu-submenu-selected, .ant-menu-vertical-left .ant-menu-submenu-selected, .ant-menu-vertical-right .ant-menu-submenu-selected {
+  color: #2E3097;
+}
+
+.ant-menu-vertical .ant-menu-item::after, .ant-menu-vertical-left .ant-menu-item::after, .ant-menu-vertical-right .ant-menu-item::after, .ant-menu-inline .ant-menu-item::after {
+  border-color: #FFFFFF;
+}
+
+.ant-menu-sub.ant-menu-inline {
+  background-color: #FFFFFF;
 }
 
 .ant-layout {

@@ -12,7 +12,7 @@ import { useHistory, useRouteMatch } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { instanceApi as Api } from "../utility/axios";
 import SimpleBar from "simplebar-react";
-
+import { FiMenu } from "react-icons/fi";
 const { Content } = Layout;
 const { Title, Text } = Typography;
 
@@ -170,6 +170,7 @@ function MainHeader(props) {
       <div className="mainheader_container">
         <div className="mainheader_container_navbar">
           <div className="mainheader_container_navbar_brandContainer">
+            <FiMenu size={25} color="#fff" onClick={props.onCollapse}/>
             <div
               style={{
                 width: "100px",
@@ -220,7 +221,7 @@ function MainHeader(props) {
                 </div>
               </div>
 
-              {true && (
+              {visibleRecentSearch && (
                 <RoundCornerCard className="mainheader_searchlist_container">
                   <SimpleBar className="mainheader_searchlist_container-scrollContainer">
                     {suggestion.map((item, i) => {
