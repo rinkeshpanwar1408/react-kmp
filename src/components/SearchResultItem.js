@@ -24,25 +24,28 @@ function SearchResultItem(props) {
 
   const menu = (
     <Menu>
-      <Menu.Item key="0" className="search_result_action_menu-item">
-        <div>
+      <Menu.Item key="0" className="search_result_action_menu_item">
+        <div className="search_result_action_menu_item_iconContainer">
           <BiShare size={20} />
         </div>
-        <Text>Share</Text>
+        <Text className="search_result_action_menu_item-title">Share</Text>
       </Menu.Item>
-      <Menu.Item key="1" className="search_result_action_menu-item">
-        <div>
+      <Menu.Item key="1" className="search_result_action_menu_item">
+        <div className="search_result_action_menu_item_iconContainer">
           <BiUserPlus size={20} />
         </div>
-        <Text>Invite to Edit</Text>
+        <Text className="search_result_action_menu_item-title">
+          Invite to Edit
+        </Text>
       </Menu.Item>
-      <Menu.Item key="2" className="search_result_action_menu-item">
-        <div>
+      <Menu.Item key="2" className="search_result_action_menu_item">
+        <div
+          className="search_result_action_menu_item_iconContainer"
+          onClick={() => props.onSearchItemInfoClick(props.item.id)}
+        >
           <BiInfoCircle size={20} />
         </div>
-        <Text onClick={() => props.onSearchItemInfoClick(props.item.id)}>
-          Info
-        </Text>
+        <Text className="search_result_action_menu_item-title">Info</Text>
       </Menu.Item>
     </Menu>
   );
@@ -108,12 +111,11 @@ function SearchResultItem(props) {
             <Dropdown
               overlay={menu}
               trigger={["click"]}
-              placement="bottomRight"
+              placement="bottomCenter"
               overlayClassName="search_result_action_menu"
             >
               <BiDotsHorizontalRounded
                 size={20}
-                // onClick={() => props.onSearchItemInfoClick(props.item.id)}
               />
             </Dropdown>
           </div>
