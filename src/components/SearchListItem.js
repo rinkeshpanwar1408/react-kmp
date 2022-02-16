@@ -9,7 +9,7 @@ function SearchListItem(props) {
     <div className="mainheader_searchlist_container_item">
       <FiClock className="mainheader_searchlist_container_item-clock" />
       <Text className="mainheader_searchlist_container_item-title">
-        {props.item.title}
+        {props.item}
       </Text>
       <FiTrash className="mainheader_searchlist_container_item-trash" />
     </div>

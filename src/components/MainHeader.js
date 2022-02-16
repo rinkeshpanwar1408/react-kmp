@@ -6,11 +6,13 @@ import { FiHome } from "react-icons/fi";
 import { MdOutlineKeyboardVoice, MdSearch } from "react-icons/md";
 import SearchListItem from "../components/SearchListItem";
 import RoundCornerCard from "../components/RoundCornerCard";
-import Axios from "../utility/axios";
+import { instance as Axios } from "../utility/axios";
 import { useHistory, useRouteMatch } from "react-router-dom";
 import { useLocation } from "react-router-dom";
+import { instanceApi as Api } from "../utility/axios";
+import SimpleBar from "simplebar-react";
 
-const {  Content } = Layout;
+const { Content } = Layout;
 const { Title, Text } = Typography;
 
 const menu = (
@@ -129,16 +131,35 @@ function MainHeader(props) {
 
   const [visibleRecentSearch, setvisibleRecentSearch] = useState(false);
   const [username, setusername] = useState("GM");
-  const [albums, setAlbums] = useState([]);
+
+  const [suggestion, setSuggession] = useState([]);
+  const [searchWord, setSearchWord] = useState("");
 
   useEffect(() => {
-    const getdata = async () => {
-      const response = await Axios.get("/albums");
-      const albumsData = response.data.slice(0, 10);
-      setAlbums(albumsData);
-    };
-    getdata();
-  }, []);
+    let timer;
+    try {
+      timer = setTimeout(() => {
+        getdata();
+      }, 500);
+
+      const getdata = async () => {
+        if (searchWord) {
+          const result = await Api.get(`/suggest/${searchWord}`);
+          setSuggession(result.data);
+        }
+      };
+
+      return () => {
+        clearTimeout(timer);
+      };
+    } catch (error) {
+      console.log(error);
+    }
+  }, [searchWord]);
+
+  const onSearchTextChangeHandler = (event) => {
+    setSearchWord(event.target.value);
+  };
 
   return (
     <Content
@@ -220,6 +241,9 @@ function MainHeader(props) {
               className="mainheader_container_searchcontainer_inputBox-input"
               onFocus={() => setvisibleRecentSearch(true)}
               onBlur={() => setvisibleRecentSearch(false)}
+              onChange={(e) => {
+                onSearchTextChangeHandler(e);
+              }}
             />
 
             <div className="mainheader_container_searchcontainer_actionBox">
@@ -234,9 +258,9 @@ function MainHeader(props) {
 
             {visibleRecentSearch && (
               <RoundCornerCard className="mainheader_searchlist_container">
-                {albums.map((item, i) => {
-                  return <SearchListItem item={item} key={i} />;
-                })}
+                  {suggestion.map((item, i) => {
+                    return <SearchListItem item={item} key={i} />;
+                  })}
               </RoundCornerCard>
             )}
           </div>

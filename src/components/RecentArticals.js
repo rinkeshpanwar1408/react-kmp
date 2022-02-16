@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Typography } from "antd";
 import TitleText from "./TitleText";
 import { Layout, Menu, Row, Col, Card } from "antd";
-import Axios from "../utility/axios";
+import { instance as Axios } from "../utility/axios";
 import RecentActivityCard from "./RecentActivityCard";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper";
@@ -20,6 +20,8 @@ function RecentArticals(props) {
     };
     getdata();
   }, []);
+
+  
 
   return (
     <React.Fragment>

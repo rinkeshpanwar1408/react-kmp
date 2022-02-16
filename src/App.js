@@ -4,6 +4,7 @@ import "antd/dist/antd.css";
 import 'swiper/css';
 import 'swiper/css/bundle';
 import "./scss/main.css";
+import 'simplebar/dist/simplebar.min.css';
 import { Redirect, Route, Switch } from "react-router-dom";
 import HintSearch from "./page/Hintsearch";
 
