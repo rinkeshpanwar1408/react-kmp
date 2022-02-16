@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Button, Typography } from "antd";
 import TitleText from "./TitleText";
 import { Layout, Menu, Row, Col, Card } from "antd";
-import Axios from "../utility/axios";
+import { instance as Axios } from "../utility/axios";
 import RecentActivityCard from "./RecentActivityCard";
 import PopularTopicItem from "./PopularTopicItem";
 import AnnouncementsItem from "./AnnouncementsItem";
