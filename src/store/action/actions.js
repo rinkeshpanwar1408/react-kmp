@@ -18,12 +18,12 @@ export const getFilters = () => {
 
 export const getSearchItemPreviewData = (id) => {
   return (dispatch) => {
-      dispatch({
-        type: Actions.GETSEARCHITEMPREVIEWDATA,
-        payload: {
-          id:id,
-        }
-      });
+    dispatch({
+      type: Actions.GETSEARCHITEMPREVIEWDATA,
+      payload: {
+        id: id,
+      },
+    });
   };
 };
 
@@ -44,6 +44,17 @@ export const getCaseStudyDetails = (techName) => {
       type: Actions.GETCASESTUDYDETAIL,
       payload: {
         techName: techName,
+      },
+    });
+  };
+};
+
+export const getSearchValue = (searchValue) => {
+  return (dispatch) => {
+    dispatch({
+      type: Actions.GETSEARCHVALUE,
+      payload: {
+        searchValue: searchValue,
       },
     });
   };

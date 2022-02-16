@@ -10,7 +10,7 @@ import Axios from "../utility/axios";
 import { useHistory, useRouteMatch } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 
-const {  Content } = Layout;
+const { Content } = Layout;
 const { Title, Text } = Typography;
 
 const menu = (
