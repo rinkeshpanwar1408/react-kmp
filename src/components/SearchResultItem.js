@@ -2,8 +2,14 @@ import React, { useState } from "react";
 import RoundCornerCard from "./RoundCornerCard";
 import SearchResultItemHeader from "./SearchResultItemHeader";
 import parse from "html-react-parser";
-import { Badge, Typography } from "antd";
+import { Badge, Typography, Menu, Dropdown } from "antd";
 import { FiThumbsUp, FiThumbsDown } from "react-icons/fi";
+import {
+  BiDotsHorizontalRounded,
+  BiInfoCircle,
+  BiShare,
+  BiUserPlus,
+} from "react-icons/bi";
 import { BsEyeFill } from "react-icons/bs";
 import * as ActionCreator from "../store/action/actions";
 import { useDispatch } from "react-redux";
@@ -11,10 +17,35 @@ import { useDispatch } from "react-redux";
 const { Paragraph, Link, Text } = Typography;
 function SearchResultItem(props) {
   const dispatch = useDispatch();
-  
+
   const onSearchResultItemClickHandler = (id) => {
     dispatch(ActionCreator.getQuickLinkDetails(id));
   };
+
+  const menu = (
+    <Menu>
+      <Menu.Item key="0" className="search_result_action_menu-item">
+        <div>
+          <BiShare size={20} />
+        </div>
+        <Text>Share</Text>
+      </Menu.Item>
+      <Menu.Item key="1" className="search_result_action_menu-item">
+        <div>
+          <BiUserPlus size={20} />
+        </div>
+        <Text>Invite to Edit</Text>
+      </Menu.Item>
+      <Menu.Item key="2" className="search_result_action_menu-item">
+        <div>
+          <BiInfoCircle size={20} />
+        </div>
+        <Text onClick={() => props.onSearchItemInfoClick(props.item.id)}>
+          Info
+        </Text>
+      </Menu.Item>
+    </Menu>
+  );
 
   const [ellipsis, setEllipsis] = useState(true);
   const likeCount = props.item.elasticDocumentRating
@@ -71,6 +102,20 @@ function SearchResultItem(props) {
             >
               <FiThumbsDown size={20} />
             </Badge>
+
+            {/*  */}
+
+            <Dropdown
+              overlay={menu}
+              trigger={["click"]}
+              placement="bottomRight"
+              overlayClassName="search_result_action_menu"
+            >
+              <BiDotsHorizontalRounded
+                size={20}
+                // onClick={() => props.onSearchItemInfoClick(props.item.id)}
+              />
+            </Dropdown>
           </div>
         </div>
         <div className="search_result_body_contentcontainer">

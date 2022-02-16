@@ -1296,6 +1296,23 @@ html {
   opacity: 0;
 }
 
+.ant-modal-content {
+  border-radius: 1rem !important;
+}
+
+.ant-modal-body {
+  overflow: auto;
+  padding: 1.2rem 1.5rem;
+}
+
+.search-result-preview .ant-modal-body {
+  max-height: 40rem;
+}
+
+.ant-modal-header {
+  border-radius: 1rem !important;
+}
+
 .ant-layout {
   background-color: #f4f4f4;
 }

@@ -16,6 +16,17 @@ export const getFilters = () => {
   };
 };
 
+export const getSearchItemPreviewData = (id) => {
+  return (dispatch) => {
+      dispatch({
+        type: Actions.GETSEARCHITEMPREVIEWDATA,
+        payload: {
+          id:id,
+        }
+      });
+  };
+};
+
 export const getQuickLinkDetails = (id) => {
   return (dispatch) => {
     dispatch({
@@ -37,4 +48,3 @@ export const getCaseStudyDetails = (techName) => {
     });
   };
 };
-

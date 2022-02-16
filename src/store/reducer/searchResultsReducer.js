@@ -7,6 +7,7 @@ const intialState = {
   caseStudyDetail: null,
   tags: null,
   filters: [],
+  previewData: null,
 };
 
 const checkDuplicateArrValue = (compareVal, destinationArr) => {
@@ -176,7 +177,7 @@ const SearchResultsReducer = (state = intialState, action) => {
           ...state,
           quickLinkDetail: result.quickLinkDetail,
           tags: result.tags,
-          ...otherCaseStudyData
+          ...otherCaseStudyData,
         };
       }
 
@@ -186,6 +187,20 @@ const SearchResultsReducer = (state = intialState, action) => {
         tags: result.tags,
       };
 
+    case Actions.GETSEARCHITEMPREVIEWDATA:
+      const previewData = data.find((item) => item.id === action.payload.id);
+
+      if (previewData) {
+        const authors = previewData.author;
+        const authorsString = authors.join(",");
+
+        return {
+          ...state,
+          previewData: { ...previewData, author: authorsString },
+        };
+      }
+
+      return state;
     case Actions.GETCASESTUDYDETAIL:
       const tagdata = [...state.tags];
       const activeTag = state.tags.find((item) => item.active === true);
