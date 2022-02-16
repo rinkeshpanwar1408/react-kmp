@@ -7,6 +7,7 @@ import RecentActivityCard from "./RecentActivityCard";
 import PopularTopicItem from "./PopularTopicItem";
 import AnnouncementsItem from "./AnnouncementsItem";
 import RoundCornerCard from "./RoundCornerCard";
+import SimpleBar from 'simplebar-react';
 
 const { Text, Link, Title } = Typography;
 
@@ -34,16 +35,17 @@ function PopularTopics(props) {
           <TitleText title="Popular Topics"></TitleText>
           <RoundCornerCard className="popular_topics-card">
             {popularTopics.map((item, i) => {
-              return <PopularTopicItem item={item} key={i}/>;
+              return <PopularTopicItem item={item} key={i} />;
             })}
           </RoundCornerCard>
         </Col>
+
 
         <Col lg={{ span: 10 }} sm={{ span: 24 }} xs={{ span: 24 }}>
           <TitleText title="Announcements" />
           <RoundCornerCard className="popular_topics-card">
             {announcements.map((item, i) => {
-              return <AnnouncementsItem item={item} index={i}  key={i}/>;
+              return <AnnouncementsItem item={item} index={i} key={i} />;
             })}
           </RoundCornerCard>
         </Col>

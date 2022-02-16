@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Typography, Layout, Menu, Input, Dropdown, Space } from "antd";
+import { Typography, Layout, Menu, Input, Dropdown, Space, Image } from "antd";
 import background from "../assests/image/Image2.png";
+import infy from "../assests/image/infy.png";
 import { DownOutlined } from "@ant-design/icons";
 import { FiHome } from "react-icons/fi";
 import { MdOutlineKeyboardVoice, MdSearch } from "react-icons/md";
@@ -169,63 +170,106 @@ function MainHeader(props) {
       <div className="mainheader_container">
         <div className="mainheader_container_navbar">
           <div className="mainheader_container_navbar_brandContainer">
-            <Title
-              level={5}
-              className="mainheader_container_navbar_brandContainer-title"
+            <div
+              style={{
+                width: "100px",
+                height: "100px",
+                display: "flex",
+                alignItems: "center",
+              }}
             >
-              {String("Infosys").toUpperCase()}
-            </Title>
+              <Image src={infy} preview={false} />
+            </div>
+
             <div className="mainheader_container_navbar_brandContainer-divider"></div>
             <div>
               <Title
                 level={5}
                 className="mainheader_container_navbar_brandContainer-title"
               >
-                Text Analytics Platform
+                Text Analytics
               </Title>
               <Title
                 level={5}
                 className="mainheader_container_navbar_brandContainer-title"
               >
-                Enterprise Search
+                Platform | Enterprise Search
               </Title>
             </div>
           </div>
-          <div className="mainheader_container_navbar_menuContainer">
-            <Dropdown
-              overlayClassName="mainheader_container_navbar_menuContainer_items"
-              overlay={menu}
-              placement="bottomLeft"
-            >
-              <div className="mainheader_container_navbar_menuContainer_menu">
-                <Text className="mainheader_container_navbar_menuContainer_menu-title">
-                  Prouduct Journeys
-                </Text>
-                <DownOutlined />
-              </div>
-            </Dropdown>
 
-            <Dropdown
-              overlayClassName="mainheader_container_navbar_menuContainer_items"
-              overlay={menu2}
-              placement="bottomLeft"
-            >
-              <div className="mainheader_container_navbar_menuContainer_menu">
-                <Text className="mainheader_container_navbar_menuContainer_menu-title">
-                  Transactionary
-                </Text>
-                <DownOutlined />
+          <div className="mainheader_container_navbar_searchcontainer">
+            <div className="mainheader_container_navbar_searchcontainer_inputBox">
+              <Input
+                placeholder="Hi, how can we help you?"
+                className="mainheader_container_navbar_searchcontainer_inputBox-input"
+                onFocus={() => setvisibleRecentSearch(true)}
+                onBlur={() => setvisibleRecentSearch(false)}
+                onChange={(e) => {
+                  onSearchTextChangeHandler(e);
+                }}
+              />
+
+              <div className="mainheader_container_navbar_searchcontainer_actionBox">
+                <MdOutlineKeyboardVoice size={18} />
+                <div
+                  onClick={() => history.push(`${match.url}/search`)}
+                  className="mainheader_container_navbar_searchcontainer_actionBox-search"
+                >
+                  <MdSearch size={20} />
+                </div>
               </div>
-            </Dropdown>
+
+              {true && (
+                <RoundCornerCard className="mainheader_searchlist_container">
+                  <SimpleBar className="mainheader_searchlist_container-scrollContainer">
+                    {suggestion.map((item, i) => {
+                      return <SearchListItem item={item} key={i} />;
+                    })}
+                  </SimpleBar>
+                </RoundCornerCard>
+              )}
+            </div>
           </div>
+
           <div className="mainheader_container_navbar_userContainer">
+            <div className="mainheader_container_navbar_menuContainer">
+              <Dropdown
+                overlayClassName="mainheader_container_navbar_menuContainer_items"
+                overlay={menu}
+                placement="bottomCenter"
+                arrow
+              >
+                <div className="mainheader_container_navbar_menuContainer_menu">
+                  <Text className="mainheader_container_navbar_menuContainer_menu-title">
+                    Prouduct Journeys
+                  </Text>
+                  <DownOutlined />
+                </div>
+              </Dropdown>
+
+              <Dropdown
+                overlayClassName="mainheader_container_navbar_menuContainer_items"
+                overlay={menu2}
+                placement="bottomCenter"
+                arrow
+              >
+                <div className="mainheader_container_navbar_menuContainer_menu">
+                  <Text className="mainheader_container_navbar_menuContainer_menu-title">
+                    Transactionary
+                  </Text>
+                  <DownOutlined />
+                </div>
+              </Dropdown>
+            </div>
+
             <FiHome size={20} color="#fff" />
             <div className="mainheader_container_navbar_userContainer-user">
               {username}
             </div>
           </div>
         </div>
-        <div
+        {/* <div
           className={`mainheader_container_title ${
             match.url + "/search" === Location.pathname ? "hidden" : ""
           }`}
@@ -233,38 +277,7 @@ function MainHeader(props) {
           <Title className={`mainheader_container_title-text`}>
             Hi, how can we help you?
           </Title>
-        </div>
-        <div className="mainheader_container_searchcontainer">
-          <div className="mainheader_container_searchcontainer_inputBox">
-            <Input
-              placeholder="Search here..."
-              className="mainheader_container_searchcontainer_inputBox-input"
-              onFocus={() => setvisibleRecentSearch(true)}
-              onBlur={() => setvisibleRecentSearch(false)}
-              onChange={(e) => {
-                onSearchTextChangeHandler(e);
-              }}
-            />
-
-            <div className="mainheader_container_searchcontainer_actionBox">
-              <MdOutlineKeyboardVoice size={18} />
-              <div
-                onClick={() => history.push(`${match.url}/search`)}
-                className="mainheader_container_searchcontainer_actionBox-search"
-              >
-                <MdSearch size={20} />
-              </div>
-            </div>
-
-            {visibleRecentSearch && (
-              <RoundCornerCard className="mainheader_searchlist_container">
-                  {suggestion.map((item, i) => {
-                    return <SearchListItem item={item} key={i} />;
-                  })}
-              </RoundCornerCard>
-            )}
-          </div>
-        </div>
+        </div> */}
       </div>
     </Content>
   );

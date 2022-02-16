@@ -442,7 +442,7 @@ html {
 .mainheader_container_navbar_brandContainer-divider {
   height: 3.5rem;
   border-right: 0.2rem solid #f15a24;
-  margin: 0px 1rem;
+  margin-right: 1rem;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -460,9 +460,6 @@ html {
 }
 
 .mainheader_container_navbar_menuContainer {
-  -webkit-box-flex: 1;
-      -ms-flex: 1;
-          flex: 1;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -496,7 +493,7 @@ html {
 }
 
 .mainheader_container_navbar_menuContainer_menu {
-  margin-right: 8rem;
+  margin-right: 4rem;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -518,13 +515,12 @@ html {
 }
 
 .mainheader_container_navbar_userContainer {
-  width: 10rem;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
@@ -547,6 +543,73 @@ html {
           justify-content: center;
   color: white;
   margin-left: 3rem;
+}
+
+.mainheader_container_navbar_searchcontainer {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+
+.mainheader_container_navbar_searchcontainer_inputBox {
+  width: 90%;
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.mainheader_container_navbar_searchcontainer_inputBox-input {
+  padding: 1.2rem 8rem 1.2rem 1.5rem;
+  border-radius: 3rem;
+}
+
+.mainheader_container_navbar_searchcontainer_actionBox {
+  position: absolute;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  right: 1.5rem;
+  color: #120E38;
+}
+
+.mainheader_container_navbar_searchcontainer_actionBox-search {
+  width: 3.5rem;
+  height: 3.5rem;
+  background-color: #120E38;
+  border-radius: 2rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin-left: 1rem;
+  color: #FFFFFF;
 }
 
 .mainheader_container-icon {
@@ -589,71 +652,6 @@ html {
   margin-bottom: 0 !important;
 }
 
-.mainheader_container_searchcontainer {
-  margin-bottom: 2rem;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-}
-
-.mainheader_container_searchcontainer_inputBox {
-  width: 35%;
-  position: relative;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-}
-
-.mainheader_container_searchcontainer_inputBox-input {
-  padding: 1.2rem 8rem 1.2rem 1.5rem;
-  border-radius: 3rem;
-}
-
-.mainheader_container_searchcontainer_actionBox {
-  position: absolute;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  right: 1.5rem;
-  color: #120E38;
-}
-
-.mainheader_container_searchcontainer_actionBox-search {
-  width: 3.5rem;
-  height: 3.5rem;
-  background-color: #120E38;
-  border-radius: 2rem;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  margin-left: 1rem;
-  color: #FFFFFF;
-}
-
 .mainheader_searchlist_container {
   width: 95%;
   top: 90%;
@@ -662,8 +660,13 @@ html {
   z-index: 999;
 }
 
+.mainheader_searchlist_container-scrollContainer {
+  max-height: 30rem;
+  padding: 1.5rem !important;
+}
+
 .mainheader_searchlist_container .ant-card-body {
-  padding: 1rem 2rem;
+  padding: 0;
 }
 
 .mainheader_searchlist_container_item {
