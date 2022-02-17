@@ -39,12 +39,7 @@ function HintSearch(props) {
           collapsed={collapsed}
           className="main_sidebar"
         >
-          <Menu
-            mode="inline"
-            defaultSelectedKeys={["1"]}
-            defaultOpenKeys={["sub1"]}
-            style={{ height: "100%", borderRight: 0 }}
-          >
+          <Menu mode="inline" style={{ height: "100%", borderRight: 0 }}>
             <SubMenu key="sub1" icon={<FileOutlined />} title="subnav 1">
               <Menu.Item key="1">option1</Menu.Item>
               <Menu.Item key="2">option2</Menu.Item>

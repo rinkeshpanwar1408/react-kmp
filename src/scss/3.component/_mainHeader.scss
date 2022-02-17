@@ -7,16 +7,14 @@
 
   &_container {
     backdrop-filter: blur(2px);
-    padding: 2rem 2rem 0px;
+    padding: 1rem 2.5rem;
     display: flex;
     flex: 1;
     flex-direction: column;
 
     &_navbar {
       display: flex;
-      height: 6rem;
       align-items: center;
-      margin-bottom: 2rem;
 
       &_brandContainer {
         display: flex;

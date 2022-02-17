@@ -7,12 +7,13 @@ import { FiHome } from "react-icons/fi";
 import { MdOutlineKeyboardVoice, MdSearch } from "react-icons/md";
 import SearchListItem from "../components/SearchListItem";
 import RoundCornerCard from "../components/RoundCornerCard";
-import { instance as Axios } from "../utility/axios";
 import { useHistory, useRouteMatch } from "react-router-dom";
-import { useLocation } from "react-router-dom";
 import { instanceApi as Api } from "../utility/axios";
 import SimpleBar from "simplebar-react";
 import { FiMenu } from "react-icons/fi";
+import { useDispatch } from "react-redux";
+import * as ActionCreator from "../store/action/actions";
+
 const { Content } = Layout;
 const { Title, Text } = Typography;
 
@@ -126,15 +127,18 @@ const menu2 = (
   </Menu>
 );
 function MainHeader(props) {
-  const Location = useLocation();
   const match = useRouteMatch();
   const history = useHistory();
+  const Dispatch = useDispatch();
 
-  const [visibleRecentSearch, setvisibleRecentSearch] = useState(false);
-  const [username, setusername] = useState("GM");
+  const [visibleSuggestion, setvisibleSuggestion] = useState(false);
 
-  const [suggestion, setSuggession] = useState([]);
+  const [suggessionsList, setSuggessionsList] = useState([]);
   const [searchWord, setSearchWord] = useState("");
+
+  const onSearchClickHandler = () => {
+    Dispatch(ActionCreator.getSearchedData(searchWord));
+  };
 
   useEffect(() => {
     let timer;
@@ -146,7 +150,7 @@ function MainHeader(props) {
       const getdata = async () => {
         if (searchWord) {
           const result = await Api.get(`/suggest/${searchWord}`);
-          setSuggession(result.data);
+          setSuggessionsList(result.data);
         }
       };
 
@@ -162,6 +166,11 @@ function MainHeader(props) {
     setSearchWord(event.target.value);
   };
 
+  const onSuggestionItemClickHandler = (text) => {
+    setSearchWord(text);
+    setvisibleSuggestion(false)
+  };
+
   return (
     <Content
       className="mainheader"
@@ -170,11 +179,10 @@ function MainHeader(props) {
       <div className="mainheader_container">
         <div className="mainheader_container_navbar">
           <div className="mainheader_container_navbar_brandContainer">
-            <FiMenu size={25} color="#fff" onClick={props.onCollapse}/>
+            <FiMenu size={25} color="#fff" onClick={props.onCollapse} />
             <div
               style={{
                 width: "100px",
-                height: "100px",
                 display: "flex",
                 alignItems: "center",
               }}
@@ -204,8 +212,8 @@ function MainHeader(props) {
               <Input
                 placeholder="Hi, how can we help you?"
                 className="mainheader_container_navbar_searchcontainer_inputBox-input"
-                onFocus={() => setvisibleRecentSearch(true)}
-                onBlur={() => setvisibleRecentSearch(false)}
+                onFocus={() => setvisibleSuggestion(true)}
+                value={searchWord}
                 onChange={(e) => {
                   onSearchTextChangeHandler(e);
                 }}
@@ -214,18 +222,26 @@ function MainHeader(props) {
               <div className="mainheader_container_navbar_searchcontainer_actionBox">
                 <MdOutlineKeyboardVoice size={18} />
                 <div
-                  onClick={() => history.push(`${match.url}/search`)}
+                  onClick={() => {
+                    history.replace(`${match.url}/search`);
+                  }}
                   className="mainheader_container_navbar_searchcontainer_actionBox-search"
                 >
-                  <MdSearch size={20} />
+                  <MdSearch size={20} onClick={() => onSearchClickHandler()} />
                 </div>
               </div>
 
-              {visibleRecentSearch && (
+              {visibleSuggestion && (
                 <RoundCornerCard className="mainheader_searchlist_container">
                   <SimpleBar className="mainheader_searchlist_container-scrollContainer">
-                    {suggestion.map((item, i) => {
-                      return <SearchListItem item={item} key={i} />;
+                    {suggessionsList.map((item, i) => {
+                      return (
+                        <SearchListItem
+                          item={item}
+                          key={i}
+                          onClick={onSuggestionItemClickHandler}
+                        />
+                      );
                     })}
                   </SimpleBar>
                 </RoundCornerCard>
@@ -264,7 +280,11 @@ function MainHeader(props) {
               </Dropdown>
             </div>
 
-            <FiHome size={20} color="#fff" />
+            <FiHome
+              size={20}
+              color="#fff"
+              onClick={() => history.replace(`${match.url}`)}
+            />
             <div className="mainheader_container_navbar_userContainer-user">
               {username}
             </div>

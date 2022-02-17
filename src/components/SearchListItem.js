@@ -6,7 +6,10 @@ const { Text } = Typography;
 
 function SearchListItem(props) {
   return (
-    <div className="mainheader_searchlist_container_item">
+    <div
+      className="mainheader_searchlist_container_item"
+      onClick={() => props.onClick(props.item)}
+    >
       <FiClock className="mainheader_searchlist_container_item-clock" />
       <Text className="mainheader_searchlist_container_item-title">
         {props.item}

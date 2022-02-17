@@ -8,6 +8,8 @@ import { useSelector } from "react-redux";
 
 const { Paragraph } = Typography;
 function OrganizationDetailCard(props) {
+
+  debugger;
   const OrganizationDetail = useSelector(
     (state) => state.searchresults.quickLinkDetail
   );
@@ -16,10 +18,10 @@ function OrganizationDetailCard(props) {
 
   return (
     <React.Fragment>
-      <CaseStudyCard title={OrganizationDetail.clients[0]} isQuickLinks>
+      <CaseStudyCard title={OrganizationDetail.clients && OrganizationDetail?.clients[0]} isQuickLinks>
         <div className="caseStudyResult_body_contentcontainer">
           <Paragraph className="caseStudyResult_body_contentcontainer-text">
-            {parse(OrganizationDetail.clientDetails)}
+            {OrganizationDetail?.clientDetails}
           </Paragraph>
         </div>
         {Tags && (

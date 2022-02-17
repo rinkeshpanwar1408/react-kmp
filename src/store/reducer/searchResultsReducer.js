@@ -1,9 +1,8 @@
 import * as Actions from "../action";
-import data from "../../data.json";
 
 const intialState = {
   searchedData: [],
-  quickLinkDetail: data[0],
+  quickLinkDetail: {},
   caseStudyDetail: null,
   tags: null,
   filters: [],
@@ -84,48 +83,16 @@ const getCaseStudyLinks = (quickLinkDetails, techName) => {
 const SearchResultsReducer = (state = intialState, action) => {
   switch (action.type) {
     case Actions.GETSEARCHDATA:
-      const searchedData = data;
+      const searchedData = action.payload.data;
+      debugger;
+
 
       if (searchedData && searchedData.length > 0) {
-        const result = getQuickLinks(searchedData, searchedData[0].id);
+        let sourceArray = [];
+        let roleArray = [];
+        let authorArray = [];
 
-        if (result.quickLinkDetail && result.tags.length > 0) {
-          const activeTag = result.tags.find((tag) => tag.active);
-
-          const otherCaseStudyData = getCaseStudyLinks(
-            result.quickLinkDetail,
-            activeTag.title
-          );
-
-          return {
-            ...state,
-            searchedData: searchedData,
-            quickLinkDetail: result.quickLinkDetail,
-            tags: result.tags,
-            ...otherCaseStudyData,
-          };
-        }
-
-        return {
-          ...state,
-          searchedData: searchedData,
-          quickLinkDetail: result.quickLinkDetail,
-          tags: result.tags,
-        };
-      }
-
-      return {
-        ...state,
-        searchedData: searchedData,
-      };
-
-    case Actions.GETFILTERS:
-      let sourceArray = [];
-      let roleArray = [];
-      let authorArray = [];
-
-      if (state.searchedData.length > 0) {
-        state.searchedData.forEach((element) => {
+        searchedData.forEach((element) => {
           if (element.source) {
             checkDuplicateArrValue(element.source, sourceArray);
           }
@@ -143,26 +110,54 @@ const SearchResultsReducer = (state = intialState, action) => {
           }
         });
 
+        const filters = [
+          {
+            title: "Source",
+            data: sourceArray,
+          },
+          {
+            title: "Role",
+            data: roleArray,
+          },
+          {
+            title: "Author",
+            data: authorArray,
+          },
+        ];
+
+        const result = getQuickLinks(searchedData, searchedData[0].id);
+
+        if (result.quickLinkDetail && result.tags.length > 0) {
+          const activeTag = result.tags.find((tag) => tag.active);
+
+          const otherCaseStudyData = getCaseStudyLinks(
+            result.quickLinkDetail,
+            activeTag.title
+          );
+
+          return {
+            ...state,
+            searchedData: searchedData,
+            filters: filters,
+            quickLinkDetail: result.quickLinkDetail,
+            tags: result.tags,
+            ...otherCaseStudyData,
+          };
+        }
+
         return {
           ...state,
-          filters: [
-            {
-              title: "Source",
-              data: sourceArray,
-            },
-            {
-              title: "Role",
-              data: roleArray,
-            },
-            {
-              title: "Author",
-              data: authorArray,
-            },
-          ],
+          searchedData: searchedData,
+          filters: filters,
+          quickLinkDetail: result.quickLinkDetail,
+          tags: result.tags,
         };
-      } else {
-        return state;
       }
+
+      return {
+        ...state,
+        searchedData: searchedData,
+      };
 
     case Actions.GETQUICKLINKDETAIL:
       const result = getQuickLinks(state.searchedData, action.payload.id);
@@ -189,7 +184,7 @@ const SearchResultsReducer = (state = intialState, action) => {
       };
 
     case Actions.GETSEARCHITEMPREVIEWDATA:
-      const previewData = data.find((item) => item.id === action.payload.id);
+      const previewData = state.searchedData.find((item) => item.id === action.payload.id);
 
       if (previewData) {
         const authors = previewData.author;

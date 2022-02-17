@@ -1,17 +1,18 @@
 import * as Actions from "./index";
+import { instanceApi as Api } from "../../utility/axios";
 
-export const getSearchedData = () => {
-  return (dispatch) => {
+export const getSearchedData = (searchedWord) => {
+  return async (dispatch) => {
+    let response = await Api.post(
+      `/text/searchlist.json/${searchedWord}/1/false/department/false/true/?params=%7B%7D`,
+      {}
+    );
     dispatch({
       type: Actions.GETSEARCHDATA,
-    });
-  };
-};
-
-export const getFilters = () => {
-  return (dispatch) => {
-    dispatch({
-      type: Actions.GETFILTERS,
+      payload: {
+        data: response.data,
+        keyword: searchedWord,
+      },
     });
   };
 };
@@ -44,17 +45,6 @@ export const getCaseStudyDetails = (techName) => {
       type: Actions.GETCASESTUDYDETAIL,
       payload: {
         techName: techName,
-      },
-    });
-  };
-};
-
-export const getSearchValue = (searchValue) => {
-  return (dispatch) => {
-    dispatch({
-      type: Actions.GETSEARCHVALUE,
-      payload: {
-        searchValue: searchValue,
       },
     });
   };

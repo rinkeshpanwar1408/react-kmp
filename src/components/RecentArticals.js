@@ -38,7 +38,7 @@ function RecentArticals(props) {
         {recentArticals.map((item, i) => {
           return (
             <SwiperSlide>
-              <RecentActivityCard item={item} />
+              <RecentActivityCard item={item} key={i} />
             </SwiperSlide>
           );
         })}

@@ -22,7 +22,6 @@ function SearchResult(props) {
 
   useEffect(() => {
     Dispatch(ActionCreators.getSearchedData());
-    Dispatch(ActionCreators.getFilters());
   }, [Dispatch]);
 
   const searchItemInfoClickHandler = (id) => {

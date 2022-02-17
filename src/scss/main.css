@@ -402,7 +402,7 @@ html {
 .mainheader_container {
   -webkit-backdrop-filter: blur(2px);
           backdrop-filter: blur(2px);
-  padding: 2rem 2rem 0px;
+  padding: 1rem 2.5rem;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -419,11 +419,9 @@ html {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  height: 6rem;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  margin-bottom: 2rem;
 }
 
 .mainheader_container_navbar_brandContainer {

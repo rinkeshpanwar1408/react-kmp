@@ -6,7 +6,7 @@ import RecentArticals from "../components/RecentArticals";
 function MainSearch(props) {
   return (
     <React.Fragment>
-      <RecentArticals />
+      <RecentArticals  />
       <PopularTopics />
     </React.Fragment>
   );
