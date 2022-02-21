@@ -3,8 +3,6 @@
 
   &-link {
     display: inline-block;
-    border-bottom: 0.1rem solid $color-10;
-    color: $color-5 !important;
     padding: 1rem 0;
   }
 
@@ -21,7 +19,6 @@
 
   &_header {
     display: flex;
-    border-bottom: 0.1rem solid $color-10;
     padding: 1.2rem 1.5rem;
     align-items: center;
 
@@ -29,7 +26,6 @@
       display: flex;
       margin-right: 1rem;
       &-confluence {
-        color: $color-5;
       }
     }
 
@@ -39,12 +35,10 @@
 
       &-title {
         font-size: 1.4rem;
-        color: $color-9;
         font-weight: 600;
       }
       &-subtitle {
         font-size: 1.2rem;
-        color: #999999;
       }
     }
 
@@ -71,12 +65,10 @@
 
     &_contentcontainer {
       &-text {
-        color: rgba($color: $color-black, $alpha: 0.8);
         margin-bottom: 0.2rem !important;
       }
 
       &-link {
-        color: $color-5 !important;
       }
     }
   }

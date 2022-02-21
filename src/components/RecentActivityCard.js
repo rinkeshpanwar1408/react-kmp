@@ -5,12 +5,13 @@ import { Avatar, Divider, Tooltip } from "antd";
 import { UserOutlined, AntDesignOutlined } from "@ant-design/icons";
 import { MdShare, MdOutlineBookmarkAdd } from "react-icons/md";
 import { BiSmile } from "react-icons/bi";
-import RoundCornerCard from "./RoundCornerCard";
+import { StyledCard } from "../styled-components/CommonControls";
+
 const { Text, Title } = Typography;
 
 function RecentActivityCard(props) {
   return (
-    <RoundCornerCard className="recent_activity_article_item">
+    <StyledCard className="recent_activity_article_item"  >
       <div className="recent_activity_article_item_detail">
         <div className="recent_activity_article_item_detail-container">
           <Title
@@ -67,7 +68,7 @@ function RecentActivityCard(props) {
           />
         </div>
       </div>
-    </RoundCornerCard>
+    </StyledCard>
   );
 }
 

@@ -1,41 +1,41 @@
+// Button
+.ant-btn,
+.ant-btn:hover,
+.ant-btn:focus,
+.ant-btn:active,
+.ant-btn-dangerous,
+.ant-btn-dangerous:hover,
+.ant-btn-dangerous:focus,
+.ant-btn-dangerous:active {
+  background-color: transparent;
+}
+
+.ant-btn:not(.ant-btn-text, .ant-btn-link),
+.ant-btn-dangerous {
+  border-color: $bordercolor;
+}
 
 .ant-btn:not(.ant-btn-circle) {
-  margin: 0 0.5rem 0.5rem 0;
-  border-radius: 0.5rem;
-  border-color: $color-10;
+  border-radius: $border-radius-small;
 }
 
-.ant-btn:not(.ant-btn-circle):hover,
-.ant-btn:not(.ant-btn-circle):focus,
-.ant-btn:not(.ant-btn-circle):active{
-  border-color: $color-1;
-  color: $color-1;
+.ant-btn-primary {
+  color: $common_extra_color_1 !important;
 }
 
-.ant-btn-primary:not(.ant-btn-circle) {
-  background-color: $color-1;
-  border: none;
-  padding: 0.6rem 1rem;
-  min-width: 8rem;
-  color: $color-white;
-}
-
-.ant-btn-primary:not(.ant-btn-circle):hover,
-.ant-btn-primary:not(.ant-btn-circle):focus,
-.ant-btn-primary:not(.ant-btn-circle):active {
-  background-color: rgba($color: $color-1, $alpha: 0.8);
-  color: $color-white;
-}
-
-.btn-default {
-  background-color: $color-1;
-  padding: 0.6rem 1rem;
-  min-width: 8rem;
-  border-radius: 2rem;
-  color: $color-white;
+.ant-btn.ant-btn-text,
+.ant-btn.ant-btn-link,
+.ant-btn-dangerous.ant-btn-text,
+.ant-btn-dangerous.ant-btn-link,
+.ant-btn.ant-btn-text:hover,
+.ant-btn.ant-btn-text:focus,
+.ant-btn.ant-btn-link:hover,
+.ant-btn.ant-btn-link:focus,
+.ant-btn-dangerous.ant-btn-text:hover,
+.ant-btn-dangerous.ant-btn-link:focus {
+  border-color: transparent !important;
 }
 
 .ant-btn-round {
   border-radius: 3.2rem;
 }
-

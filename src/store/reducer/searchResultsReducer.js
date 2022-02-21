@@ -84,9 +84,7 @@ const SearchResultsReducer = (state = intialState, action) => {
   switch (action.type) {
     case Actions.GETSEARCHDATA:
       const searchedData = action.payload.data;
-      debugger;
-
-
+   
       if (searchedData && searchedData.length > 0) {
         let sourceArray = [];
         let roleArray = [];

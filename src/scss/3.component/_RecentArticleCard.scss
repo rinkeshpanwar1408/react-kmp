@@ -18,11 +18,9 @@
       justify-content: flex-end;
     }
     &-title {
-      color: $color-1 !important;
       margin-bottom: 0.8rem !important;
     }
     &-description {
-      color: $color-2 !important;
       margin-bottom: 0.5rem !important;
       margin-top: 0 !important;
     }
@@ -30,7 +28,6 @@
     &-iconbox{
       width: 6rem;
       height: 6rem;
-      box-shadow: 0px 3px 6px $color-10;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -47,17 +44,14 @@
       width: 75%;
 
       &_customer {
-        background-color: #f3e6ff;
         padding: 0.5rem;
         display: flex;
         align-items: center;
         justify-content: center;
         border-radius: 2rem;
-        color: $color-1;
 
         &-text{
           margin-left:.5rem;
-          color:$color-1;
         }
       }
     }
@@ -68,9 +62,26 @@
 
       &-icon {
         font-size: 2.4rem;
-        color: #120e38;
         margin-left: 1rem;
       }
     }
+  }
+}
+
+.slick-slide{
+  padding: 0 .5rem;
+}
+
+.slick-track{
+  padding: .2rem 0;
+}
+
+.slider_container{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &-actions{
+
   }
 }

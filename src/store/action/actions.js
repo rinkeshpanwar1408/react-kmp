@@ -3,10 +3,12 @@ import { instanceApi as Api } from "../../utility/axios";
 
 export const getSearchedData = (searchedWord) => {
   return async (dispatch) => {
+
     let response = await Api.post(
       `/text/searchlist.json/${searchedWord}/1/false/department/false/true/?params=%7B%7D`,
       {}
     );
+
     dispatch({
       type: Actions.GETSEARCHDATA,
       payload: {

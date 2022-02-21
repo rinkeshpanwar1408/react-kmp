@@ -2,22 +2,21 @@
   cursor: pointer;
   &-text {
     font-size: 1.2rem !important;
-    border: 0.1rem solid $color-10;
+    border: 0.1rem solid rgba($color: $bordercolor, $alpha: $opacity-medium) ;
     padding: 1rem;
     margin: 0 0.5rem 0.5rem 0 !important;
-    color: $color-8 !important;
+    color: $common_light_extra_color_5 !important;
     border-radius: 0.5rem;
     text-transform: lowercase;
 
     &.active {
-      background-color: $color-1;
+      background-color: $LightBlue-primary;
       color: $color-white !important;
     }
 
     &.disable {
-      background-color: $color-11;
-      color: $color-12 !important;
-      
+      background-color: rgba($color: $common_light_extra_color_7, $alpha: $opacity-medium);
+      color:$common_light_extra_color_6  !important;
     }
   }
 }

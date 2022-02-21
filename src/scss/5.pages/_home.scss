@@ -2,22 +2,31 @@
   background-color: #f4f4f4;
 }
 
-.site-layout-background {
-  padding: 2rem 2rem 8rem 2rem;
+.main-container {
+  // padding: 2rem 2rem 8rem 2rem;
+  // margin-top: 6rem;
+  transition: all 0.2s linear;
+  padding: 2rem;
+  margin-top: 7rem;
+}
+
+.main_sidebar ~ .main-container {
+  margin-left: 25rem;
+}
+
+.main_sidebar.ant-layout-sider-collapsed ~ .main-container {
+  margin-left: 8rem;
 }
 
 .main-container {
   // display: flex;
   // flex: auto;
   // flex-direction: column;
-  min-height: 100%;
-  background: #f0f2f5;
-  position: relative;
 }
 
 .footer {
   text-align: center;
-  background-color: $color-9;
+  background-color: $color-3;
   margin-top: 5rem;
   padding: 2.2rem 6rem !important;
   display: flex;
@@ -25,10 +34,10 @@
   position: absolute;
   width: 100%;
   bottom: 0;
-  
+
   &_text_container {
-      margin: 0 6rem;
-      &-text {
+    margin: 0 6rem;
+    &-text {
       color: $color-white;
     }
   }

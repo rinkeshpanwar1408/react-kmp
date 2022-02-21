@@ -1,0 +1,631 @@
+.light {
+  .header-notification-container .icon {
+    color: $common_light_extra_color_7;
+  }
+  //Button
+  .ant-btn {
+    color: $light-font-color;
+  }
+
+  .ant-btn-dangerous {
+    color: $light-danger-primary;
+  }
+
+  .ant-btn-dangerous:not(.ant-btn-text, .ant-btn-link) {
+    border-color: $light-danger-primary;
+  }
+
+  .ant-btn-dangerous.ant-btn-link {
+    color: $light-danger-primary;
+  }
+
+  .ant-btn-dangerous.ant-btn-primary {
+    background-color: $light-danger-primary;
+    border-color: $light-danger-primary;
+    color: $common_extra_color_1;
+  }
+
+  .ant-btn-dangerous.ant-btn-primary:hover,
+  .ant-btn-dangerous.ant-btn-primary:active {
+    background-color: $light-danger-secondary;
+    border-color: $light-danger-secondary;
+    color: $common_extra_color_1;
+  }
+
+  .ant-btn-dangerous:hover,
+  .ant-btn-dangerous:active {
+    border-color: $light-danger-secondary;
+    color: $light-danger-secondary;
+  }
+
+  .ant-btn-dangerous.ant-btn-link:hover,
+  .ant-btn-dangerous.ant-btn-link:active {
+    color: $light-danger-secondary;
+  }
+
+  //card
+  .ant-card-head {
+    color: $light-font-color;
+  }
+
+  //drawer
+  .ant-drawer-content {
+    background-color: $lightBg;
+  }
+
+  .ant-drawer-header {
+    background-color: $lightBg;
+  }
+
+  // checkbox
+  .ant-checkbox-wrapper {
+    color: $light_font_color;
+  }
+
+  .ant-checkbox-disabled + span {
+    color: $common_light_extra_color_7;
+  }
+
+  .ant-checkbox-checked .ant-checkbox-inner::after {
+    border-color: $common_light_extra_color_8;
+  }
+
+  // Radio
+  .ant-radio-wrapper,
+  .ant-radio-button-wrapper {
+    color: $light_font_color;
+  }
+
+  .ant-radio-disabled + span {
+    color: $common_light_extra_color_7;
+  }
+
+  .ant-radio-disabled .ant-radio-inner::after {
+    background-color: $common_light_extra_color_8 !important;
+  }
+
+  //menu
+  .ant-menu {
+    background-color: $lightBg;
+  }
+
+  //divider
+  .ant-divider-plain.ant-divider-with-text,
+  .ant-divider-horizontal.ant-divider-with-text {
+    color: $light_font_color;
+  }
+
+  //alert
+  .ant-alert {
+    color: rgba($color: $light_font_color, $alpha: 0.65) !important;
+  }
+
+  .ant-alert-success,
+  .ant-tag-success {
+    background-color: $light-success-bg;
+    border-color: $light-success-color;
+  }
+
+  .ant-alert-success .ant-alert-icon,
+  .ant-alert-success .ant-alert-close-icon .anticon-close,
+  .ant-tag-success .anticon {
+    color: $light-success-color;
+  }
+
+  .ant-alert-info,
+  .ant-tag-processing {
+    background-color: $light-info-bg;
+    border-color: $light-info-color;
+  }
+  .ant-alert-info .ant-alert-icon,
+  .ant-alert-info .ant-alert-close-icon .anticon-close,
+  .ant-tag-info .anticon {
+    color: $light-info-color;
+  }
+
+  .ant-alert-warning,
+  .ant-tag-warning {
+    background-color: $light-warning-bg;
+    border-color: $light-warning-color;
+  }
+  .ant-alert-warning .ant-alert-icon,
+  .ant-alert-warning .ant-alert-close-icon .anticon-close,
+  .ant-tag-warning .anticon {
+    color: $light-warning-color;
+  }
+  .ant-alert-error,
+  .ant-tag-error {
+    background-color: $light-error-bg;
+    border-color: $light-error-color;
+  }
+  .ant-alert-error .ant-alert-icon,
+  .ant-alert-error .ant-alert-close-icon .anticon-close,
+  .ant-tag-error .anticon {
+    color: $light-error-color;
+  }
+
+  .ant-alert-message,
+  .ant-alert-close-icon .anticon-close {
+    color: rgba($color: $light_font_color, $alpha: 0.85) !important;
+  }
+  //Message
+  .ant-message-notice-content {
+    background-color: $lightBg;
+  }
+
+  .ant-message-custom-content {
+    color: $light_font_color;
+  }
+
+  .ant-message-success .anticon {
+    color: $light-success-color;
+    background-color: rgba($color: $light-success-color, $alpha: 0.2);
+  }
+
+  .ant-message-info .anticon {
+    color: $light-info-color;
+    background-color: rgba($color: $light-info-color, $alpha: 0.2);
+  }
+
+  .ant-message-warning .anticon {
+    color: $light-warning-color;
+    background-color: rgba($color: $light-warning-color, $alpha: 0.2);
+  }
+  .ant-message-error .anticon {
+    color: $light-error-color;
+    background-color: rgba($color: $light-error-color, $alpha: 0.2);
+  }
+
+  //Notification
+  &.ant-notification-notice {
+    background-color: $lightBg;
+    box-shadow: 0px 1px 4px rgba($light_shadow_color, 0.5);
+  }
+
+  .ant-notification-notice-message,
+  .ant-notification-notice-description,
+  .ant-notification-notice-close {
+    color: $light_font_color;
+  }
+
+  //pop-Confirm
+  .ant-popover-inner-content {
+    background-color: $lightBg;
+    box-shadow: 0px 1px 4px rgba($light_shadow_color, 0.5);
+  }
+  .ant-popover-arrow-content,
+  .ant-popover-inner {
+    background-color: $lightBg;
+  }
+  .ant-popover-message-title {
+    color: $light_font_color;
+  }
+
+  // breadcrumb
+  .ant-breadcrumb,
+  .ant-breadcrumb a {
+    color: $common_light_extra_color_5;
+  }
+  .ant-breadcrumb > span:last-child {
+    color: $light_font_color;
+  }
+
+  //Progress
+  .ant-progress-success-bg,
+  .ant-progress-bg {
+    background-color: $light-info-color;
+  }
+
+  .ant-progress-status-exception .ant-progress-bg {
+    background-color: $light-error-color;
+  }
+  .ant-progress-status-success .ant-progress-bg {
+    background-color: $light-success-color;
+  }
+
+  .ant-progress-status-success .ant-progress-text {
+    color: $light-success-color;
+  }
+  .ant-progress-status-exception .ant-progress-text {
+    color: $light-error-color;
+  }
+  .ant-progress-text {
+    color: $light_font_color;
+  }
+
+  .ant-progress-status-exception
+    .ant-progress-inner:not(.ant-progress-circle-gradient)
+    .ant-progress-circle-path {
+    stroke: $light-error-color;
+  }
+  .ant-progress-status-success
+    .ant-progress-inner:not(.ant-progress-circle-gradient)
+    .ant-progress-circle-path {
+    stroke: $light-success-color;
+  }
+  // Dropdown
+  .ant-dropdown-menu {
+    background-color: $common_light_extra_color_8;
+    box-shadow: 0px 1px 4px rgba($light_shadow_color, 0.5);
+  }
+  .ant-dropdown-menu-item:hover,
+  .ant-dropdown-menu-submenu-title:hover {
+    background-color: rgba($color: $bordercolor, $alpha: $opacity-medium);
+  }
+  .ant-dropdown-menu-item,
+  .ant-dropdown-menu-submenu-title {
+    color: $light_font_color;
+  }
+  &.ant-dropdown-placement-bottomCenter > .ant-dropdown-arrow,
+  &.ant-dropdown-placement-bottomLeft > .ant-dropdown-arrow,
+  &.ant-dropdown-placement-bottomRight > .ant-dropdown-arrow {
+    border-color: $common_light_extra_color_8;
+    box-shadow: -2px -2px 4px rgba($light_shadow_color, 0.5);
+  }
+
+  &.ant-dropdown-placement-topCenter > .ant-dropdown-arrow,
+  &.ant-dropdown-placement-topLeft > .ant-dropdown-arrow,
+  &.ant-dropdown-placement-topRight > .ant-dropdown-arrow {
+    border-color: $common_light_extra_color_8;
+    box-shadow: 3px 3px 4px rgba($light_shadow_color, 0.5);
+  }
+
+  //Menu
+  .ant-menu,
+  .ant-menu-submenu-expand-icon,
+  .ant-menu-submenu-arrow,
+  .ant-menu-item a {
+    color: $common_light_extra_color_5;
+  }
+
+  .ant-menu-item:hover,
+  .ant-menu-item-active,
+  .ant-menu:not(.ant-menu-inline) .ant-menu-submenu-open,
+  .ant-menu-submenu-active,
+  .ant-menu-submenu-title:hover {
+    color: $common_light_extra_color_5;
+  }
+
+  //Date Picker
+  .ant-picker {
+    background-color: $common_light_extra_color_8;
+  }
+
+  .ant-picker-input > input {
+    color: $light_font_color;
+  }
+
+  .ant-picker-cell:hover:not(.ant-picker-cell-in-view) .ant-picker-cell-inner,
+  .ant-picker-cell:hover:not(.ant-picker-cell-selected):not(.ant-picker-cell-range-start):not(.ant-picker-cell-range-end):not(.ant-picker-cell-range-hover-start):not(.ant-picker-cell-range-hover-end)
+    .ant-picker-cell-inner {
+    background-color: rgba($common_light_extra_color_5, $opacity-low);
+  }
+
+  .ant-picker-cell {
+    color: $common_light_extra_color_7;
+  }
+
+  .ant-picker-cell.ant-picker-cell-in-view,
+  .ant-picker-header button {
+    color: $light_font_color;
+  }
+  .ant-picker-panel-container {
+    background-color: $lightBg;
+  }
+
+  //Drawer
+  .ant-drawer-title,
+  .ant-drawer-body {
+    color: $light_font_color;
+  }
+
+  //Modal
+  .ant-modal-content,
+  .ant-modal-header {
+    background-color: $lightBg;
+  }
+
+  .ant-modal-title,
+  .ant-modal-close,
+  .ant-modal-body {
+    color: $light_font_color;
+  }
+
+  //tooltip
+  .ant-tooltip-inner {
+    background-color: $common_light_extra_color_6;
+    color: $common_light_extra_color_8;
+  }
+
+  .ant-tooltip-arrow-content {
+    background-color: $common_light_extra_color_6;
+  }
+
+  //Tabs
+  .ant-tabs {
+    color: $common_light_extra_color_5;
+  }
+
+  .ant-tabs-tab.ant-tabs-tab-disabled {
+    color: $common_light_extra_color_7;
+  }
+
+  //Table
+  .ant-table {
+    color: $light_font_color;
+  }
+  .ant-table-thead > tr > th {
+    background-color: rgba($color: $bordercolor, $alpha: 0.2);
+    color: $light_font_color;
+  }
+  .ant-table-tbody > tr.ant-table-row:hover > td {
+    background-color: rgba($color: $bordercolor, $alpha: 0.1);
+  }
+
+  //Menu
+  .main-menu-header-box .anticon {
+    color: $common_light_extra_color_5;
+  }
+  //Avtar
+  .ant-avatar {
+    background-color: $common_light_extra_color_5;
+  }
+
+  //Typography
+  // .ant-typography {
+  //   color: $light_font_color;
+  // }
+
+  //Form
+  .ant-form-item-label > label,
+  .ant-input,
+  .ant-input-affix-wrapper,
+  .ant-input-password-icon:hover,
+  .ant-input-password-icon {
+    color: $light_font_color;
+  }
+
+  //input
+  .ant-form-item-has-error
+    :not(.ant-input-disabled):not(.ant-input-borderless).ant-input,
+  .ant-form-item-has-error
+    :not(.ant-input-affix-wrapper-disabled):not(.ant-input-affix-wrapper-borderless).ant-input-affix-wrapper,
+  .ant-form-item-has-error
+    :not(.ant-input-disabled):not(.ant-input-borderless).ant-input:hover,
+  .ant-form-item-has-error
+    :not(.ant-input-affix-wrapper-disabled):not(.ant-input-affix-wrapper-borderless).ant-input-affix-wrapper:hover {
+    border-color: $light-danger-primary;
+  }
+  .ant-form-item-explain.ant-form-item-explain-error,
+  .ant-form-item-label
+    > label.ant-form-item-required:not(.ant-form-item-required-mark-optional)::before {
+    color: $light-danger-primary;
+  }
+
+  //Main Side Nav Start
+  .main_sidebar {
+    background-color: $lightBg;
+  }
+  //Main Side Nav End
+
+  .filters {
+    .ant-collapse {
+      box-shadow: 0px 1px 4px
+        rgba($color: $light_shadow_color, $alpha: $opacity-medium);
+      background-color: $common_light_extra_color_8;
+    }
+    .ant-collapse-content {
+      border-top: 0.2rem solid rgba($color: $bordercolor, $alpha: $opacity-low) !important;
+      background-color: $common_light_extra_color_8;
+    }
+  }
+
+  .filter {
+    &_page {
+      &_container {
+        .react-pdf__Page__textContent {
+          border: 1px solid rgba($color: $bordercolor, $alpha: $opacity-low);
+          box-shadow: 0px 1px 4px
+            rgba($color: $light_shadow_color, $alpha: $opacity-medium);
+        }
+      }
+    }
+  }
+
+  .announcement {
+    &_textcontainer {
+      &-title {
+        color: $light_font_color;
+      }
+
+      &-description {
+        color: $common_light_extra_color_7;
+      }
+    }
+
+    &_imagecontainer {
+      &.even {
+        background-color: $LightBlue-primary;
+      }
+
+      &.odd {
+        background-color: $LightBlue-secondary;
+      }
+    }
+    &_actioncontainer {
+      &-actionbtn {
+        color: $LightBlue-primary !important;
+      }
+    }
+  }
+
+  .caseStudyResult {
+    &-link {
+      border-bottom: 0.1rem solid
+        rgba($color: $bordercolor, $alpha: $opacity-medium);
+      color: $LightBlue-primary-text !important;
+    }
+
+    &_header {
+      border-bottom: 0.1rem solid
+        rgba($color: $bordercolor, $alpha: $opacity-medium);
+
+      &_icons {
+        &-confluence {
+          color: $LightBlue-primary;
+        }
+      }
+
+      &_textContainer {
+        &-title {
+          color: $LightBlue-primary-text;
+        }
+        &-subtitle {
+          color: $common_light_extra_color_5;
+        }
+      }
+    }
+
+    &_body {
+      &_contentcontainer {
+        &-text {
+          color: rgba($color: $LightBlue-primary-text, $alpha: 0.8);
+        }
+
+        &-link {
+          color: $LightBlue-primary !important;
+        }
+      }
+    }
+  }
+
+  .search_result {
+    &_header {
+      border-bottom: 0.1rem solid
+        rgba($color: $bordercolor, $alpha: $opacity-medium);
+
+      &_icons {
+        &-confluence {
+          color: $LightBlue-primary-text;
+        }
+      }
+      &-title {
+        color: $LightBlue-primary-text;
+      }
+
+      &-pdf {
+        background-color: rgba(
+          $color: $common_light_extra_color_7,
+          $alpha: $opacity-medium
+        );
+        color: $common_light_extra_color_6 !important;
+      }
+    }
+
+    &_body {
+      &_othercontainer {
+        &_department {
+          background-color: $lightBg;
+          color: $LightBlue-primary;
+
+          &-title {
+            color: $common_light_extra_color_6;
+          }
+
+          &-value {
+            color: $common_light_extra_color_5;
+          }
+        }
+
+        &_icons {
+          &_views {
+            color: $LightBlue-primary-text;
+
+            &-count {
+              color: $LightBlue-primary-text;
+            }
+          }
+
+          &-like {
+            color: $LightBlue-primary-text;
+          }
+          &-dislike {
+            color: $LightBlue-primary-text;
+          }
+        }
+      }
+
+      &_contentcontainer {
+        &-text {
+          color: rgba($color: $LightBlue-primary-text, $alpha: 0.8);
+        }
+
+        &-link {
+          color: $LightBlue-primary !important;
+        }
+      }
+    }
+  }
+
+  .recent_activity_article_item {
+    &_detail {
+      &-title {
+        color: $LightBlue-primary-text !important;
+      }
+      &-description {
+        color: $common_light_extra_color_7 !important;
+      }
+
+      &-iconbox {
+        box-shadow: 0px 1px 4px
+          rgba($color: $light_shadow_color, $alpha: $opacity-medium);
+      }
+    }
+
+    &_footer {
+      &_readerContainer {
+        &_customer {
+          background-color: $LightBlue-primary;
+          color: $common_extra_color_1;
+
+          &-text {
+            color: $common_extra_color_1;
+          }
+        }
+      }
+      &_iconContainer {
+        &-icon {
+          color: $LightBlue-primary-text;
+        }
+      }
+    }
+  }
+
+  .popular_topics {
+    &_textcontainer {
+      &-title {
+        color: $LightBlue-primary-text;
+      }
+
+      &-description {
+        color: $common_light_extra_color_7;
+      }
+
+      &-views {
+        color: $LightBlue-primary;
+
+        &-text {
+          color: $LightBlue-primary;
+        }
+      }
+    }
+
+    &_imagecontainer {
+      box-shadow: 0px 1px 4px
+        rgba($color: $light_shadow_color, $alpha: $opacity-medium);
+    }
+  }
+  .title-text {
+    color: $common_light_extra_color_5 !important;
+  }
+}

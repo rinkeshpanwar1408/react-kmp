@@ -1,12 +1,12 @@
 import React from "react";
-import RoundCornerCard from "./RoundCornerCard";
 import { Typography } from "antd";
 import { FiGrid } from "react-icons/fi";
+import { StyledCard } from "../styled-components/CommonControls";
 
 const { Text } = Typography;
 function CaseStudyCard(props) {
   return (
-    <RoundCornerCard className="caseStudyResult">
+    <StyledCard className="caseStudyResult">
       <div className="caseStudyResult_header">
         {!props.isQuickLinks && (
           <div className="caseStudyResult_header_icons">
@@ -34,7 +34,7 @@ function CaseStudyCard(props) {
       >
         {props.children}
       </div>
-    </RoundCornerCard>
+    </StyledCard>
   );
 }
 

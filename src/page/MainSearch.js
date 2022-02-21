@@ -1,13 +1,19 @@
 import React from "react";
-import { Layout } from "antd";
+import { Col, Layout, Row } from "antd";
 import PopularTopics from "../components/PopularTopics";
 import RecentArticals from "../components/RecentArticals";
 
 function MainSearch(props) {
   return (
     <React.Fragment>
-      <RecentArticals  />
-      <PopularTopics />
+       <Row>
+        <Col span={24}>{<RecentArticals /> }</Col>
+      </Row> 
+      <Row>
+        <Col span={24}>
+          <PopularTopics />
+        </Col>
+      </Row>
     </React.Fragment>
   );
 }

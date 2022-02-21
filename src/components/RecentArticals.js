@@ -4,13 +4,17 @@ import TitleText from "./TitleText";
 import { Layout, Menu, Row, Col, Card } from "antd";
 import { instance as Axios } from "../utility/axios";
 import RecentActivityCard from "./RecentActivityCard";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination } from "swiper";
 import { FiChevronLeft } from "react-icons/fi";
+import Slider from "react-slick";
+import { AiOutlineLeftCircle, AiOutlineRightCircle } from "react-icons/ai";
+
 const { Text, Link, Title } = Typography;
 
 function RecentArticals(props) {
   const [recentArticals, setrecentArticals] = useState([]);
+  const slider1 = useRef();
+  const [nav1, setNav1] = useState();
+
 
   useEffect(() => {
     const getdata = async () => {
@@ -21,28 +25,35 @@ function RecentArticals(props) {
     getdata();
   }, []);
 
-  
+  const next = () => {
+    nav1.slickNext();
+  };
+  const previous = () => {
+    nav1.slickPrev();
+  };
 
   return (
     <React.Fragment>
-      <TitleText title="Recent Articles"></TitleText>
-      <Swiper
-        spaceBetween={10}
-        slidesPerView={3}
-        navigation={true}
-        modules={[Navigation]}
-        // pagination={{
-        //   dynamicBullets: true,
-        // }}
+      <div className="slider_container">
+        <TitleText title="Recent Articles"></TitleText>
+        <div className="slider_container-actions"> 
+          <AiOutlineLeftCircle size={25} onClick={previous} />
+          <AiOutlineRightCircle size={25} onClick={next} />
+        </div>
+      </div>
+
+      <Slider
+        infinite={false}
+        arrows={false}
+        speed={500}
+        slidesToShow={3}
+        slidesToScroll={3}
+        ref={(slider1) => setNav1(slider1)}
       >
         {recentArticals.map((item, i) => {
-          return (
-            <SwiperSlide>
-              <RecentActivityCard item={item} key={i} />
-            </SwiperSlide>
-          );
+          return <RecentActivityCard item={item} key={i} />;
         })}
-      </Swiper>
+      </Slider>
 
       {/* <Row gutter={[16, 16]}>
         {recentArticals.map((item, i) => {

@@ -15,7 +15,7 @@
 
     &-title {
       font-size: 1.65rem;
-      color: $color-6;
+      color: $light_font_color;
       font-weight: 600;
       margin-bottom: 0.2rem;
 
@@ -27,7 +27,7 @@
 
     &-description {
       font-size: 1.4rem;
-      color: $color-2;
+      color: $common_light_extra_color_7;
       font-weight: 500;
       //For Line Clip
       display: -webkit-box;
@@ -49,11 +49,11 @@
     flex-shrink: 0;
 
     &.even {
-      background-color: $color-4;
+      background-color: $LightBlue-primary;
     }
 
     &.odd {
-      background-color: $color-5;
+      background-color: $LightBlue-secondary;
     }
   }
   &_actioncontainer {
@@ -62,7 +62,7 @@
     justify-content: center;
 
     &-actionbtn{
-      color: $color-5 !important;
+      color: $LightBlue-primary !important;
       font-weight: 600;
     }
 

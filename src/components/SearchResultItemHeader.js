@@ -18,7 +18,7 @@ function SearchResultItemHeader(props) {
         <div className="search_result_header_icons">
           <FiGrid
             fontSize={25}
-            className="search_result_container_header_icons-confluence"
+            className="search_result_header_icons-confluence"
           />
           {/* <FiCommand /> */}
         </div>

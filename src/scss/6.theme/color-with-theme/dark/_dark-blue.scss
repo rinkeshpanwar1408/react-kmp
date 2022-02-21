@@ -1,0 +1,38 @@
+.dark {
+    &.blue {
+      //Button
+      .ant-btn-primary {
+        background-color: $DarkBlue-primary;
+        border-color: $DarkBlue-primary;
+      }
+  
+      .ant-btn-primary:hover,
+      .ant-btn-primary:focus {
+        background-color: $DarkBlue-secondary;
+        border-color: $DarkBlue-secondary;
+      }
+  
+      .ant-btn-link,
+      .ant-picker-today-btn {
+        color: $DarkBlue-primary;
+      }
+  
+      .ant-btn-link:hover,
+      .ant-btn-link:focus,
+      .ant-btn-link:active,
+      .ant-picker-today-btn:hover,
+      .ant-picker-today-btn:focus,
+      .ant-picker-today-btn:active {
+        color: $DarkBlue-secondary;
+      }
+  
+      //Switch
+      .ant-switch-checked {
+        background-color: $DarkBlue-primary;
+      }
+  
+      //card
+      .ant-card-head {
+      }
+    }
+  }

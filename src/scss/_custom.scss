@@ -1,0 +1,95 @@
+.ant-menu {
+  border-right: none;
+}
+
+//card
+.ant-card-head {
+  border-color: rgba($color: $bordercolor, $alpha: 0.2);
+}
+
+//Icon
+.header-notification-container .icon {
+  font-size: $xlarge-font;
+}
+
+.ant-drawer-header {
+  border-bottom-color: $bordercolor;
+}
+
+//Modal
+.ant-scrolling-effect {
+  width: 100% !important;
+}
+
+//Backdrop Mask
+.ant-drawer.ant-drawer-open .ant-drawer-mask,
+.ant-modal-mask {
+  backdrop-filter: blur(0.15rem);
+}
+
+.filters {
+  .ant-collapse-content {
+    border-top: 0.2rem solid rgba($color: $bordercolor, $alpha: $opacity-low) !important;
+  }
+}
+
+.filter {
+  &_page {
+    &_container {
+      .react-pdf__Page__textContent {
+        border: 1px solid rgba($color: $bordercolor, $alpha: $opacity-low);
+      }
+    }
+  }
+}
+
+.ant-menu-vertical .ant-menu-item,
+.ant-menu-vertical-left .ant-menu-item,
+.ant-menu-vertical-right .ant-menu-item,
+.ant-menu-inline .ant-menu-item,
+.ant-menu-vertical .ant-menu-submenu-title,
+.ant-menu-vertical-left .ant-menu-submenu-title,
+.ant-menu-vertical-right .ant-menu-submenu-title,
+.ant-menu-inline .ant-menu-submenu-title {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+.ant-menu.ant-menu-inline-collapsed > .ant-menu-item .ant-menu-item-icon,
+.ant-menu.ant-menu-inline-collapsed
+  > .ant-menu-item-group
+  > .ant-menu-item-group-list
+  > .ant-menu-item
+  .ant-menu-item-icon,
+.ant-menu.ant-menu-inline-collapsed
+  > .ant-menu-item-group
+  > .ant-menu-item-group-list
+  > .ant-menu-submenu
+  > .ant-menu-submenu-title
+  .ant-menu-item-icon,
+.ant-menu.ant-menu-inline-collapsed
+  > .ant-menu-submenu
+  > .ant-menu-submenu-title
+  .ant-menu-item-icon,
+.ant-menu.ant-menu-inline-collapsed > .ant-menu-item .anticon,
+.ant-menu.ant-menu-inline-collapsed
+  > .ant-menu-item-group
+  > .ant-menu-item-group-list
+  > .ant-menu-item
+  .anticon,
+.ant-menu.ant-menu-inline-collapsed
+  > .ant-menu-item-group
+  > .ant-menu-item-group-list
+  > .ant-menu-submenu
+  > .ant-menu-submenu-title
+  .anticon,
+.ant-menu.ant-menu-inline-collapsed
+  > .ant-menu-submenu
+  > .ant-menu-submenu-title
+  .anticon {
+  font-size: 2rem;
+}
+
+.ant-layout-sider {
+  transition: all 0.2s linear !important;
+}

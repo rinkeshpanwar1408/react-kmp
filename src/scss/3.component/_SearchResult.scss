@@ -14,7 +14,7 @@
 
   &_header {
     display: flex;
-    border-bottom: 0.1rem solid $color-10;
+    border-bottom: 0.1rem solid rgba($color: $bordercolor, $alpha: $opacity-medium);
     padding: 1.2rem 1.5rem;
     align-items: center;
 
@@ -26,12 +26,12 @@
       display: flex;
       margin-right: 1rem;
       &-confluence {
-        color: $color-5;
+        color: $color-2;
       }
     }
     &-title {
       font-size: 1.4rem;
-      color: $color-9;
+      color: $color-3;
       font-weight: 600;
       flex: 1;
     }
@@ -41,13 +41,13 @@
     }
 
     &-pdf {
-      background-color: $color-11;
+      background-color: rgba($color: $common_light_extra_color_7, $alpha: $opacity-medium) ;
       padding: 0.2rem 1rem;
       display: flex;
       align-items: center;
       justify-content: center;
       border-radius: 2rem;
-      color: $color-12 !important;
+      color: $common_light_extra_color_6 !important;
       font-weight: 600;
     }
 
@@ -103,22 +103,22 @@
       align-items: center;
 
       &_department {
-        background-color: $color-11;
+        background-color: $lightBg;
         padding: 0.5rem 1rem;
         display: flex;
         align-items: center;
         justify-content: center;
         border-radius: 0.5rem;
-        color: $color-1;
+        color: $LightBlue-primary;
 
         &-title {
-          color: $color-12;
+          color: $common_light_extra_color_6 ;
           font-weight: 600;
           margin-right: 0.5rem;
         }
 
         &-value {
-          color: $color-8;
+          color: $common_light_extra_color_5;
         }
       }
 
@@ -136,12 +136,12 @@
         &_views {
           display: flex;
           align-items: center;
-          color: $color-1;
+          color: $LightBlue-primary;
           margin-right: 2rem;
 
           &-count {
             margin-left: 0.5rem;
-            color: $color-1;
+            color: $LightBlue-primary;
           }
         }
         &-like {
@@ -165,7 +165,7 @@
       }
 
       &-link {
-        color: $color-5 !important;
+        color: $color-2 !important;
       }
     }
   }

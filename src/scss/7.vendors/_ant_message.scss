@@ -1,0 +1,39 @@
+.ant-message-notice-content {
+    border-radius: $border-radius-large;
+    padding: 1.2rem;
+    font-size: 1.4rem;
+    font-weight: 600;
+  }
+  .ant-message-custom-content {
+    display: flex;
+    align-items: center;
+  }
+  .ant-message .anticon {
+    width: 4rem;
+    height: 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: $border-radius-large;
+    font-size: 2.2rem;
+    margin-right: 1rem;
+  }
+  
+  //Notification
+  .ant-notification-notice,
+  .ant-popover-inner {
+    border-radius: $border-radius-large;
+  }
+  
+  //Confirm
+  .ant-popover-inner-content {
+    border-radius: 0 0 $border-radius-large $border-radius-large;
+  }
+  
+  .ant-popover-title {
+    border-color: rgba($color: $bordercolor, $alpha: $opacity-low);
+  }
+  
+  .ant-popconfirm .ant-popover-inner-content {
+    border-radius: $border-radius-large;
+  }

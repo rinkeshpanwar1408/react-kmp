@@ -1,51 +1,76 @@
 import React, { useEffect, useState } from "react";
-import { Typography, Layout, Menu, Input, Dropdown, Space, Image } from "antd";
+import {
+  Typography,
+  Layout,
+  Menu,
+  Input,
+  Dropdown,
+  Space,
+  Image,
+  Divider,
+} from "antd";
 import background from "../assests/image/Image2.png";
 import infy from "../assests/image/infy.png";
 import { DownOutlined } from "@ant-design/icons";
-import { FiHome } from "react-icons/fi";
+import {
+  FiBox,
+  FiCodesandbox,
+  FiEdit,
+  FiHome,
+  FiLogOut,
+  FiMoon,
+  FiPlusCircle,
+  FiSettings,
+  FiSun,
+} from "react-icons/fi";
 import { MdOutlineKeyboardVoice, MdSearch } from "react-icons/md";
 import SearchListItem from "../components/SearchListItem";
-import RoundCornerCard from "../components/RoundCornerCard";
 import { useHistory, useRouteMatch } from "react-router-dom";
 import { instanceApi as Api } from "../utility/axios";
 import SimpleBar from "simplebar-react";
-import { FiMenu } from "react-icons/fi";
-import { useDispatch } from "react-redux";
+import { FiMenu, FiUser } from "react-icons/fi";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import * as ActionCreator from "../store/action/actions";
+import { DropDownMenuItem } from "./DropDownMenuItem";
+import { BiNetworkChart } from "react-icons/bi";
+import * as Actions from "../store/action/index";
+import { DarkBlueTheme, LightBlueTheme } from "../model/Theme";
+import { StyledCard } from "../styled-components/CommonControls";
+import { ADMIN } from "../model/route";
 
 const { Content } = Layout;
 const { Title, Text } = Typography;
 
 const menu = (
   <Menu
-    className="mainheader_container_navbar_menuContainer_items-item"
+    className="mainheader_container_navbar_userContainer_menus_items-item"
     key="menu-1"
   >
     <Space direction="horizontal" align="start">
       <div key="sub-1">
         <Menu.Item key="0">
-          <Text className="mainheader_container_navbar_menuContainer_items-title">
+          <Text className="mainheader_container_navbar_userContainer_menus_items-title">
             Financial Relief Programs
           </Text>
         </Menu.Item>
         <Menu.Item key="1">
           <a href="#">
-            <Text className="mainheader_container_navbar_menuContainer_items-link">
+            <Text className="mainheader_container_navbar_userContainer_menus_items-link">
               CARE
             </Text>
           </a>
         </Menu.Item>
         <Menu.Item key="2">
           <a href="#">
-            <Text className="mainheader_container_navbar_menuContainer_items-link">
+            <Text className="mainheader_container_navbar_userContainer_menus_items-link">
               International IRFP
             </Text>
           </a>
         </Menu.Item>
         <Menu.Item key="3">
           <a href="#">
-            <Text className="mainheader_container_navbar_menuContainer_items-link">
+            <Text className="mainheader_container_navbar_userContainer_menus_items-link">
               US Hardship
             </Text>
           </a>
@@ -53,7 +78,7 @@ const menu = (
         <Menu.Item key="4">
           <a
             href="#"
-            className="mainheader_container_navbar_menuContainer_items-viewall"
+            className="mainheader_container_navbar_userContainer_menus_items-viewall"
           >
             View All
           </a>
@@ -62,21 +87,21 @@ const menu = (
       <div key="sub-2">
         <Menu.Item
           key="5"
-          className="mainheader_container_navbar_menuContainer_items-title"
+          className="mainheader_container_navbar_userContainer_menus_items-title"
         >
           <Text>Payment Options</Text>
         </Menu.Item>
 
         <Menu.Item key="6">
           <a href="#">
-            <Text className="mainheader_container_navbar_menuContainer_items-link">
+            <Text className="mainheader_container_navbar_userContainer_menus_items-link">
               Pay Over Time
             </Text>
           </a>
         </Menu.Item>
         <Menu.Item key="7">
           <a href="#">
-            <Text className="mainheader_container_navbar_menuContainer_items-link">
+            <Text className="mainheader_container_navbar_userContainer_menus_items-link">
               Pay In Installments
             </Text>
           </a>
@@ -84,7 +109,7 @@ const menu = (
         <Menu.Item key="8">
           <a
             href="#"
-            className="mainheader_container_navbar_menuContainer_items-viewall"
+            className="mainheader_container_navbar_userContainer_menus_items-viewall"
           >
             View All
           </a>
@@ -92,7 +117,7 @@ const menu = (
       </div>
       <div key="sub-3">
         <Menu.Item key="9">
-          <Text className="mainheader_container_navbar_menuContainer_items-title">
+          <Text className="mainheader_container_navbar_userContainer_menus_items-title">
             Personal Loans
           </Text>
         </Menu.Item>
@@ -103,7 +128,7 @@ const menu = (
 
 const menu2 = (
   <Menu
-    className="mainheader_container_navbar_menuContainer_items-item"
+    className="mainheader_container_navbar_userContainer_menus_items-item"
     key="menu-2"
   >
     <Menu.Item key="10">
@@ -119,13 +144,14 @@ const menu2 = (
     <Menu.Item key="12">
       <a
         href="#"
-        className="mainheader_container_navbar_menuContainer_items-viewall"
+        className="mainheader_container_navbar_userContainer_menus_items-viewall"
       >
         View All
       </a>
     </Menu.Item>
   </Menu>
 );
+
 function MainHeader(props) {
   const match = useRouteMatch();
   const history = useHistory();
@@ -168,7 +194,7 @@ function MainHeader(props) {
 
   const onSuggestionItemClickHandler = (text) => {
     setSearchWord(text);
-    setvisibleSuggestion(false)
+    setvisibleSuggestion(false);
   };
 
   return (
@@ -178,8 +204,11 @@ function MainHeader(props) {
     >
       <div className="mainheader_container">
         <div className="mainheader_container_navbar">
+          <Dropdown overlay={<WorkSpaceMenu />} placement="bottomRight" arrow>
+            <div className="WorkSpaceContainer">WS</div>
+          </Dropdown>
+
           <div className="mainheader_container_navbar_brandContainer">
-            <FiMenu size={25} color="#fff" onClick={props.onCollapse} />
             <div
               style={{
                 width: "100px",
@@ -232,7 +261,7 @@ function MainHeader(props) {
               </div>
 
               {visibleSuggestion && (
-                <RoundCornerCard className="mainheader_searchlist_container">
+                <StyledCard className="mainheader_searchlist_container">
                   <SimpleBar className="mainheader_searchlist_container-scrollContainer">
                     {suggessionsList.map((item, i) => {
                       return (
@@ -244,21 +273,21 @@ function MainHeader(props) {
                       );
                     })}
                   </SimpleBar>
-                </RoundCornerCard>
+                </StyledCard>
               )}
             </div>
           </div>
 
           <div className="mainheader_container_navbar_userContainer">
-            <div className="mainheader_container_navbar_menuContainer">
+            <div className="mainheader_container_navbar_userContainer_menus">
               <Dropdown
-                overlayClassName="mainheader_container_navbar_menuContainer_items"
+                overlayClassName="mainheader_container_navbar_userContainer_menus_items"
                 overlay={menu}
                 placement="bottomCenter"
                 arrow
               >
-                <div className="mainheader_container_navbar_menuContainer_menu">
-                  <Text className="mainheader_container_navbar_menuContainer_menu-title">
+                <div className="mainheader_container_navbar_userContainer_menus_menu">
+                  <Text className="mainheader_container_navbar_userContainer_menus_menu-title">
                     Prouduct Journeys
                   </Text>
                   <DownOutlined />
@@ -266,13 +295,13 @@ function MainHeader(props) {
               </Dropdown>
 
               <Dropdown
-                overlayClassName="mainheader_container_navbar_menuContainer_items"
+                overlayClassName="mainheader_container_navbar_userContainer_menus_items"
                 overlay={menu2}
                 placement="bottomCenter"
                 arrow
               >
-                <div className="mainheader_container_navbar_menuContainer_menu">
-                  <Text className="mainheader_container_navbar_menuContainer_menu-title">
+                <div className="mainheader_container_navbar_userContainer_menus_menu">
+                  <Text className="mainheader_container_navbar_userContainer_menus_menu-title">
                     Transactionary
                   </Text>
                   <DownOutlined />
@@ -285,9 +314,19 @@ function MainHeader(props) {
               color="#fff"
               onClick={() => history.replace(`${match.url}`)}
             />
-            <div className="mainheader_container_navbar_userContainer-user">
-              {username}
-            </div>
+            <Dropdown
+              overlay={<UserMenu />}
+              trigger={"click"}
+              placement="bottomRight"
+              arrow
+            >
+              <div className="mainheader_container_navbar_userContainer_userProfile">
+                <FiUser size={20} color="#fff" />
+                <Text className="mainheader_container_navbar_userContainer_userProfile-text">
+                  Admin
+                </Text>
+              </div>
+            </Dropdown>
           </div>
         </div>
         {/* <div
@@ -301,6 +340,91 @@ function MainHeader(props) {
         </div> */}
       </div>
     </Content>
+  );
+}
+
+function UserMenu(props) {
+  const history = useHistory();
+  const match = useRouteMatch();
+  const Dispatch = useDispatch();
+  const currentTheme = useSelector((state) => state.theme.Theme);
+
+  const onThemeChange = (themetype, color) => {
+    switch (color) {
+      // case "brown":
+      //   dispatch({
+      //     type:Actions.UPDATETHEME,
+      //     themeKey: themetype === "dark" ? DarkBrownTheme : LightBrownTheme,
+      //   });
+      //   break;
+
+      default:
+        Dispatch({
+          type: Actions.UPDATETHEME,
+          themeKey: themetype === "dark" ? DarkBlueTheme : LightBlueTheme,
+        });
+    }
+  };
+
+  return (
+    <div className="DropDownMenu userMenu">
+      <div className="userMenu-header">
+        <Text>Admin</Text>
+        <Text>demo@infosys.com</Text>
+      </div>
+      <Divider />
+      <div>
+        <DropDownMenuItem title="My Profile" icon={<FiUser size={20} />} />
+        <DropDownMenuItem
+          title="Admin Console"
+          icon={<FiSettings size={20} />}
+          onClick={() => history.replace(`${match.url}/${ADMIN}`)}
+        />
+        <DropDownMenuItem
+          title="Dark Mode"
+          icon={<FiMoon size={20} />}
+          onClick={() => onThemeChange("dark", currentTheme.themecolor)}
+        />
+        <DropDownMenuItem
+          title="Light Mode"
+          icon={<FiSun size={20} />}
+          onClick={() => onThemeChange("light", currentTheme.themecolor)}
+        />
+      </div>
+      <Divider />
+      <div>
+        <DropDownMenuItem title="Logout" icon={<FiLogOut size={20} />} />
+      </div>
+    </div>
+  );
+}
+
+function WorkSpaceMenu(props) {
+  return (
+    <div className="DropDownMenu WorkSpace">
+      <div className="WorkSpace-header">
+        <FiCodesandbox size={20} />
+        <Text>Current Work Space</Text>
+      </div>
+      <Divider />
+      <div>
+        <DropDownMenuItem title="Work Space-1" icon={<FiBox size={20} />} />
+        <DropDownMenuItem title="Work Space-2" icon={<FiBox size={20} />} />
+        {/* <DropDownMenuItem title="Dark Mode" icon={<FiMoon size={20}/>} />
+        <DropDownMenuItem title="Light Mode" icon={<FiSun size={20}/>} /> */}
+      </div>
+      <Divider />
+      <div>
+        <DropDownMenuItem
+          title="Create New Work Space"
+          icon={<FiPlusCircle size={20} />}
+        />
+        <DropDownMenuItem
+          title="Edit Current Work Space"
+          icon={<FiEdit size={20} />}
+        />
+      </div>
+    </div>
   );
 }
 

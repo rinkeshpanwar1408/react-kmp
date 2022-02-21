@@ -1,0 +1,34 @@
+.light {
+    &.blue {
+      //Button
+      .ant-btn-primary {
+        background-color: $LightBlue-primary;
+        border-color: $LightBlue-primary;
+      }
+  
+      .ant-btn-primary:hover,
+      .ant-btn-primary:focus {
+        background-color: $LightBlue-secondary;
+        border-color: $LightBlue-secondary;
+      }
+  
+      .ant-btn-link,
+      .ant-picker-today-btn {
+        color: $LightBlue-primary;
+      }
+  
+      .ant-btn-link:hover,
+      .ant-btn-link:focus,
+      .ant-btn-link:active,
+      .ant-picker-today-btn:hover,
+      .ant-picker-today-btn:focus,
+      .ant-picker-today-btn:active {
+        color: $LightBlue-secondary;
+      }
+  
+      //Switch
+      .ant-switch-checked {
+        background-color: $LightBlue-primary;
+      }
+    }
+  }

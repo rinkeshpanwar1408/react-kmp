@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import RoundCornerCard from "./RoundCornerCard";
 import SearchResultItemHeader from "./SearchResultItemHeader";
 import parse from "html-react-parser";
 import { Badge, Typography, Menu, Dropdown } from "antd";
@@ -13,6 +12,8 @@ import {
 import { BsEyeFill } from "react-icons/bs";
 import * as ActionCreator from "../store/action/actions";
 import { useDispatch } from "react-redux";
+import { DropDownMenuItem } from "./DropDownMenuItem";
+import { StyledCard } from "../styled-components/CommonControls";
 
 const { Paragraph, Link, Text } = Typography;
 function SearchResultItem(props) {
@@ -22,33 +23,23 @@ function SearchResultItem(props) {
     dispatch(ActionCreator.getQuickLinkDetails(id));
   };
 
-  const menu = (
-    <Menu>
-      <Menu.Item key="0" className="search_result_action_menu_item">
-        <div className="search_result_action_menu_item_iconContainer">
-          <BiShare size={20} />
-        </div>
-        <Text className="search_result_action_menu_item-title">Share</Text>
-      </Menu.Item>
-      <Menu.Item key="1" className="search_result_action_menu_item">
-        <div className="search_result_action_menu_item_iconContainer">
-          <BiUserPlus size={20} />
-        </div>
-        <Text className="search_result_action_menu_item-title">
-          Invite to Edit
-        </Text>
-      </Menu.Item>
-      <Menu.Item
-        key="2"
-        className="search_result_action_menu_item"
+  const ActionMenu = (
+    <div className="DropDownMenu">
+      <DropDownMenuItem title="Share" icon={<BiShare size={20} />} />
+      <DropDownMenuItem
+        title="Invite to Edit"
+        icon={<BiUserPlus size={20} />}
+      />
+      <DropDownMenuItem
+        title="Info"
+        icon={
+          <BiInfoCircle
+            size={20}
+          />
+        }
         onClick={() => props.onSearchItemInfoClick(props.item.id)}
-      >
-        <div className="search_result_action_menu_item_iconContainer">
-          <BiInfoCircle size={20} />
-        </div>
-        <Text className="search_result_action_menu_item-title">Info</Text>
-      </Menu.Item>
-    </Menu>
+      />
+    </div>
   );
 
   const [ellipsis, setEllipsis] = useState(true);
@@ -64,7 +55,7 @@ function SearchResultItem(props) {
   };
 
   return (
-    <RoundCornerCard
+    <StyledCard
       className={`search_result ${props.active && "active"}`}
       onClick={() => onSearchResultItemClickHandler(props.item.id)}
     >
@@ -107,10 +98,9 @@ function SearchResultItem(props) {
               <FiThumbsDown size={20} />
             </Badge>
 
-            {/*  */}
 
             <Dropdown
-              overlay={menu}
+              overlay={ActionMenu}
               trigger={["click"]}
               placement="bottomCenter"
               overlayClassName="search_result_action_menu"
@@ -151,7 +141,7 @@ function SearchResultItem(props) {
           )}
         </div>
       </div>
-    </RoundCornerCard>
+    </StyledCard>
   );
 }
 

@@ -2,8 +2,10 @@
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
-  position: relative;
+  position: fixed;
   z-index: 1;
+  width: 100%;
+  height: 7rem;
 
   &_container {
     backdrop-filter: blur(2px);
@@ -23,8 +25,8 @@
 
         &-divider {
           height: 3.5rem;
-          border-right: 0.2rem solid $color-7;
-          margin-right:  1rem;
+          border-right: 0.2rem solid $common_extra_color_1;
+          margin-right: 1rem;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -32,55 +34,7 @@
         &-title {
           margin: 0px !important;
           color: $color-white !important;
-        }
-      }
-
-      &_menuContainer {
-        display: flex;
-        justify-content: center;
-
-        &_items {
-          &-title {
-            color: $color-6;
-            font-weight: 600;
-          }
-
-          &-link {
-            color: $color-8;
-          }
-
-          &-viewall {
-            color: $color-5 !important;
-            font-weight: 600;
-          }
-
-          &-item {
-            padding: 1.5rem;
-            border-radius: 1rem;
-
-            .ant-dropdown-menu-item:hover,
-            .ant-dropdown-menu-submenu-title:hover {
-              background: none;
-            }
-          }
-        }
-
-        &_menu {
-          margin-right: 4rem;
-          display: flex;
-          align-items: center;
-
-          &-title {
-            color: $color-white;
-            font-weight: 600;
-            font-size: 1.2rem;
-            margin-right: 0.5rem;
-          }
-
-          & .anticon {
-            color: $color-white;
-            font-weight: 600;
-          }
+          font-size: 1.4rem;
         }
       }
 
@@ -88,18 +42,75 @@
         display: flex;
         justify-content: flex-end;
         align-items: center;
-        
-        &-user {
-          width: 1.8rem;
-          height: 1.8rem;
-          border: 1px solid $color-white;
-          padding: 2rem;
-          border-radius: 2rem;
+
+        &_userProfile {
           display: flex;
           align-items: center;
+          margin-left: 2rem;
+
+          &-icon {
+            width: 4.2rem;
+            height: 4.2rem;
+            border: 1px solid $color-white;
+            border-radius: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+
+          &-text {
+            color: $color-white;
+            margin-left: 1rem;
+          }
+        }
+
+        &_menus {
+          display: flex;
           justify-content: center;
-          color: rgb(255, 255, 255);
-          margin-left: 3rem;
+
+          &_items {
+            &-title {
+              color: $light_font_color;
+              font-weight: 600;
+            }
+
+            &-link {
+              color: $common_light_extra_color_5;
+            }
+
+            &-viewall {
+              color: $color-2 !important;
+              font-weight: 600;
+            }
+
+            &-item {
+              padding: 1.5rem;
+              border-radius: 1rem;
+
+              .ant-dropdown-menu-item:hover,
+              .ant-dropdown-menu-submenu-title:hover {
+                background: none;
+              }
+            }
+          }
+
+          &_menu {
+            margin-right: 4rem;
+            display: flex;
+            align-items: center;
+
+            &-title {
+              color: $color-white;
+              font-weight: 600;
+              font-size: 1.2rem;
+              margin-right: 0.5rem;
+            }
+
+            & .anticon {
+              color: $color-white;
+              font-weight: 600;
+            }
+          }
         }
       }
 
@@ -109,32 +120,32 @@
         align-items: center;
         justify-content: center;
         flex: 1;
-  
+
         &_inputBox {
           width: 90%;
           position: relative;
           display: flex;
           align-items: center;
           justify-content: center;
-  
+
           &-input {
             padding: 1.2rem 8rem 1.2rem 1.5rem;
             border-radius: 3rem;
           }
         }
-  
+
         &_actionBox {
           position: absolute;
           display: flex;
           align-items: center;
           justify-content: center;
           right: 1.5rem;
-          color: $color-9;
-  
+          color: $color-3;
+
           &-search {
             width: 3.5rem;
             height: 3.5rem;
-            background-color: $color-9;
+            background-color: $color-3;
             border-radius: 2rem;
             display: flex;
             align-items: center;
@@ -171,10 +182,7 @@
         margin-bottom: 0 !important;
       }
     }
-
-
   }
-
 
   &_searchlist_container {
     width: 95%;
@@ -183,7 +191,7 @@
     position: absolute;
     z-index: 999;
 
-    &-scrollContainer{
+    &-scrollContainer {
       max-height: 30rem;
       padding: 1.5rem !important;
     }
@@ -204,13 +212,38 @@
       }
 
       &-clock {
-        color: $color-2;
+        color: $common_light_extra_color_7;
       }
 
       &-trash {
-        color: $color-2;
+        color: $common_light_extra_color_7;
       }
     }
   }
 }
 
+.userMenu {
+   &-header{
+    display: flex;
+    flex-direction: column;
+    padding: .2rem 2rem;
+  }
+}
+
+.WorkSpace {
+  &Container{
+    height: 4.2rem;
+    width: 4.2rem;
+    border-radius: 2.5rem;
+    border: 1px solid $color-white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $color-white;
+  }
+
+  &-header{
+   display: flex;
+   padding: .2rem 2rem;
+ }
+}
