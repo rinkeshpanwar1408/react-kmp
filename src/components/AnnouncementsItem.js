@@ -6,7 +6,7 @@ import { BiSmile } from "react-icons/bi";
 import { MdRemoveRedEye } from "react-icons/md";
 import { HiSpeakerphone } from "react-icons/hi";
 
-const { Text, Link, Title } = Typography;
+const { Text, Link,  } = Typography;
 
 function AnnouncementsItem(props) {
   const [popularTopics, setpopularTopics] = useState([]);

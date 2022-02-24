@@ -1,0 +1,20 @@
+.ant-input,
+.ant-input-affix-wrapper {
+  border-width: 0.2rem;
+  border-color: rgba($color: $bordercolor, $alpha: $opacity-medium);
+  border-radius: $border-radius-large;
+  padding: 1rem;
+  font-size: 1.6rem;
+  background-color: transparent;
+}
+
+.ant-form-item-has-error
+  :not(.ant-input-disabled):not(.ant-input-borderless).ant-input,
+.ant-form-item-has-error
+  :not(.ant-input-affix-wrapper-disabled):not(.ant-input-affix-wrapper-borderless).ant-input-affix-wrapper,
+.ant-form-item-has-error
+  :not(.ant-input-disabled):not(.ant-input-borderless).ant-input:hover,
+.ant-form-item-has-error
+  :not(.ant-input-affix-wrapper-disabled):not(.ant-input-affix-wrapper-borderless).ant-input-affix-wrapper:hover {
+  background-color: transparent;
+}

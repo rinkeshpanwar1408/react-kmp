@@ -1,0 +1,529 @@
+//-----------------------1. Font Weight---------------------//
+.f-w-100 {
+    font-weight: 100;
+  }
+  .f-w-300 {
+    font-weight: 300;
+  }
+  .f-w-400 {
+    font-weight: 400;
+  }
+  .f-w-600 {
+    font-weight: 600;
+  }
+  .f-w-700 {
+    font-weight: 700;
+  }
+  .f-w-900 {
+    font-weight: 900;
+  }
+  
+  //-----------------------2. Margins---------------------//
+  .m-0 {
+    margin: 0rem !important;
+  }
+  .m-5 {
+    margin: .5rem !important;
+  }
+  .m-10 {
+    margin: 1.0rem !important;
+  }
+  .m-15 {
+    margin: 1.5rem !important;
+  }
+  .m-20 {
+    margin: 2.0rem !important;
+  }
+  .m-25 {
+    margin: 2.5rem !important;
+  }
+  .m-30 {
+    margin: 3.0rem !important;
+  }
+  .m-35 {
+    margin: 3.5rem !important;
+  }
+  .m-40 {
+    margin: 4.0rem !important;
+  }
+  .m-45 {
+    margin: 4.5rem !important;
+  }
+  .m-50 {
+    margin: 5.0rem !important;
+  }
+  
+  // Margin Left
+  .m-l-0 {
+    margin-left: 0rem !important;
+  }
+  .m-l-5 {
+    margin-left: .5rem !important;
+  }
+  .m-l-10 {
+    margin-left: 1.0rem !important;
+  }
+  .m-l-15 {
+    margin-left: 1.5rem !important;
+  }
+  .m-l-20 {
+    margin-left: 2.0rem !important;
+  }
+  .m-l-25 {
+    margin-left: 2.5rem !important;
+  }
+  .m-l-30 {
+    margin-left: 3.0rem !important;
+  }
+  .m-l-35 {
+    margin-left: 3.5rem !important;
+  }
+  .m-l-40 {
+    margin-left: 4.0rem !important;
+  }
+  .m-l-45 {
+    margin-left: 4.5rem !important;
+  }
+  .m-l-50 {
+    margin-left: 5.0rem !important;
+  }
+  
+  //Margin Right
+  .m-r-0 {
+    margin-right: 0rem;
+  }
+  .m-r-5 {
+    margin-right: .5rem;
+  }
+  .m-r-10 {
+    margin-right: 1.0rem;
+  }
+  .m-r-15 {
+    margin-right: 1.5rem;
+  }
+  .m-r-20 {
+    margin-right: 2.0rem;
+  }
+  .m-r-25 {
+    margin-right: 2.5rem;
+  }
+  .m-r-30 {
+    margin-right: 3.0rem;
+  }
+  .m-r-35 {
+    margin-right: 3.5rem;
+  }
+  .m-r-40 {
+    margin-right: 4.0rem;
+  }
+  .m-r-45 {
+    margin-right: 4.5rem;
+  }
+  .m-r-50 {
+    margin-right: 5.0rem;
+  }
+  
+  //Margin Top
+  .m-t-0 {
+    margin-top: 0rem !important;
+  }
+  .m-t-5 {
+    margin-top: .5rem !important;
+  }
+  .m-t-10 {
+    margin-top: 1.0rem !important;
+  }
+  .m-t-15 {
+    margin-top: 1.5rem !important;
+  }
+  .m-t-20 {
+    margin-top: 2.0rem !important;
+  }
+  .m-t-25 {
+    margin-top: 2.5rem !important;
+  }
+  .m-t-30 {
+    margin-top: 30rem !important;
+  }
+  .m-t-35 {
+    margin-top: 3.5rem !important;
+  }
+  .m-t-40 {
+    margin-top: 4.0rem !important;
+  }
+  .m-t-45 {
+    margin-top: 4.5rem !important;
+  }
+  .m-t-50 {
+    margin-top: 5.0rem !important;
+  }
+  
+  //Margin Bottom
+  
+  .m-b-0 {
+    margin-bottom: 0rem !important;
+  }
+  .m-b-5 {
+    margin-bottom: .5rem !important;
+  }
+  .m-b-10 {
+    margin-bottom: 1.0rem !important;
+  }
+  .m-b-15 {
+    margin-bottom: 1.5em !important;
+  }
+  .m-b-20 {
+    margin-bottom: 2.0rem !important;
+  }
+  .m-b-25 {
+    margin-bottom: 2.5rem !important;
+  }
+  .m-b-30 {
+    margin-bottom: 3.0rem !important;
+  }
+  .m-b-35 {
+    margin-bottom: 3.5rem !important;
+  }
+  .m-b-40 {
+    margin-bottom: 4.0rem !important;
+  }
+  .m-b-45 {
+    margin-bottom: 4.5rem !important;
+  }
+  .m-b-50 {
+    margin-bottom: 5.0rem !important;
+  }
+  
+  //-----------------------3. Paddings---------------------//
+  
+  .p-0 {
+    padding: 0rem;
+  }
+  .p-5 {
+    padding: .5rem;
+  }
+  .p-10 {
+    padding: 1.0rem;
+  }
+  .p-15 {
+    padding: 1.5rem;
+  }
+  .p-20 {
+    padding: 2.0rem;
+  }
+  .p-25 {
+    padding: 2.5rem;
+  }
+  .p-30 {
+    padding: 3.0rem;
+  }
+  .p-35 {
+    padding: 3.5rem;
+  }
+  .p-40 {
+    padding: 4.0rem;
+  }
+  .p-45 {
+    padding: 4.5rem;
+  }
+  .p-50 {
+    padding: 5rem;
+  }
+  
+  //Padding Left
+  .p-l-0 {
+    padding-left: 0rem;
+  }
+  .p-l-5 {
+    padding-left: 5rem;
+  }
+  .p-l-10 {
+    padding-left: 1.0rem;
+  }
+  .p-l-15 {
+    padding-left: 1.5rem;
+  }
+  .p-l-20 {
+    padding-left: 2.0rem;
+  }
+  .p-l-25 {
+    padding-left: 2.5rem;
+  }
+  .p-l-30 {
+    padding-left: 3.0rem;
+  }
+  .p-l-35 {
+    padding-left: 3.5rem;
+  }
+  .p-l-40 {
+    padding-left: 4rem;
+  }
+  .p-l-45 {
+    padding-left: 4.5rem;
+  }
+  .p-l-50 {
+    padding-left: 5.0rem;
+  }
+  
+  //Padding Right
+  .p-r-0 {
+    padding-right: 0rem;
+  }
+  .p-r-5 {
+    padding-right: .5rem;
+  }
+  .p-r-10 {
+    padding-right: 1rem;
+  }
+  .p-r-15 {
+    padding-right: 1.5rem;
+  }
+  .p-r-20 {
+    padding-right: 2rem;
+  }
+  .p-r-25 {
+    padding-right: 2.5rem;
+  }
+  .p-r-30 {
+    padding-right: 3rem;
+  }
+  .p-r-35 {
+    padding-right: 3.5rem;
+  }
+  .p-r-40 {
+    padding-right: 4rem;
+  }
+  .p-r-45 {
+    padding-right: 4.5rem;
+  }
+  .p-r-50 {
+    padding-right: 5rem;
+  }
+  //Padding Top
+  .p-t-0 {
+    padding-top: 0rem !important;
+  }
+  .p-t-5 {
+    padding-top: .5rem !important;
+  }
+  .p-t-10 {
+    padding-top: 1rem !important;
+  }
+  .p-t-15 {
+    padding-top: 1.5rem !important;
+  }
+  .p-t-20 {
+    padding-top: 2rem !important;
+  }
+  .p-t-25 {
+    padding-top: 2.5rem !important;
+  }
+  .p-t-30 {
+    padding-top: 3rem !important;
+  }
+  .p-t-35 {
+    padding-top: 3.5rem !important;
+  }
+  .p-t-40 {
+    padding-top: 4rem !important;
+  }
+  .p-t-45 {
+    padding-top: 4.5rem !important;
+  }
+  .p-t-50 {
+    padding-top: 5rem !important;
+  }
+  //Padding Bottom
+  .p-b-0 {
+    padding-bottom: 0rem !important;
+  }
+  .p-b-5 {
+    padding-bottom: .5rem !important;
+  }
+  .p-b-10 {
+    padding-bottom: 1rem !important;
+  }
+  .p-b-15 {
+    padding-bottom: 1.5rem !important;
+  }
+  .p-b-20 {
+    padding-bottom: 2rem !important;
+  }
+  .p-b-25 {
+    padding-bottom: 2.5rem !important;
+  }
+  .p-b-30 {
+    padding-bottom: 3rem !important;
+  }
+  .p-b-35 {
+    padding-bottom: 3.5rem !important;
+  }
+  .p-b-40 {
+    padding-bottom: 4rem !important;
+  }
+  .p-b-45 {
+    padding-bottom: 4.5rem !important;
+  }
+  .p-b-50 {
+    padding-bottom: 5rem !important;
+  }
+  
+  //-----------------------4. Multi Color Text Color---------------------//
+  .text-color-1 {
+    color: $color-1 !important;
+  }
+  
+  .text-color-2 {
+    color: $color-2 !important;
+  }
+  .text-color-3 {
+    color: $color-3 !important;
+  }
+  .text-color-4 {
+    color: $color-4 !important;
+  }
+  .text-color-5 {
+    color: $color-5 !important;
+  }
+  .text-color-6 {
+    color: $color-6 !important;
+  }
+  
+  .text-color-7 {
+    color: $color-7 !important;
+  }
+  
+  .text-color-8 {
+    color: $color-8 !important;
+  }
+  .text-color-9 {
+    color: $color-9 !important;
+  }
+  .text-color-10 {
+    color: $color-10 !important;
+  }
+  .text-color-11 {
+    color: $color-11 !important;
+  }
+  
+  //-----------------------5. Multi Color Background Color---------------------//
+  
+  .bg-color-1 {
+    background-color: $color-1 !important;
+  }
+  
+  .bg-color-2 {
+    background-color: $color-2 !important;
+  }
+  
+  .bg-color-3 {
+    background-color: $color-3 !important;
+  }
+  
+  .bg-color-4 {
+    background-color: $color-4 !important;
+  }
+  
+  .bg-color-5 {
+    background-color: $color-5 !important;
+  }
+  
+  .bg-color-6 {
+    background-color: $color-6 !important;
+  }
+  
+  .bg-color-7 {
+    background-color: $color-7 !important;
+  }
+  
+  .bg-color-8 {
+    background-color: $color-8 !important;
+  }
+  
+  .bg-color-9 {
+    background-color: $color-9 !important;
+  }
+  
+  .bg-color-10 {
+    background-color: $color-10 !important;
+  }
+  
+  .bg-color-11 {
+    background-color: $color-11 !important;
+  }
+  
+  //-----------------------4. Multi Color BUtton---------------------//
+  
+  .btn-color-1 {
+    background-color: $color-1 !important;
+    color: $color-11 !important;
+    border-color: $color-1 !important;
+  }
+  
+  .btn-color-2 {
+    background-color: $color-2 !important;
+    color: $color-11 !important;
+    border-color: $color-2 !important;
+  }
+  
+  .btn-color-3 {
+    background-color: $color-3 !important;
+    color: $color-11 !important;
+    border-color: $color-3 !important;
+  }
+  
+  .btn-color-4 {
+    background-color: $color-4 !important;
+    color: $color-11 !important;
+    border-color: $color-4 !important;
+  }
+  
+  .btn-color-5 {
+    background-color: $color-5 !important;
+    color: $color-11 !important;
+    border-color: $color-5 !important;
+  }
+  
+  .btn-color-6 {
+    background-color: $color-6 !important;
+    color: $color-11 !important;
+    border-color: $color-6 !important;
+  }
+  
+  .btn-color-7 {
+    background-color: $color-7 !important;
+    color: $color-11 !important;
+    border-color: $color-7 !important;
+  }
+  
+  .btn-color-8 {
+    background-color: $color-8 !important;
+    color: $color-11 !important;
+    border-color: $color-8 !important;
+  }
+  
+  .btn-color-9 {
+    background-color: $color-9 !important;
+    color: $color-11 !important;
+    border-color: $color-9 !important;
+  }
+  
+  .btn-color-10 {
+    background-color: $color-10 !important;
+    color: $color-11 !important;
+    border-color: $color-10 !important;
+  }
+  
+  //-----------------------6. Text Align---------------------//
+  
+  .text-center {
+    text-align: center !important;
+  }
+  
+  .text-right {
+    text-align: right !important;
+  }
+  
+  .text-left {
+    text-align: left !important;
+  }

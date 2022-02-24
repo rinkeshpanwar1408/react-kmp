@@ -1,11 +1,14 @@
 import { combineReducers, createStore, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
+import ErrorReducer from "./ErrorReducer";
 import SearchResultsReducer from "./searchResultsReducer";
 import ThemeReducer from "./ThemeReducer";
 
 const rootReducer = combineReducers({
   searchresults: SearchResultsReducer,
-  theme:ThemeReducer
+  theme:ThemeReducer,
+  error:ErrorReducer,
+  // auth:AuthReducer
 });
 
 const store = createStore(rootReducer, applyMiddleware(thunk));

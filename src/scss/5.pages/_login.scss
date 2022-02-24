@@ -1,0 +1,36 @@
+.LoginContainer {
+  flex: 1;
+  backdrop-filter: blur(2px);
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  animation: popup .5s forwards;
+
+  &_LoginBox {
+    width: 30%;
+  }
+
+  &-image{
+    width: 10rem;
+  }
+
+  &-title {
+    font-size: 1.4rem !important;
+    color: #fff !important;
+    margin: 1.2rem 0 2rem 0 !important;
+  }
+}
+
+@keyframes popup {
+  0%{
+    opacity: .2;
+  }
+  50%{
+    opacity: .5;
+  }
+  100%{
+    opacity: 1;
+  }
+}

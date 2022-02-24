@@ -1,5 +1,5 @@
 import React, { Suspense } from "react";
-import { Spin } from "antd";
+import { Button, Result, Spin } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 import { ThemeProvider } from "styled-components";
 import "antd/dist/antd.css";
@@ -13,9 +13,12 @@ import HintSearch from "./page/Hintsearch";
 import { StyledMainLayout } from "./styled-components/Master";
 import { useSelector } from "react-redux";
 import * as RouteUrl from "./model/route";
+import Login from "./page/Login";
+import ErrorPage from "./page/Error";
 
 function App() {
   const currentTheme = useSelector((state) => state.theme.Theme);
+  const Error = useSelector((state) => state.error.Error);
   return (
     <ThemeProvider theme={currentTheme}>
       <StyledMainLayout
@@ -29,7 +32,14 @@ function App() {
           }
         >
           <Switch>
-            <Route path={RouteUrl.LOGIN} exact></Route>
+           
+            <Route path={RouteUrl.ERROR} exact>
+              <ErrorPage />
+            </Route>
+            {Error && <Redirect exact to={RouteUrl.ERROR} />}
+            <Route path={RouteUrl.LOGIN} exact>
+              <Login />
+            </Route>
             <Route path={RouteUrl.HINTSEARCH}>
               <HintSearch />
             </Route>

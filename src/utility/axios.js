@@ -8,3 +8,7 @@ export const instance =  axios.create({
 export const instanceApi =  axios.create({
     baseURL:"http://isvhintp01:8105/elastic/"
 });
+
+export const authApi =  axios.create({
+    baseURL:"http://isvhintp01:8900"
+});
