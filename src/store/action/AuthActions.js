@@ -16,7 +16,7 @@ export const Login = async (data) => {
     //   // displayErrorMessage(error.message)
     // }
     errorInfo = error.message;
-    throw errorInfo
+    throw errorInfo;
   }
 };
 
@@ -25,6 +25,7 @@ export function LoginUser(payload, cb, errorcb) {
     try {
       const response = await Login(payload);
       //Dispatch
+      
       return response;
     } catch (error) {
       if (errorcb) errorcb(error);

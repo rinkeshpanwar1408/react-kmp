@@ -2,17 +2,18 @@ import React from "react";
 import { Col, Layout, Row } from "antd";
 import PopularTopics from "../components/PopularTopics";
 import RecentArticals from "../components/RecentArticals";
+import CustomCol from "../components/CustomCol";
 
 function MainSearch(props) {
   return (
     <React.Fragment>
        <Row>
-        <Col span={24}>{<RecentArticals /> }</Col>
+        <CustomCol lg={24}>{<RecentArticals /> }</CustomCol>
       </Row> 
       <Row>
-        <Col span={24}>
+        <CustomCol lg={24}>
           <PopularTopics />
-        </Col>
+        </CustomCol>
       </Row>
     </React.Fragment>
   );

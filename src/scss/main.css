@@ -2367,6 +2367,162 @@ body {
   background-color: transparent;
 }
 
+.FormPageHeader {
+  border-radius: 1rem;
+  padding: 1.2rem 2rem;
+}
+
+.FormPageHeader .ant-page-header-heading-left {
+  -webkit-box-align: baseline;
+      -ms-flex-align: baseline;
+          align-items: baseline;
+}
+
+.FormPageHeader .ant-page-header-heading-extra {
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.formContainer {
+  margin-top: 2rem;
+}
+
+.ant-table {
+  background-color: transparent;
+}
+
+.ant-table-thead > tr > th,
+.ant-table.ant-table-bordered > .ant-table-container,
+.ant-table.ant-table-bordered
+> .ant-table-container
+> .ant-table-content
+> table,
+.ant-table.ant-table-bordered
+> .ant-table-container
+> .ant-table-header
+> table {
+  border-color: rgba(145, 158, 171, 0.2);
+}
+
+.ant-table.ant-table-bordered
+> .ant-table-container
+> .ant-table-content
+> table
+> thead
+> tr
+> th,
+.ant-table.ant-table-bordered
+> .ant-table-container
+> .ant-table-header
+> table
+> thead
+> tr
+> th,
+.ant-table.ant-table-bordered
+> .ant-table-container
+> .ant-table-body
+> table
+> thead
+> tr
+> th,
+.ant-table.ant-table-bordered
+> .ant-table-container
+> .ant-table-summary
+> table
+> thead
+> tr
+> th,
+.ant-table.ant-table-bordered
+> .ant-table-container
+> .ant-table-content
+> table
+> tbody
+> tr
+> td,
+.ant-table.ant-table-bordered
+> .ant-table-container
+> .ant-table-header
+> table
+> tbody
+> tr
+> td,
+.ant-table.ant-table-bordered
+> .ant-table-container
+> .ant-table-body
+> table
+> tbody
+> tr
+> td,
+.ant-table.ant-table-bordered
+> .ant-table-container
+> .ant-table-summary
+> table
+> tbody
+> tr
+> td,
+.ant-table.ant-table-bordered
+> .ant-table-container
+> .ant-table-content
+> table
+> tfoot
+> tr
+> th,
+.ant-table.ant-table-bordered
+> .ant-table-container
+> .ant-table-header
+> table
+> tfoot
+> tr
+> th,
+.ant-table.ant-table-bordered
+> .ant-table-container
+> .ant-table-body
+> table
+> tfoot
+> tr
+> th,
+.ant-table.ant-table-bordered
+> .ant-table-container
+> .ant-table-summary
+> table
+> tfoot
+> tr
+> th,
+.ant-table.ant-table-bordered
+> .ant-table-container
+> .ant-table-content
+> table
+> tfoot
+> tr
+> td,
+.ant-table.ant-table-bordered
+> .ant-table-container
+> .ant-table-header
+> table
+> tfoot
+> tr
+> td,
+.ant-table.ant-table-bordered
+> .ant-table-container
+> .ant-table-body
+> table
+> tfoot
+> tr
+> td,
+.ant-table.ant-table-bordered
+> .ant-table-container
+> .ant-table-summary
+> table
+> tfoot
+> tr
+> td {
+  border-color: rgba(145, 158, 171, 0.2);
+}
+
 .light.blue .ant-btn-primary {
   background-color: #265fd5;
   border-color: #265fd5;
@@ -3007,6 +3163,16 @@ body {
   background-color: #FFFFFF;
 }
 
+.light .FormPageHeader {
+  background-color: #ffffff;
+  -webkit-box-shadow: 0px 1px 4px rgba(145, 158, 171, 0.5);
+          box-shadow: 0px 1px 4px rgba(145, 158, 171, 0.5);
+}
+
+.light .FormPageHeader .ant-page-header-heading-title {
+  color: #1d2022;
+}
+
 .light .filters .ant-collapse {
   -webkit-box-shadow: 0px 1px 4px rgba(145, 158, 171, 0.5);
           box-shadow: 0px 1px 4px rgba(145, 158, 171, 0.5);
@@ -3602,6 +3768,16 @@ body {
 
 .dark .main_sidebar {
   background-color: #161c24;
+}
+
+.dark .FormPageHeader {
+  background-color: #212b36;
+  -webkit-box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.5);
+          box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+.dark .FormPageHeader .ant-page-header-heading-title {
+  color: #ffffff;
 }
 
 .dark .filters .ant-collapse {

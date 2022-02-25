@@ -17,6 +17,7 @@ import infy from "../assests/image/InfosysLogo.png";
 import { useDispatch } from "react-redux";
 import * as ActionCreator from "../store/action/AuthActions";
 import useMessage from "../hooks/useMessge";
+import CustomCol from "../components/CustomCol";
 
 const { Title } = Typography;
 
@@ -38,13 +39,16 @@ const Login = (props) => {
           password: values.password
         })
       );
+
+      
+
       if (!result.data) {
         ShowWarningMessage("Username or Password Was Wrong.");
       } else {
         ShowSuccessMessage(`Welcome ${result.data[0].userName}`);
       }
     } catch (error) {
-      ShowErrorMessage("Something Went Wrong")
+      ShowErrorMessage("Something Went Wrong");
     }
   };
 
@@ -70,7 +74,7 @@ const Login = (props) => {
             autocomplete="off"
           >
             <Row key="rw1">
-              <Col key="rw1.1" xxl={24} xl={24} lg={24} md={24} sm={24} xs={24}>
+              <CustomCol key="rw1.1" xxl={24} xl={24} lg={24} md={24} sm={24} xs={24}>
                 <Form.Item
                   label="Username"
                   name="username"
@@ -86,9 +90,9 @@ const Login = (props) => {
                     prefix={<UserOutlined />}
                   />
                 </Form.Item>
-              </Col>
+              </CustomCol>
 
-              <Col key="rw1.2" xxl={24} xl={24} lg={24} md={24} sm={24} xs={24}>
+              <CustomCol key="rw1.2" xxl={24} xl={24} lg={24} md={24} sm={24} xs={24}>
                 <Form.Item
                   label="Password"
                   name="password"
@@ -104,7 +108,7 @@ const Login = (props) => {
                     prefix={<LockOutlined />}
                   />
                 </Form.Item>
-              </Col>
+              </CustomCol>
             </Row>
 
             {/* <Form.Item name="remember" valuePropName="checked">
@@ -112,11 +116,11 @@ const Login = (props) => {
             </Form.Item> */}
 
             <Row key="rw2">
-              <Col key="rw1.3" xxl={24} xl={24} className="text-right">
+              <CustomCol key="rw1.3" xxl={24} xl={24} className="text-right">
                 <Button type="primary" htmlType="submit">
                   Login
                 </Button>
-              </Col>
+              </CustomCol>
             </Row>
           </Form>
         </StyledCard>

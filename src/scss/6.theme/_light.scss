@@ -408,6 +408,18 @@
   }
   //Main Side Nav End
 
+  //Page Header
+  .FormPageHeader {
+    background-color: $common_light_extra_color_8;
+
+    box-shadow: 0px 1px 4px
+      rgba($color: $light_shadow_color, $alpha: $opacity-medium);
+
+      .ant-page-header-heading-title{
+        color: $light_font_color;
+      }
+  }
+
   .filters {
     .ant-collapse {
       box-shadow: 0px 1px 4px

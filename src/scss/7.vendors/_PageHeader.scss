@@ -1,0 +1,19 @@
+.FormPageHeader {
+  border-radius: $border-radius-large;
+  padding: 1.2rem 2rem;
+
+  .ant-page-header-heading-left {
+    align-items: baseline;
+  }
+
+  .ant-page-header-heading-extra {
+    align-items: center;
+    display: flex;
+  }
+
+
+}
+
+.formContainer{
+    margin-top: 2rem;
+  }

@@ -8,6 +8,7 @@ import PopularTopicItem from "./PopularTopicItem";
 import AnnouncementsItem from "./AnnouncementsItem";
 import SimpleBar from 'simplebar-react';
 import { StyledCard } from "../styled-components/CommonControls";
+import CustomCol from "./CustomCol";
 
 const { Text, Link, Title } = Typography;
 
@@ -31,24 +32,24 @@ function PopularTopics(props) {
   return (
     <React.Fragment>
       <Row gutter={[16, 16]}>
-        <Col lg={{ span: 14 }} sm={{ span: 24 }} xs={{ span: 24 }}>
+        <CustomCol lg={14}>
           <TitleText title="Popular Topics"></TitleText>
           <StyledCard className="popular_topics-card">
             {popularTopics.map((item, i) => {
               return <PopularTopicItem item={item} key={i} />;
             })}
           </StyledCard>
-        </Col>
+        </CustomCol>
 
 
-        <Col lg={{ span: 10 }} sm={{ span: 24 }} xs={{ span: 24 }}>
+        <CustomCol lg={10}>
           <TitleText title="Announcements" />
           <StyledCard className="popular_topics-card">
             {announcements.map((item, i) => {
               return <AnnouncementsItem item={item} index={i} key={i} />;
             })}
           </StyledCard>
-        </Col>
+        </CustomCol>
       </Row>
     </React.Fragment>
   );

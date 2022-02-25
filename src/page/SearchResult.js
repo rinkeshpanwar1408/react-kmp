@@ -5,10 +5,11 @@ import CollapsibleFilter from "../components/CollapsibleFilter";
 import OrganizationDetailCard from "../components/OrganizationDetailCard";
 import { useDispatch, useSelector } from "react-redux";
 import { MenuUnfoldOutlined } from "@ant-design/icons";
-import { FiChevronLeft,FiChevronRight } from "react-icons/fi";
+import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 
 import * as ActionCreators from "../store/action/actions";
 import parse from "html-react-parser";
+import CustomCol from "../components/CustomCol";
 
 const { Text } = Typography;
 
@@ -33,15 +34,14 @@ function SearchResult(props) {
     <React.Fragment>
       <div className="search_result_container">
         <div
-          className={`search_result_container-filterContainer ${
-            !showFilter ? "hideFilter" : ""
-          }`}
+          className={`search_result_container-filterContainer ${!showFilter ? "hideFilter" : ""
+            }`}
         >
           <CollapsibleFilter />
           <Button
             className="search_result_container-HideShowFilter"
             shape="circle"
-            icon={ showFilter ? <FiChevronLeft /> :<FiChevronRight /> }  
+            icon={showFilter ? <FiChevronLeft /> : <FiChevronRight />}
             onClick={() => {
               setshowFilter(!showFilter);
             }}
@@ -49,71 +49,71 @@ function SearchResult(props) {
         </div>
         <div className="search_result_container-resultContainer">
           <Row gutter={[8, 8]}>
-            <Col span={17}>
-            {searchedData.map((item, i) => {
-            return (
-              <SearchResultItem
-                item={item}
-                key={i}
-                onSearchItemInfoClick={searchItemInfoClickHandler}
-              />
-            );
-          })}
+            <CustomCol lg={17}>
+              {searchedData.map((item, i) => {
+                return (
+                  <SearchResultItem
+                    item={item}
+                    key={i}
+                    onSearchItemInfoClick={searchItemInfoClickHandler}
+                  />
+                );
+              })}
 
-          <Modal
-            title="Document details"
-            visible={isModalVisible}
-            onCancel={() => setIsModalVisible(false)}
-            width={"50%"}
-            className="search-result-preview"
-            footer={
-              <Button onClick={() => setIsModalVisible(false)}>Close</Button>
-            }
-          >
-            <Row gutter={[16, 16]}>
-              <Col span={24}>
-                <Text strong>Title</Text>
-              </Col>
-              <Col span={24}>{previewData?.fileName}</Col>
+              <Modal
+                title="Document details"
+                visible={isModalVisible}
+                onCancel={() => setIsModalVisible(false)}
+                width={"50%"}
+                className="search-result-preview"
+                footer={
+                  <Button onClick={() => setIsModalVisible(false)}>Close</Button>
+                }
+              >
+                <Row gutter={[16, 16]}>
+                  <CustomCol lg={24}>
+                    <Text strong>Title</Text>
+                  </CustomCol>
+                  <CustomCol lg={24}>{previewData?.fileName}</CustomCol>
 
-              <Col span={24}>
-                <Text strong>Snippet</Text>
-              </Col>
-              <Col span={24}>
-                {previewData?.content && parse(previewData?.content)}
-              </Col>
+                  <CustomCol lg={24}>
+                    <Text strong>Snippet</Text>
+                  </CustomCol>
+                  <CustomCol lg={24}>
+                    {previewData?.content && parse(previewData?.content)}
+                  </CustomCol>
 
-              <Col span={24}>
-                <Text strong>Author</Text>
-              </Col>
-              <Col span={24}>{previewData?.author}</Col>
-              
-              <Col span={24}>
-                <Text strong>Source</Text>
-              </Col>
-              <Col span={24}>
-                {previewData?.content && parse(previewData?.source)}
-              </Col>
+                  <CustomCol lg={24}>
+                    <Text strong>Author</Text>
+                  </CustomCol>
+                  <CustomCol lg={24}>{previewData?.author}</CustomCol>
 
-              <Col span={24}>
-                <Text strong>Created Date</Text>
-              </Col>
-              <Col span={24}>
-                {previewData?.createdDate && new Date(previewData?.createdDate).toUTCString()}
-              </Col>
+                  <CustomCol lg={24}>
+                    <Text strong>Source</Text>
+                  </CustomCol>
+                  <CustomCol lg={24}>
+                    {previewData?.content && parse(previewData?.source)}
+                  </CustomCol>
 
-              <Col span={24}>
-                <Text strong>Last Modified Date</Text>
-              </Col>
-              <Col span={24}>
-                {previewData?.lastModifiedDate}
-              </Col>
-            </Row>
-          </Modal>
-            </Col>
-            <Col span={7}>
+                  <CustomCol lg={24}>
+                    <Text strong>Created Date</Text>
+                  </CustomCol>
+                  <CustomCol lg={24}>
+                    {previewData?.createdDate && new Date(previewData?.createdDate).toUTCString()}
+                  </CustomCol>
+
+                  <CustomCol lg={24}>
+                    <Text strong>Last Modified Date</Text>
+                  </CustomCol>
+                  <CustomCol lg={24}>
+                    {previewData?.lastModifiedDate}
+                  </CustomCol>
+                </Row>
+              </Modal>
+            </CustomCol>
+            <CustomCol lg={7}>
               <OrganizationDetailCard />
-            </Col>
+            </CustomCol>
           </Row>
         </div>
       </div>
