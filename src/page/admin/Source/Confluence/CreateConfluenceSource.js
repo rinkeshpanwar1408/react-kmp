@@ -23,17 +23,6 @@ const [validate, setValidate]=useState(false);
     
     try {
        const values = await CreateSourceForm.validateFields();
-       //local change -start
-       dispatch(createSource({
-        id:0,
-        source_name : values.sourcename+"-"+"Confluence",
-        confluence_url : values.confluenceurl,
-        user_id : values.useriD,
-        password : values.password,
-        userName : "",
-        validated: validate
-      }));
-      //local change -end
      const result=await dispatch(
         CreateSource({
           id:0,
