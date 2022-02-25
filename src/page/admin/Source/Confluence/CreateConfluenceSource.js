@@ -7,6 +7,7 @@ import CustomCol from "../../../../components/CustomCol";
 import { useDispatch } from "react-redux";
 import { CreateSource } from "../../../../store/action/sourceActions";
 import useMessage from "../../../../hooks/useMessge";
+import { createSource } from "../../../../store/action/actions";
 
 function CreateConfluenceSource(props) {
 const [validate, setValidate]=useState(false);
@@ -19,8 +20,20 @@ const [validate, setValidate]=useState(false);
   } = useMessage();
 
   const submitHandler = async () => {
+    
     try {
        const values = await CreateSourceForm.validateFields();
+       //local change -start
+       dispatch(createSource({
+        id:0,
+        source_name : values.sourcename+"-"+"Confluence",
+        confluence_url : values.confluenceurl,
+        user_id : values.useriD,
+        password : values.password,
+        userName : "",
+        validated: validate
+      }));
+      //local change -end
      const result=await dispatch(
         CreateSource({
           id:0,

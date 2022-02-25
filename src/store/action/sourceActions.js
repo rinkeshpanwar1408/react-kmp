@@ -7,7 +7,6 @@ import * as Actions from "./index";
 export const Source = async (data) => {
     try {
       const response = await Api.post('/source/create',data);
-      console.log(response);
       return response;
     } catch (error) {
       let errorInfo;

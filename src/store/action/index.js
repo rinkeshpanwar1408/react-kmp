@@ -16,3 +16,6 @@ export const AUTHENTICATEUSER = "AUTHENTICATEUSER";
 //Error Reducer
 export const SETERROR = "SETERROR";
 
+//local
+export const CREATESOURCE="CREATESOURCE"
+

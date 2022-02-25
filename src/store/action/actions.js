@@ -51,3 +51,12 @@ export const getCaseStudyDetails = (techName) => {
     });
   };
 };
+
+
+//local change
+export const createSource = (source) => {
+  return{
+      type: Actions.CREATESOURCE,
+      payload: source
+  }
+};
