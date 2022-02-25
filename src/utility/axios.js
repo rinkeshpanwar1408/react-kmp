@@ -12,3 +12,7 @@ export const instanceApi =  axios.create({
 export const authApi =  axios.create({
     baseURL:"http://isvhintp01:8900"
 });
+
+export const sourceApi =  axios.create({
+    baseURL:"http://vhsrniwbt01/"
+});

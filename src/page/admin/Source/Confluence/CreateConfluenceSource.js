@@ -1,12 +1,53 @@
-import React from "react";
+import React,{useState} from "react";
 import { Breadcrumb, Button, Input, PageHeader, Space, Table, Tag, Form } from "antd";
 import { HomeOutlined, UserOutlined, LockOutlined } from '@ant-design/icons'
 import { StyledCard } from "../../../../styled-components/CommonControls";
 import CustomRow from "../../../../components/CustomRow";
 import CustomCol from "../../../../components/CustomCol";
+import { useDispatch } from "react-redux";
+import { CreateSource } from "../../../../store/action/sourceActions";
+import useMessage from "../../../../hooks/useMessge";
 
 function CreateConfluenceSource(props) {
+const [validate, setValidate]=useState(false);
+ const [CreateSourceForm] = Form.useForm();
+  const dispatch=useDispatch();
+  const {
+    ShowSuccessMessage,
+    ShowErrorMessage,
+    ShowWarningMessage,
+  } = useMessage();
 
+  const submitHandler = async () => {
+    try {
+       const values = await CreateSourceForm.validateFields();
+     const result=await dispatch(
+        CreateSource({
+          id:0,
+          source_name : values.sourcename+"-"+"Confluence",
+          confluence_url : values.confluenceurl,
+          user_id : values.useriD,
+          password : values.password,
+          userName : "",
+          validated: validate
+        })
+      );
+     
+      if (!result.data) {
+        ShowWarningMessage("data is not correct");
+      } else {
+        ShowSuccessMessage("Source created successfully");
+      }
+     }
+
+      catch (error) {
+        ShowErrorMessage("Something Went Wrong");
+      }
+
+ };
+const validateForm=()=>{
+   setValidate(!validate);
+}
   return (
     <div>
       <CustomRow>
@@ -36,15 +77,17 @@ function CreateConfluenceSource(props) {
               layout="vertical"
               size="large"
               autocomplete="off"
+              onFinish={submitHandler}
+              form={CreateSourceForm}
             >
               <CustomRow key="rw1">
                 <CustomCol key="rw1.1" >
                   <Form.Item
-                    name="username"
+                    name="sourcename"
                     rules={[
                       {
                         required: true,
-                        message: "Please input your username!",
+                        message: "Please input your Source Name!",
                       },
                     ]}
                   >
@@ -58,11 +101,11 @@ function CreateConfluenceSource(props) {
 
                 <CustomCol key="rw1.2" >
                   <Form.Item
-                    name="password"
+                    name="confluenceurl"
                     rules={[
                       {
                         required: true,
-                        message: "Please input your password!",
+                        message: "Please input your Confluence Url!",
                       },
                     ]}
                   >
@@ -74,11 +117,11 @@ function CreateConfluenceSource(props) {
 
                 <CustomCol key="rw1.3" >
                   <Form.Item
-                    name="password"
+                    name="useriD"
                     rules={[
                       {
                         required: true,
-                        message: "Please input your password!",
+                        message: "Please input your User ID!",
                       },
                     ]}
                   >
@@ -94,7 +137,7 @@ function CreateConfluenceSource(props) {
                     rules={[
                       {
                         required: true,
-                        message: "Please input your password!",
+                        message: "Please input your Password!",
                       },
                     ]}
                   >
@@ -109,7 +152,7 @@ function CreateConfluenceSource(props) {
               <CustomRow key="rw2">
                 <CustomCol key="rw1.3" xxl={24} xl={24} className="text-right">
                   <Space direction="horizontal">
-                    <Button type="primary" >
+                    <Button type="primary" onClick={validateForm} >
                       Validate
                     </Button>
                     <Button type="primary" htmlType="submit">
