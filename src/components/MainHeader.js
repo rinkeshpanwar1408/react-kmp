@@ -167,6 +167,7 @@ function MainHeader(props) {
   const [searchWord, setSearchWord] = useState("");
 
   const onSearchClickHandler = () => {
+    setvisibleSuggestion(false)
     Dispatch(ActionCreator.getSearchedData(searchWord));
   };
 
@@ -272,10 +273,11 @@ function MainHeader(props) {
               <Input
                 placeholder="Hi, how can we help you?"
                 className="mainheader_container_navbar_searchcontainer_inputBox-input"
-                onFocus={() => setvisibleSuggestion(true)}
+                onFocus={() => searchWord ?setvisibleSuggestion(true):setvisibleSuggestion(false)}
                 value={searchWord}
                 onChange={(e) => {
                   onSearchTextChangeHandler(e);
+                  setvisibleSuggestion(true);
                 }}
               />
 
@@ -291,7 +293,7 @@ function MainHeader(props) {
                 </div>
               </div>
 
-              {visibleSuggestion && (
+              {(visibleSuggestion&&searchWord)  && (suggessionsList.length>0?
                 <StyledCard className="mainheader_searchlist_container">
                   <SimpleBar className="mainheader_searchlist_container-scrollContainer">
                     {suggessionsList.map((item, i) => {
@@ -305,7 +307,15 @@ function MainHeader(props) {
                     })}
                   </SimpleBar>
                 </StyledCard>
-              )}
+              :<StyledCard className="mainheader_searchlist_container">
+              <SimpleBar className="mainheader_searchlist_container-scrollContainer">
+              <Text className="mainheader_searchlist_container_item-title">
+               search not found
+            </Text>
+              </SimpleBar>
+            </StyledCard>)
+            
+            }
             </div>
           </div>
 

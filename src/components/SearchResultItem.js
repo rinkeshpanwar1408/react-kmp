@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import SearchResultItemHeader from "./SearchResultItemHeader";
 import parse from "html-react-parser";
-import { Badge, Typography, Menu, Dropdown } from "antd";
+import { Badge, Typography, Menu, Dropdown, Skeleton } from "antd";
 import { FiThumbsUp, FiThumbsDown } from "react-icons/fi";
 import {
   BiDotsHorizontalRounded,
@@ -54,7 +54,7 @@ function SearchResultItem(props) {
     setEllipsis(!ellipsis);
   };
 
-  return (
+  return ( props.item?
     <StyledCard
       className={`search_result ${props.active && "active"}`}
       onClick={() => onSearchResultItemClickHandler(props.item.id)}
@@ -141,7 +141,7 @@ function SearchResultItem(props) {
           )}
         </div>
       </div>
-    </StyledCard>
+    </StyledCard> : <Skeleton active></Skeleton>
   );
 }
 

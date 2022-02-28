@@ -6,6 +6,7 @@ import OrganizationDetailCard from "../components/OrganizationDetailCard";
 import { useDispatch, useSelector } from "react-redux";
 import { MenuUnfoldOutlined } from "@ant-design/icons";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
+import { StyledCard } from "../styled-components/CommonControls";
 
 import * as ActionCreators from "../store/action/actions";
 import parse from "html-react-parser";
@@ -49,7 +50,7 @@ function SearchResult(props) {
         <div className="search_result_container-resultContainer">
           <Row gutter={[8, 8]}>
             <CustomCol xl={17}>
-              {searchedData.map((item, i) => {
+              {searchedData.length>0?searchedData.map((item, i) => {
                 return (
                   <SearchResultItem
                     item={item}
@@ -57,7 +58,7 @@ function SearchResult(props) {
                     onSearchItemInfoClick={searchItemInfoClickHandler}
                   />
                 );
-              })}
+              }): <StyledCard>search not found</StyledCard>}
 
               <Modal
                 title="Document details"
