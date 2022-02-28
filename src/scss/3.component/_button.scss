@@ -19,6 +19,12 @@
   border-radius: $border-radius-small;
 }
 
+.ant-btn-circle{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .ant-btn-primary {
   color: $common_extra_color_1 !important;
 }

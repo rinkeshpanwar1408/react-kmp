@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   Typography,
   Layout,
@@ -9,8 +9,9 @@ import {
   Image,
   Divider,
 } from "antd";
-import background from "../assests/image/Image2.png";
-import infy from "../assests/image/infy.png";
+import background_dark from "../assests/image/header_bg_dark.jpg";
+import background_light from "../assests/image/header_bg_light.png";
+import infy from "../assests/image/InfosysLogo.png";
 import { DownOutlined } from "@ant-design/icons";
 import {
   FiBox,
@@ -18,6 +19,8 @@ import {
   FiEdit,
   FiHome,
   FiLogOut,
+  FiMaximize,
+  FiMinimize,
   FiMoon,
   FiPlusCircle,
   FiSettings,
@@ -33,7 +36,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import * as ActionCreator from "../store/action/actions";
 import { DropDownMenuItem } from "./DropDownMenuItem";
-import { BiNetworkChart } from "react-icons/bi";
+import { BiExitFullscreen, BiFullscreen, BiNetworkChart } from "react-icons/bi";
 import * as Actions from "../store/action/index";
 import { DarkBlueTheme, LightBlueTheme } from "../model/Theme";
 import { StyledCard } from "../styled-components/CommonControls";
@@ -156,9 +159,10 @@ function MainHeader(props) {
   const match = useRouteMatch();
   const history = useHistory();
   const Dispatch = useDispatch();
+  const currentTheme = useSelector((state) => state.theme.Theme);
+  const [isFullScreen, setIsFullscreen] = useState(false);
 
   const [visibleSuggestion, setvisibleSuggestion] = useState(false);
-
   const [suggessionsList, setSuggessionsList] = useState([]);
   const [searchWord, setSearchWord] = useState("");
 
@@ -197,23 +201,50 @@ function MainHeader(props) {
     setvisibleSuggestion(false);
   };
 
+  const onFullScreenHandler = async () => {
+    debugger;
+    if (isFullScreen) {
+      await document.exitFullscreen();
+    } else {
+      document.documentElement.requestFullscreen();
+    }
+    setIsFullscreen(!isFullScreen);
+  }
+
+  useEffect(() => {
+    // subscribe event
+    document.addEventListener("fullscreenchange", (e) => {
+      debugger;
+      if (document.fullscreenElement && !isFullScreen) {
+        onFullScreenHandler()
+      }
+    })
+    return () => {
+      // unsubscribe event
+      document.removeEventListener("fullscreenchange", onFullScreenHandler);
+    };
+  }, []);
+
   return (
     <Content
       className="mainheader"
-      style={{ backgroundImage: `url(${background})` }}
+      style={{ backgroundImage: `url(${currentTheme.themestyle === "dark" ? background_dark : background_light})` }}
     >
       <div className="mainheader_container">
         <div className="mainheader_container_navbar">
-          <Dropdown overlay={<WorkSpaceMenu />} placement="bottomRight" arrow>
-            <div className="WorkSpaceContainer">WS</div>
-          </Dropdown>
+
 
           <div className="mainheader_container_navbar_brandContainer">
+            <Dropdown overlay={<WorkSpaceMenu />} placement="bottomRight" arrow>
+              <div className="WorkSpaceContainer">WS</div>
+            </Dropdown>
+
             <div
               style={{
-                width: "100px",
+                width: "8rem",
                 display: "flex",
                 alignItems: "center",
+                margin: "0 1rem"
               }}
             >
               <Image src={infy} preview={false} />
@@ -279,7 +310,7 @@ function MainHeader(props) {
           </div>
 
           <div className="mainheader_container_navbar_userContainer">
-            <div className="mainheader_container_navbar_userContainer_menus">
+            {/* <div className="mainheader_container_navbar_userContainer_menus">
               <Dropdown
                 overlayClassName="mainheader_container_navbar_userContainer_menus_items"
                 overlay={menu}
@@ -307,11 +338,22 @@ function MainHeader(props) {
                   <DownOutlined />
                 </div>
               </Dropdown>
-            </div>
+            </div> */}
 
+            {/* {isFullScreen ?
+              <FiMinimize
+                size={22}
+                className="mainheader_container_navbar_userContainer-fullscreen"
+                onClick={() => onFullScreenHandler()}
+              /> :
+              <FiMaximize
+                size={22}
+                className="mainheader_container_navbar_userContainer-fullscreen"
+                onClick={() => onFullScreenHandler()}
+              />} */}
             <FiHome
-              size={20}
-              color="#fff"
+              size={22}
+              className="mainheader_container_navbar_userContainer-homeIcon"
               onClick={() => history.replace(`${match.url}`)}
             />
             <Dropdown
@@ -321,7 +363,7 @@ function MainHeader(props) {
               arrow
             >
               <div className="mainheader_container_navbar_userContainer_userProfile">
-                <FiUser size={20} color="#fff" />
+                <FiUser size={22} className="mainheader_container_navbar_userContainer_userProfile-userIcon" />
                 <Text className="mainheader_container_navbar_userContainer_userProfile-text">
                   Admin
                 </Text>

@@ -1,6 +1,6 @@
 .main_sidebar {
   position: fixed;
-  top: 7rem;
+  top: 9rem;
 
   &-btnCollapsed {
     position: absolute;
@@ -12,8 +12,6 @@
     align-items: center;
     justify-content: center;
     right: -2rem;
-    border: 1px solid;
-    background: #fff;
   }
 
   &.ant-layout-sider {

@@ -1,119 +1,102 @@
-import { Breadcrumb, Button, PageHeader, Space, Table, Tag } from "antd";
-import React from "react";
+import { Breadcrumb, Button, PageHeader, Popconfirm, Space, Table, Tag, Tooltip } from "antd";
+import React, { useEffect, useState } from "react";
 import { HomeOutlined, UserOutlined } from '@ant-design/icons'
 import { StyledCard } from "../../../styled-components/CommonControls";
 import CustomCol from "../../../components/CustomCol";
 import CustomRow from "../../../components/CustomRow";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
+import { sourceApi } from "../../../utility/axios";
+import { useDispatch, useSelector } from "react-redux";
+import { GetSources } from "../../../store/action/sourceActions";
+import CustomPopconfirm from "../../../components/CustomPopconfirm";
+import useMessage from "../../../hooks/useMessge";
+import { useRouteMatch } from "react-router-dom";
 
 function ListAllSources(props) {
+  const SourceList = useSelector(state => state.source.Sources);
+  const dispatch = useDispatch();
+  const [isLoadingdata, setIsLoadingdata] = useState(false);
+  const { ShowErrorMessage } = useMessage();
+  const RouteMatch= useRouteMatch();
+
+  console.log(RouteMatch.path);
+  
+  useEffect(() => {
+    try {
+      const getData = async () => {
+        setIsLoadingdata(true);
+        const response = await dispatch(GetSources());
+        setIsLoadingdata(false);
+      }
+      getData();
+    }
+    catch (error) {
+      ShowErrorMessage("Something Went Wrong");
+    }
+  }, [dispatch])
+
   const columns = [
     {
-      title: 'Name',
-      dataIndex: 'name',
-      key: 'name',
-      render: text => <a>{text}</a>,
+      title: 'Source Type',
+      dataIndex: 'type',
+      key: 'type',
     },
     {
-      title: 'Age',
-      dataIndex: 'age',
-      key: 'age',
+      title: 'Source Name',
+      dataIndex: 'source_name',
+      key: 'source_name',
     },
     {
-      title: 'Address',
-      dataIndex: 'address',
-      key: 'address',
+      title: 'Url',
+      dataIndex: 'url',
+      key: 'url',
     },
-    {
-      title: "Tags",
-      key: "tags",
-      dataIndex: "tags",
-      render: (tags) => (
-        <>
-          {tags.map((tag) => {
-            let color = tag.length > 5 ? "success" : "processing";
-            if (tag === "loser") {
-              color = "error";
-            }
-            return (
-              <Tag color={color} key={tag}>
-                {tag.toUpperCase()}
-              </Tag>
-            );
-          })}
-        </>
-      ),
-    },
+
     {
       title: 'Action',
       key: 'action',
       render: (text, record) => (
         <Space>
-          <Button type="link">
-            <FiEdit fontSize="20" />
-          </Button>
-          <Button danger type="link">
-            <FiTrash2 fontSize="20" />
-          </Button>
+          <Tooltip title="Edit">
+            <Button type="primary" shape="circle" icon={<FiEdit fontSize="20" />} />
+          </Tooltip>
+
+          <Tooltip title="Delete">
+            <CustomPopconfirm
+              title="Are you sure to delete this task?"
+              okText="Yes"
+              cancelText="No"
+            >
+              <Button danger type="primary" shape="circle" icon={<FiTrash2 fontSize="20" />} />
+            </CustomPopconfirm>
+          </Tooltip>
         </Space>
       ),
     },
   ];
 
-  const data = [
-    {
-      key: '1',
-      name: 'John Brown',
-      age: 32,
-      address: 'New York No. 1 Lake Park',
-      tags: ['nice', 'developer'],
-    },
-    {
-      key: '2',
-      name: 'Jim Green',
-      age: 42,
-      address: 'London No. 1 Lake Park',
-      tags: ['loser'],
-    },
-    {
-      key: '3',
-      name: 'Joe Black',
-      age: 32,
-      address: 'Sidney No. 1 Lake Park',
-      tags: ['cool', 'teacher'],
-    },
-  ];
   return (
-    <div>
-      <CustomRow>
-        <CustomCol >
-          <PageHeader
-            title="List All Sources"
-            className="FormPageHeader"
-            subTitle="This is a subtitle"
-            extra={[
-              <Breadcrumb>
-                <Breadcrumb.Item href="">
-                  <HomeOutlined />
-                </Breadcrumb.Item>
-                <Breadcrumb.Item href="">
-                  <UserOutlined />
-                  <span>Application List</span>
-                </Breadcrumb.Item>
-                <Breadcrumb.Item>Application</Breadcrumb.Item>
-              </Breadcrumb>
-            ]}
-          >
-          </PageHeader>
+    <CustomRow justify="center">
+      <CustomCol xl={16} >
+        <PageHeader
+          title="List All Sources"
+          className="FormPageHeader"
+          extra={[
+            <Breadcrumb>
+              <Breadcrumb.Item href="">
+                <HomeOutlined />
+              </Breadcrumb.Item>
+            </Breadcrumb>
+          ]}
+        >
+        </PageHeader>
 
-          <StyledCard className="formContainer">
-            <Table columns={columns} dataSource={data} bordered pagination={false} />
-          </StyledCard>
-        </CustomCol>
+        <StyledCard className="formContainer">
+          <Table loading={isLoadingdata} columns={columns} dataSource={SourceList} bordered pagination={false} />
+        </StyledCard>
+      </CustomCol>
 
-      </CustomRow>
-
-    </div>
+    </CustomRow>
   );
 }
 

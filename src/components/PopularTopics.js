@@ -32,7 +32,7 @@ function PopularTopics(props) {
   return (
     <React.Fragment>
       <Row gutter={[16, 16]}>
-        <CustomCol lg={14}>
+        <CustomCol xl={14} lg={14}>
           <TitleText title="Popular Topics"></TitleText>
           <StyledCard className="popular_topics-card">
             {popularTopics.map((item, i) => {
@@ -42,7 +42,7 @@ function PopularTopics(props) {
         </CustomCol>
 
 
-        <CustomCol lg={10}>
+        <CustomCol xl={10} lg={10}>
           <TitleText title="Announcements" />
           <StyledCard className="popular_topics-card">
             {announcements.map((item, i) => {

@@ -1,11 +1,22 @@
 .ant-input,
 .ant-input-affix-wrapper {
-  border-width: 0.2rem;
+  border-width: 0.2rem !important;
   border-color: rgba($color: $bordercolor, $alpha: $opacity-medium);
   border-radius: $border-radius-large;
   padding: 1rem;
   font-size: 1.6rem;
   background-color: transparent;
+}
+
+.ant-input::placeholder,
+.ant-input-affix-wrapper::placeholder{
+  opacity: $opacity-high;
+} 
+
+.ant-input:hover,
+.ant-input:active,
+.ant-input:focus, .ant-input-focused {
+  border-width: 0.2rem !important;
 }
 
 .ant-form-item-has-error

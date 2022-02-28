@@ -16,6 +16,10 @@ export const AUTHENTICATEUSER = "AUTHENTICATEUSER";
 //Error Reducer
 export const SETERROR = "SETERROR";
 
-//local
+//Source Reducer
 export const CREATESOURCE="CREATESOURCE"
+export const GETSOURCES = "GETSOURCES";
+export const DELETESOURCE = "DELETESOURCE";
+export const GETSOURCEDETAIL = "GETSOURCEDETAIL";
+
 

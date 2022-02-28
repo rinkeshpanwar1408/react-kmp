@@ -1,176 +1,201 @@
 .blue {
-    //badge
-    .ant-badge-count {
-      background: $color-1;
-      box-shadow: 0 0 0 1px $color-1;
-    }
-  
-    .ant-btn:hover,
-    .ant-btn:focus {
-      border-color: $color-1;
-      color: $color-1;
-    }
-  
-    .ant-btn-text:hover,
-    .ant-btn-text:focus {
-      background-color: rgba($color: $color-1, $alpha: 0.1);
-      color: $color-1;
-    }
-  
-    .ant-btn-link:hover,
-    .ant-btn-link:focus {
-      color: $color-1;
-    }
-  
-    //checkbox
-    .ant-checkbox-checked .ant-checkbox-inner {
-      background-color: $color-1;
-      border-color: $color-1;
-    }
-  
-    .ant-checkbox-indeterminate .ant-checkbox-inner {
-      border-color: $color-1;
-    }
-  
-    .ant-checkbox-indeterminate .ant-checkbox-inner::after {
-      background-color: $color-1;
-    }
-  
-    .ant-checkbox-checked::after {
-      border-color: $color-1;
-    }
-  
-    .ant-checkbox-wrapper:hover .ant-checkbox-inner,
-    .ant-checkbox:hover .ant-checkbox-inner,
-    .ant-checkbox-input:focus + .ant-checkbox-inner,
-    .ant-checkbox-checked::after {
-      border-color: $color-1;
-    }
-  
-    //radio
-  
-    .ant-radio-inner::after {
-      background-color: $color-1;
-    }
-    .ant-radio-checked .ant-radio-inner {
-      border-color: $color-1;
-    }
-    .ant-radio-wrapper:hover .ant-radio,
-    .ant-radio:hover .ant-radio-inner,
-    .ant-radio-input:focus + .ant-radio-inner {
-      border-color: $color-1;
-    }
-  
-    .ant-radio-group-solid
-      .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled):hover {
-      background: $color-1;
-    }
-  
-    .ant-radio-group-solid
-      .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
-      background: $color-1;
-      border-color: $color-1 !important;
-      color: $common_extra_color_1;
-    }
-  
+  //badge
+  .ant-badge-count {
+    background: $color-1;
+    box-shadow: 0 0 0 1px $color-1;
+  }
+
+  .ant-btn:hover,
+  .ant-btn:focus {
+    border-color: $color-1;
+    color: $color-1;
+  }
+
+  .ant-btn-text:hover,
+  .ant-btn-text:focus {
+    background-color: rgba($color: $color-1, $alpha: 0.1);
+    color: $color-1;
+  }
+
+  .ant-btn-link:hover,
+  .ant-btn-link:focus {
+    color: $color-1;
+  }
+
+  //checkbox
+  .ant-checkbox-checked .ant-checkbox-inner {
+    background-color: $color-1;
+    border-color: $color-1;
+  }
+
+  .ant-checkbox-indeterminate .ant-checkbox-inner {
+    border-color: $color-1;
+  }
+
+  .ant-checkbox-indeterminate .ant-checkbox-inner::after {
+    background-color: $color-1;
+  }
+
+  .ant-checkbox-checked::after {
+    border-color: $color-1;
+  }
+
+  .ant-checkbox-wrapper:hover .ant-checkbox-inner,
+  .ant-checkbox:hover .ant-checkbox-inner,
+  .ant-checkbox-input:focus + .ant-checkbox-inner,
+  .ant-checkbox-checked::after {
+    border-color: $color-1;
+  }
+
+  //radio
+
+  .ant-radio-inner::after {
+    background-color: $color-1;
+  }
+  .ant-radio-checked .ant-radio-inner {
+    border-color: $color-1;
+  }
+  .ant-radio-wrapper:hover .ant-radio,
+  .ant-radio:hover .ant-radio-inner,
+  .ant-radio-input:focus + .ant-radio-inner {
+    border-color: $color-1;
+  }
+
+  .ant-radio-group-solid
+    .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled):hover {
+    background: $color-1;
+  }
+
+  .ant-radio-group-solid
     .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
-      border-color: $color-1 !important;
-      color: $color-1;
-    }
-    .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled)::before {
-      background-color: $color-1 !important;
-    }
-    // breadcrumb
-    .ant-breadcrumb a:hover {
-      color: $color-1 !important;
-    }
-  
-    //Slider
-    .ant-slider-track,
-    .ant-slider:hover .ant-slider-track {
-      background-color: $color-1;
-    }
-  
-    .ant-slider-handle {
-      background-color: $color-1;
-      border-color: $color-1;
-    }
-  
-    .ant-slider-handle:hover,
-    .ant-slider-handle:active {
-      box-shadow: 0px 0px 0px 10px rgba($color-1, 0.15);
-    }
-  
-    .ant-slider:hover .ant-slider-handle:not(.ant-tooltip-open) {
-      border-color: $color-1;
-    }
-    //Menu
-    .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
-      background-color: rgba($color: $color-1, $alpha: $opacity-low);
-    }
-    .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected:hover {
-      color: $color-1;
-    }
-  
-    .ant-menu-item-selected,
-    .ant-menu-submenu-selected,
-    .ant-menu-submenu-selected .ant-menu-submenu-arrow {
-      color: $color-1;
-    }
-  
-    .ant-menu-vertical .ant-menu-item::after,
-    .ant-menu-vertical-left .ant-menu-item::after,
-    .ant-menu-vertical-right .ant-menu-item::after,
-    .ant-menu-inline .ant-menu-item::after {
-      border-color: $color-1;
-    }
-  
-    //Date Picker
-    .ant-picker-cell-in-view.ant-picker-cell-today
-      .ant-picker-cell-inner::before {
-      border-color: $color-1;
-    }
-    .ant-picker-cell-in-view.ant-picker-cell-selected .ant-picker-cell-inner,
-    .ant-picker-cell-in-view.ant-picker-cell-range-start .ant-picker-cell-inner,
-    .ant-picker-cell-in-view.ant-picker-cell-range-end .ant-picker-cell-inner {
-      background-color: $color-1;
-      color: $common_extra_color_1;
-    }
-  
-    .ant-picker:hover,
-    .ant-picker-focused {
-      border-color: $color-1;
-    }
-  
-    .ant-picker-focused {
-      box-shadow: 0 0 0 2px rgba($color: $color-1, $alpha: 0.2);
-    }
-  
-    .ant-picker-range .ant-picker-active-bar {
-      background-color: $color-1;
-    }
-  
-    //Tabs
-    .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn,
-    .ant-tabs-tab:hover,
-    .ant-tabs-tab:active,
-    .ant-tabs-tab-btn:focus,
-    .ant-tabs-tab-remove:focus,
-    .ant-tabs-tab-btn:active,
-    .ant-tabs-tab-remove:active {
-      color: $color-1;
-    }
-    .ant-tabs-ink-bar {
-      background-color: $color-1;
-    }
-    .ant-tabs-card.ant-tabs-top > .ant-tabs-nav .ant-tabs-tab-active,
-    .ant-tabs-card.ant-tabs-top > div > .ant-tabs-nav .ant-tabs-tab-active {
-      border-bottom-color: $color-1;
-    }
-  
-    //Input
-    .ant-input:hover,
-    .ant-input-affix-wrapper:not(.ant-input-affix-wrapper-disabled):hover {
-      border-color: $color-1;
+    background: $color-1;
+    border-color: $color-1 !important;
+    color: $common_extra_color_1;
+  }
+
+  .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
+    border-color: $color-1 !important;
+    color: $color-1;
+  }
+  .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled)::before {
+    background-color: $color-1 !important;
+  }
+  // breadcrumb
+  .ant-breadcrumb a:hover {
+    color: $color-1 !important;
+  }
+
+  //Slider
+  .ant-slider-track,
+  .ant-slider:hover .ant-slider-track {
+    background-color: $color-1;
+  }
+
+  .ant-slider-handle {
+    background-color: $color-1;
+    border-color: $color-1;
+  }
+
+  .ant-slider-handle:hover,
+  .ant-slider-handle:active {
+    box-shadow: 0px 0px 0px 10px rgba($color-1, 0.15);
+  }
+
+  .ant-slider:hover .ant-slider-handle:not(.ant-tooltip-open) {
+    border-color: $color-1;
+  }
+  //Menu
+  .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
+    background-color: rgba($color: $color-1, $alpha: $opacity-low);
+  }
+  .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected:hover {
+    color: $color-1;
+  }
+
+  .ant-menu-item-selected,
+  .ant-menu-submenu-selected,
+  .ant-menu-submenu-selected .ant-menu-submenu-arrow {
+    color: $color-1;
+  }
+
+  .ant-menu-vertical .ant-menu-item::after,
+  .ant-menu-vertical-left .ant-menu-item::after,
+  .ant-menu-vertical-right .ant-menu-item::after,
+  .ant-menu-inline .ant-menu-item::after {
+    border-color: $color-1;
+  }
+
+  //Date Picker
+  .ant-picker-cell-in-view.ant-picker-cell-today
+    .ant-picker-cell-inner::before {
+    border-color: $color-1;
+  }
+  .ant-picker-cell-in-view.ant-picker-cell-selected .ant-picker-cell-inner,
+  .ant-picker-cell-in-view.ant-picker-cell-range-start .ant-picker-cell-inner,
+  .ant-picker-cell-in-view.ant-picker-cell-range-end .ant-picker-cell-inner {
+    background-color: $color-1;
+    color: $common_extra_color_1;
+  }
+
+  .ant-picker:hover,
+  .ant-picker-focused {
+    border-color: $color-1;
+  }
+
+  .ant-picker-focused {
+    box-shadow: 0 0 0 2px rgba($color: $color-1, $alpha: 0.2);
+  }
+
+  .ant-picker-range .ant-picker-active-bar {
+    background-color: $color-1;
+  }
+
+  //Tabs
+  .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn,
+  .ant-tabs-tab:hover,
+  .ant-tabs-tab:active,
+  .ant-tabs-tab-btn:focus,
+  .ant-tabs-tab-remove:focus,
+  .ant-tabs-tab-btn:active,
+  .ant-tabs-tab-remove:active {
+    color: $color-1;
+  }
+  .ant-tabs-ink-bar {
+    background-color: $color-1;
+  }
+  .ant-tabs-card.ant-tabs-top > .ant-tabs-nav .ant-tabs-tab-active,
+  .ant-tabs-card.ant-tabs-top > div > .ant-tabs-nav .ant-tabs-tab-active {
+    border-bottom-color: $color-1;
+  }
+
+  //Input
+  .ant-input:hover,
+  .ant-input:focus,
+  .ant-input-affix-wrapper:not(.ant-input-affix-wrapper-disabled):hover {
+    border-color: $color-1;
+    box-shadow: 0 0 0 2px rgba($color: $color-1, $alpha: $opacity-low);
+  }
+
+  .mainheader {
+    background-color: $lightBg;
+
+    &_container {
+      &_navbar {
+        &_searchcontainer {
+          &_actionBox {
+            color: $color-1;
+            &-search {
+              background-color: $color-1;
+              color: $common_extra_color_1;
+            }
+          }
+        }
+      }
     }
   }
+
+  .main_sidebar-btnCollapsed{
+    background-color: $color-1;
+    color: $common_extra_color_1;
+  }
+}

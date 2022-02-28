@@ -28,7 +28,6 @@ import { PageHeader } from "antd";
 
 function AdminConsole(props) {
   const match = useRouteMatch();
-  console.log(match.url);
   return (
     <React.Fragment>
       

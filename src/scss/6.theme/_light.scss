@@ -86,7 +86,7 @@
 
   //menu
   .ant-menu {
-    background-color: $lightBg;
+    background-color: $common_light_extra_color_8;
   }
 
   //divider
@@ -404,9 +404,115 @@
 
   //Main Side Nav Start
   .main_sidebar {
-    background-color: $lightBg;
+    background-color: $common_light_extra_color_8;
   }
   //Main Side Nav End
+
+  //Main Header Start
+  .mainheader {
+    background-color: $common_light_extra_color_8;
+
+    &_container {
+      &_navbar {
+        &_brandContainer {
+          &-divider {
+            background-color: $common_extra_color_1;
+          }
+          &-title {
+            color: $common_extra_color_1 !important;
+          }
+        }
+
+        &_userContainer {
+          &_userProfile {
+            &-userIcon {
+              color: $common_extra_color_1;
+            }
+            &-icon {
+              border: 1px solid $common_extra_color_1;
+            }
+
+            &-text {
+              color: $common_extra_color_1;
+            }
+          }
+
+          &-homeIcon,&-fullscreen {
+            color: $common_extra_color_1;
+          }
+
+          &_menus {
+            &_items {
+              &-title {
+                color: $light_font_color;
+              }
+
+              &-link {
+                color: $common_light_extra_color_5;
+              }
+
+              &-viewall {
+                color: $color-2 !important;
+              }
+            }
+
+            &_menu {
+              &-title {
+                color: $common_extra_color_1;
+              }
+
+              & .anticon {
+                color: $common_extra_color_1;
+              }
+            }
+          }
+        }
+
+        &_searchcontainer_inputBox-input{
+          border-color: $common_extra_color_1;
+          color: $common_extra_color_1 !important;
+        }
+      }
+      &_title {
+        &-text {
+          color: $light_font_color !important;
+        }
+      }
+    }
+
+    &_searchlist_container {
+      &-scrollContainer {
+        max-height: 30rem;
+        padding: 1.5rem !important;
+      }
+
+      .ant-card-body {
+        padding: 0;
+      }
+
+      &_item {
+        &-title {
+          color: $common_light_extra_color_6;
+        }
+        &-clock {
+          color: $common_light_extra_color_7;
+        }
+
+        &-trash {
+          color: $light-error-color;
+        }
+      }
+    }
+  }
+
+  .WorkSpace {
+    &Container {
+      border-color: $common_extra_color_1;
+      color: $common_extra_color_1;
+    }
+  }
+
+  //Main Header End
 
   //Page Header
   .FormPageHeader {
@@ -415,9 +521,9 @@
     box-shadow: 0px 1px 4px
       rgba($color: $light_shadow_color, $alpha: $opacity-medium);
 
-      .ant-page-header-heading-title{
-        color: $light_font_color;
-      }
+    .ant-page-header-heading-title {
+      color: $light_font_color;
+    }
   }
 
   .filters {
@@ -637,7 +743,30 @@
         rgba($color: $light_shadow_color, $alpha: $opacity-medium);
     }
   }
+
   .title-text {
     color: $common_light_extra_color_5 !important;
+  }
+
+  .main_sidebar-btnCollapsed {
+    box-shadow: 0px 1px 4px rgba($light_shadow_color, 0.5);
+    border-color: $common_light_extra_color_6;
+  }
+
+  .slider_container {
+    &-actions {
+      color: $common_light_extra_color_5;
+    }
+  }
+
+  .ant-input::placeholder,
+  .ant-input-affix-wrapper::placeholder {
+    color: $common_light_extra_color_5;
+  }
+
+  .source_type_divider{
+    h1.ant-typography{
+      color: $light_font_color;
+    }
   }
 }

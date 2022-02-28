@@ -25,6 +25,8 @@ import { AiOutlineMenuFold, AiOutlineMenuUnfold } from "react-icons/ai";
 import { StyledMainContentContainer } from "../styled-components/Master";
 import { useDispatch } from "react-redux";
 import * as RouteUrl from "../model/route";
+import { BsBox, BsUiChecksGrid } from "react-icons/bs";
+import { BiUser } from "react-icons/bi";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -48,7 +50,7 @@ function HintSearch(props) {
           collapsible
           collapsed={collapsed}
           className="main_sidebar"
-          style={{ height: "calc(100% - 7rem)" }}
+          style={{ height: "calc(100% - 9rem)" }}
         >
           <SimpleBar
             style={{ height: "100%", overflowX: "hidden" }}
@@ -57,8 +59,8 @@ function HintSearch(props) {
             autoHide
           >
             <Menu mode="inline" style={{ height: "100%", borderRight: 0 }}>
-              <SubMenu key="sub1" icon={<FileOutlined />} title="Execution">
-                <Menu.Item key="1" onClick={()=> history.push()}>
+              <SubMenu key="sub1" icon={<BsUiChecksGrid  className="text-color-2"/>} title="Execution">
+                <Menu.Item key="1" onClick={() => history.push()}>
                   <Link to={`${match.url}/${RouteUrl.ADMIN}/${RouteUrl.MONITORJOBS}`}>
                     Monitor Jobs
                   </Link>
@@ -69,7 +71,7 @@ function HintSearch(props) {
                   </Link>
                 </Menu.Item>
               </SubMenu>
-              <SubMenu key="sub2" icon={<PieChartOutlined />} title="Source">
+              <SubMenu key="sub2" icon={<BsBox className="text-color-5"/>} title="Source">
                 <Menu.Item key="5">
                   <Link to={`${match.url}/${RouteUrl.ADMIN}/${RouteUrl.SOURCES}`}>
                     List All Sources
@@ -187,7 +189,7 @@ function HintSearch(props) {
               <SubMenu
                 key="sub3"
                 title="User Management"
-                icon={<UserOutlined />}
+                icon={<BiUser className="text-color-8" />}
               >
                 <Menu.Item key="19">
                   <Link to={`${match.url}/${RouteUrl.ADMIN}/${RouteUrl.LISTOFUSERGROUP}`}>
@@ -203,18 +205,15 @@ function HintSearch(props) {
             </Menu>
           </SimpleBar>
 
-          <div className="main_sidebar-btnCollapsed">
+
+          <div className="main_sidebar-btnCollapsed" onClick={onCollapseHandler}>
             {collapsed ? (
               <AiOutlineMenuUnfold
-                color="#000"
                 size={20}
-                onClick={onCollapseHandler}
               />
             ) : (
               <AiOutlineMenuFold
-                color="#000"
                 size={20}
-                onClick={onCollapseHandler}
               />
             )}
           </div>

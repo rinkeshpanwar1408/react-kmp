@@ -2,9 +2,13 @@
   border-right: none;
 }
 
+.mainheader{
+  border-bottom: 0.1rem solid rgba($color: $bordercolor, $alpha: $opacity-low) !important;
+}
+
 //card
 .ant-card-head {
-  border-color: rgba($color: $bordercolor, $alpha: 0.2);
+  border-color: rgba($color: $bordercolor, $alpha: $opacity-low);
 }
 
 //Icon
@@ -92,4 +96,24 @@
 
 .ant-layout-sider {
   transition: all 0.2s linear !important;
+}
+
+.main_sidebar-btnCollapsed{
+  cursor: pointer;
+}
+
+
+//Form
+.ant-form-large .ant-form-item-label > label{
+  height: 2rem;
+  font-weight: 600;
+}
+.source_type_divider{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  h1.ant-typography{
+    margin-bottom: .5rem;
+  }
 }

@@ -46,7 +46,7 @@ export const dark_danger_bg_secondary = "#800f19";
 
 //Others
 // export const lightBg = "#f5f5f5";
-export const lightBg = "#FFFFFF";
+export const lightBg = "#F0F2F5";
 
 export const darkBg = "#161c24";
 export const bordercolor = "#919EAB";

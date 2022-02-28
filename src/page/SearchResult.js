@@ -34,8 +34,7 @@ function SearchResult(props) {
     <React.Fragment>
       <div className="search_result_container">
         <div
-          className={`search_result_container-filterContainer ${!showFilter ? "hideFilter" : ""
-            }`}
+          className={`search_result_container-filterContainer ${!showFilter ? "hideFilter" : ""}`}
         >
           <CollapsibleFilter />
           <Button
@@ -49,7 +48,7 @@ function SearchResult(props) {
         </div>
         <div className="search_result_container-resultContainer">
           <Row gutter={[8, 8]}>
-            <CustomCol lg={17}>
+            <CustomCol xl={17}>
               {searchedData.map((item, i) => {
                 return (
                   <SearchResultItem
@@ -111,7 +110,7 @@ function SearchResult(props) {
                 </Row>
               </Modal>
             </CustomCol>
-            <CustomCol lg={7}>
+            <CustomCol xl={7}>
               <OrganizationDetailCard />
             </CustomCol>
           </Row>

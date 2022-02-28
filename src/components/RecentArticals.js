@@ -6,7 +6,7 @@ import { instance as Axios } from "../utility/axios";
 import RecentActivityCard from "./RecentActivityCard";
 import { FiChevronLeft } from "react-icons/fi";
 import Slider from "react-slick";
-import { AiOutlineLeftCircle, AiOutlineRightCircle } from "react-icons/ai";
+import { BiChevronLeft, BiChevronRight } from "react-icons/bi";
 
 const { Text, Link, Title } = Typography;
 
@@ -37,8 +37,8 @@ function RecentArticals(props) {
       <div className="slider_container">
         <TitleText title="Recent Articles"></TitleText>
         <div className="slider_container-actions"> 
-          <AiOutlineLeftCircle size={25} onClick={previous} />
-          <AiOutlineRightCircle size={25} onClick={next} />
+          <BiChevronLeft size={25} onClick={previous} />
+          <BiChevronRight size={25} onClick={next} />
         </div>
       </div>
 

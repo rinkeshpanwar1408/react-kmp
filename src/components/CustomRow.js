@@ -14,7 +14,6 @@ export default function CustomRow(props) {
           xxl: props.xxl ? props.xl : 16,
         }}
         {...props}
-        justify="center"
       >
         {props.children}
       </Row>

@@ -1,6 +1,6 @@
 import React from "react";
 import { StyledMainContentContainer } from "../styled-components/Master";
-import background from "../assests/image/Image2.png";
+import background from "../assests/image/header_bg_light.png";
 import { StyledCard } from "../styled-components/CommonControls";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import {
@@ -40,12 +40,10 @@ const Login = (props) => {
         })
       );
 
-      
-
-      if (!result.data) {
-        ShowWarningMessage("Username or Password Was Wrong.");
+      if (result.data?.message) {
+        ShowWarningMessage(result.data.message);
       } else {
-        ShowSuccessMessage(`Welcome ${result.data[0].userName}`);
+        ShowSuccessMessage(`Welcome ${result.data?.userName}`);
       }
     } catch (error) {
       ShowErrorMessage("Something Went Wrong");
@@ -74,7 +72,7 @@ const Login = (props) => {
             autocomplete="off"
           >
             <Row key="rw1">
-              <CustomCol key="rw1.1" xxl={24} xl={24} lg={24} md={24} sm={24} xs={24}>
+              <CustomCol key="rw1.1" >
                 <Form.Item
                   label="Username"
                   name="username"
@@ -92,7 +90,7 @@ const Login = (props) => {
                 </Form.Item>
               </CustomCol>
 
-              <CustomCol key="rw1.2" xxl={24} xl={24} lg={24} md={24} sm={24} xs={24}>
+              <CustomCol key="rw1.2">
                 <Form.Item
                   label="Password"
                   name="password"

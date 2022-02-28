@@ -1,5 +1,5 @@
-import React,{useState} from "react";
-import { Breadcrumb, Button, Input, PageHeader, Space, Table, Tag, Form } from "antd";
+import React, { useState } from "react";
+import { Breadcrumb, Button, Input, PageHeader, Space, Table, Tag, Form, Typography } from "antd";
 import { HomeOutlined, UserOutlined, LockOutlined } from '@ant-design/icons'
 import { StyledCard } from "../../../../styled-components/CommonControls";
 import CustomRow from "../../../../components/CustomRow";
@@ -7,168 +7,196 @@ import CustomCol from "../../../../components/CustomCol";
 import { useDispatch } from "react-redux";
 import { CreateSource } from "../../../../store/action/sourceActions";
 import useMessage from "../../../../hooks/useMessge";
-import { createSource } from "../../../../store/action/actions";
+import { Link, useHistory, useRouteMatch } from "react-router-dom";
+import * as RouteUrl from "../../../../model/route";
+const { Title } = Typography;
 
 function CreateConfluenceSource(props) {
-const [validate, setValidate]=useState(false);
- const [CreateSourceForm] = Form.useForm();
-  const dispatch=useDispatch();
+  const [validate, setValidate] = useState(false);
+  const [CreateSourceForm] = Form.useForm();
+  const dispatch = useDispatch();
   const {
     ShowSuccessMessage,
     ShowErrorMessage,
     ShowWarningMessage,
   } = useMessage();
 
+  const history = useHistory();
+  const match = useRouteMatch();
+  console.log(match.url);
+
   const submitHandler = async () => {
-    
+
     try {
-       const values = await CreateSourceForm.validateFields();
-     const result=await dispatch(
+      const values = await CreateSourceForm.validateFields();
+      const result = await dispatch(
         CreateSource({
-          id:0,
-          source_name : values.sourcename+"-"+"Confluence",
-          confluence_url : values.confluenceurl,
-          user_id : values.useriD,
-          password : values.password,
-          userName : "",
+          id: 0,
+          source_name: values.sourcename + "-" + "Confluence",
+          base_url: values.base_url,
+          user_id: values.useriD,
+          password: values.password,
+          userName: "",
           validated: validate
         })
       );
-     
+
       if (!result.data) {
         ShowWarningMessage("data is not correct");
       } else {
         ShowSuccessMessage("Source created successfully");
       }
-     }
+    }
+    catch (error) {
+      ShowErrorMessage("Something Went Wrong");
+    }
 
-      catch (error) {
-        ShowErrorMessage("Something Went Wrong");
-      }
-
- };
-const validateForm=()=>{
-   setValidate(!validate);
-}
+  };
+  const validateForm = () => {
+    setValidate(!validate);
+  }
   return (
-    <div>
-      <CustomRow>
-        <CustomCol xl={16} >
-          <PageHeader
-            title="Create Source"
-            className="FormPageHeader"
-            subTitle="This is a subtitle"
-            extra={[
-              <Breadcrumb>
-                <Breadcrumb.Item href="">
+    <CustomRow justify="center">
+      <CustomCol xl={16} >
+        <PageHeader
+          title="Create Source"
+          className="FormPageHeader"
+          extra={[
+            <Breadcrumb>
+              <Breadcrumb.Item>
+                <Link to={`${RouteUrl.ADMIN}/${RouteUrl.SOURCES}`}>
                   <HomeOutlined />
-                </Breadcrumb.Item>
-                <Breadcrumb.Item href="">
-                  <UserOutlined />
-                  <span>Application List</span>
-                </Breadcrumb.Item>
-                <Breadcrumb.Item>Application</Breadcrumb.Item>
-              </Breadcrumb>
-            ]}
+                </Link>
+              </Breadcrumb.Item>
+              <Breadcrumb.Item>Create Source</Breadcrumb.Item>
+            </Breadcrumb>
+          ]}
+        >
+        </PageHeader>
+        <StyledCard className="formContainer">
+
+          <Form
+            name="basic"
+            layout="vertical"
+            size="large"
+            autocomplete="off"
+            onFinish={submitHandler}
+            form={CreateSourceForm}
           >
-          </PageHeader>
-          <StyledCard className="formContainer">
+            <CustomRow key="rw1">
+              <CustomCol key="rw1.1" xl={11} >
+                <Form.Item
+                  name="sourcename"
+                  label="Source Name"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input your Source Name!",
+                    },
+                  ]}
+                >
 
-            <Form
-              name="basic"
-              layout="vertical"
-              size="large"
-              autocomplete="off"
-              onFinish={submitHandler}
-              form={CreateSourceForm}
-            >
-              <CustomRow key="rw1">
-                <CustomCol key="rw1.1" >
-                  <Form.Item
-                    name="sourcename"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please input your Source Name!",
-                      },
-                    ]}
-                  >
+                  <Input
+                    placeholder="Enter Source Name"
+                  />
+                </Form.Item>
+              </CustomCol>
 
-                    <Input
-                      placeholder="Source Name"
-                      addonAfter="Confluence"
-                    />
-                  </Form.Item>
-                </CustomCol>
+              <CustomCol key="rw1.1" xl={2} className="source_type_divider" >
+                <Title level={1}>-</Title>
+              </CustomCol>
 
-                <CustomCol key="rw1.2" >
-                  <Form.Item
-                    name="confluenceurl"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please input your Confluence Url!",
-                      },
-                    ]}
-                  >
-                    <Input
-                      placeholder="Confluence Url"
-                    />
-                  </Form.Item>
-                </CustomCol>
+              <CustomCol key="rw1.2" xl={11}  >
+                <Form.Item
+                  name="sourcetype"
+                  label="Source Type"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input your Source Type!",
+                    },
+                  ]}
+                >
 
-                <CustomCol key="rw1.3" >
-                  <Form.Item
-                    name="useriD"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please input your User ID!",
-                      },
-                    ]}
-                  >
-                    <Input
-                      placeholder="User ID"
-                    />
-                  </Form.Item>
-                </CustomCol>
+                  <Input
+                    placeholder="Enter Source Type"
+                    defaultValue={"Confluence"}
+                  />
+                </Form.Item>
+              </CustomCol>
+            </CustomRow>
 
-                <CustomCol key="rw1.4" >
-                  <Form.Item
-                    name="password"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please input your Password!",
-                      },
-                    ]}
-                  >
-                    <Input
-                      placeholder="Password"
-                    />
-                  </Form.Item>
-                </CustomCol>
-              </CustomRow>
+            <CustomRow key="rw2">
+              <CustomCol key="rw1.2" >
+                <Form.Item
+                  name="base_url"
+                  label='Confluence Url'
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input your Confluence Url!",
+                    },
+                  ]}
+                >
+                  <Input
+                    placeholder="Enter Confluence Url"
+                  />
+                </Form.Item>
+              </CustomCol>
+
+              <CustomCol key="rw1.3" >
+                <Form.Item
+                  name="useriD"
+                  label="User ID"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input your User ID!",
+                    },
+                  ]}
+                >
+                  <Input
+                    placeholder="Enter User ID"
+                  />
+                </Form.Item>
+              </CustomCol>
+
+              <CustomCol key="rw1.4" >
+                <Form.Item
+                  name="password"
+                  label="Password"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input your Password!",
+                    },
+                  ]}
+                >
+                  <Input
+                    placeholder="Enter Password"
+                  />
+                </Form.Item>
+              </CustomCol>
+            </CustomRow>
 
 
-              <CustomRow key="rw2">
-                <CustomCol key="rw1.3" xxl={24} xl={24} className="text-right">
-                  <Space direction="horizontal">
-                    <Button type="primary" onClick={validateForm} >
-                      Validate
-                    </Button>
-                    <Button type="primary" htmlType="submit">
-                      Add
-                    </Button>
-                  </Space>
-                </CustomCol>
-              </CustomRow>
-            </Form>
+            <CustomRow key="rw3">
+              <CustomCol key="rw1.3" xxl={24} xl={24} className="text-right">
+                <Space direction="horizontal">
+                  <Button type="primary" onClick={validateForm} >
+                    Validate
+                  </Button>
+                  <Button type="primary" htmlType="submit">
+                    Add
+                  </Button>
+                </Space>
+              </CustomCol>
+            </CustomRow>
+          </Form>
 
-          </StyledCard>
-        </CustomCol>
-      </CustomRow>
-    </div>
+        </StyledCard>
+      </CustomCol>
+    </CustomRow>
   );
 }
 
