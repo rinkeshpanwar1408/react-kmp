@@ -25,6 +25,8 @@ function ListAllSources(props) {
     history.push({
       pathname: `${RouteMatch.path}/${RouteUrl.CONFLUENCE}/${RouteUrl.CREATESOURCE}/${source}`,
     });
+
+
   }
 
   useEffect(() => {

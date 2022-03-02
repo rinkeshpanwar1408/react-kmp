@@ -2278,6 +2278,10 @@ body {
   border-width: 0.2rem;
 }
 
+.ant-checkbox-checked .ant-checkbox-inner::after {
+  left: 25%;
+}
+
 .ant-checkbox-disabled .ant-checkbox-inner {
   background-color: rgba(145, 158, 171, 0.8) !important;
   border-color: #919eab !important;

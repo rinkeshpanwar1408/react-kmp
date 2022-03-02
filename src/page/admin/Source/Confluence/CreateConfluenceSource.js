@@ -89,6 +89,7 @@ function CreateConfluenceSource(props) {
     }
 
   };
+
   const validateForm = () => {
     setValidate(!validate);
   }
@@ -225,7 +226,7 @@ function CreateConfluenceSource(props) {
                     },
                   ]}
                 >
-                  <Input.Password
+                  <Input
                     placeholder="Enter Password"
                   />
                 </Form.Item>
@@ -236,10 +237,7 @@ function CreateConfluenceSource(props) {
             <CustomRow key="rw3">
               <CustomCol key="rw3.1" xxl={24} xl={24} className="text-right">
                 <Space direction="horizontal">
-                  <Button type="primary" onClick={validateForm} >
-                    Test
-                  </Button>
-                  <Button type="primary" onClick={validateForm} >
+                  <Button type="primary"  >
                     Validate Connection
                   </Button>
                   <Button type="primary" htmlType="submit">
@@ -249,7 +247,6 @@ function CreateConfluenceSource(props) {
               </CustomCol>
             </CustomRow>
           </Form>
-
         </StyledCard>
       </CustomCol>
     </CustomRow>

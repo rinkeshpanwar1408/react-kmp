@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Breadcrumb, Button, Input, PageHeader, Space, Table, Tag, Form, Typography, Select } from "antd";
+import { Breadcrumb, Button, Input, PageHeader, Space, Table, Tag, Form, Typography, Select, Switch, Checkbox, Tree } from "antd";
 import { HomeOutlined, UserOutlined, LockOutlined } from '@ant-design/icons'
 import { StyledCard } from "../../../../styled-components/CommonControls";
 import CustomRow from "../../../../components/CustomRow";
@@ -10,10 +10,43 @@ import useMessage from "../../../../hooks/useMessge";
 import { Link, useHistory, useRouteMatch } from "react-router-dom";
 import * as RouteUrl from "../../../../model/route";
 import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 const { Title } = Typography;
 const { Option } = Select;
 
+const initTreeData = [
+  {
+    title: 'Expand to load',
+    key: '0',
+  },
+  {
+    title: 'Expand to load',
+    key: '1',
+  },
+  {
+    title: 'Tree Node',
+    key: '2',
+    isLeaf: true,
+  },
+];
+
+function updateTreeData(list, key, children) {
+  return list.map((node) => {
+    if (node.key === key) {
+      return { ...node, children };
+    }
+
+    if (node.children) {
+      return { ...node, children: updateTreeData(node.children, key, children) };
+    }
+
+    return node;
+  });
+}
+
 function ConfigConfluenceTemplate(props) {
+  const SourceList = useSelector(state => state.source.Sources);
+
   const [validate, setValidate] = useState(false);
   const [CreateSourceForm] = Form.useForm();
   const dispatch = useDispatch();
@@ -27,15 +60,17 @@ function ConfigConfluenceTemplate(props) {
   const match = useRouteMatch();
   const params = useParams();
 
-  console.log(params);
-  console.log(CreateSourceForm);
+
 
   useEffect(() => {
     const fillDropDown = () => {
       dispatch(GetSources())
     }
-    fillDropDown();
-  }, [dispatch])
+    debugger;
+    if (SourceList.length <= 0) {
+      fillDropDown();
+    }
+  }, [dispatch, SourceList])
 
 
   const submitHandler = async () => {
@@ -68,11 +103,35 @@ function ConfigConfluenceTemplate(props) {
     setValidate(!validate);
   }
 
+  const [treeData, setTreeData] = useState(initTreeData);
+  const onLoadData = ({ key, children }) =>
+    new Promise((resolve) => {
+      if (children) {
+        resolve();
+        return;
+      }
+
+      setTimeout(() => {
+        setTreeData((origin) =>
+          updateTreeData(origin, key, [
+            {
+              title: 'Child Node',
+              key: `${key}-0`,
+            },
+            {
+              title: 'Child Node',
+              key: `${key}-1`,
+            },
+          ]),
+        );
+        resolve();
+      }, 1000);
+    });
 
 
   return (
     <CustomRow justify="center">
-      <CustomCol xl={16} >
+      <CustomCol xl={18} >
         <PageHeader
           title="Create Config Template"
           className="FormPageHeader"
@@ -98,7 +157,7 @@ function ConfigConfluenceTemplate(props) {
             form={CreateSourceForm}
           >
             <CustomRow key="rw1">
-              <CustomCol key="rw1.1" xl={12} >
+              <CustomCol key="rw1.1" xl={9} >
                 <Form.Item
                   name="configname"
                   label="Config Name"
@@ -115,7 +174,7 @@ function ConfigConfluenceTemplate(props) {
                 </Form.Item>
               </CustomCol>
 
-              <CustomCol key="rw1.3" xl={12}  >
+              <CustomCol key="rw1.2" xl={9}  >
                 <Form.Item
                   name="sources"
                   label="Source"
@@ -135,12 +194,60 @@ function ConfigConfluenceTemplate(props) {
                       option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                     }
                   >
-                    <Option value="jack">Jack</Option>
-                    <Option value="lucy">Lucy</Option>
-                    <Option value="tom">Tom</Option>
+                    {
+                      SourceList.map((item, i) => {
+                        return < Option value={item.source_name}>{item.source_name}</Option>
+                      })
+                    }
                   </Select>
 
                 </Form.Item>
+              </CustomCol>
+
+              <CustomCol key="rw1.3" xl={6} >
+                <Form.Item
+                  name="spaceKey"
+                  label="Space Key"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input your Space Key!",
+                    },
+                  ]}
+                >
+                  <Input
+                    placeholder="Enter Space Key"
+                  />
+                </Form.Item>
+              </CustomCol>
+            </CustomRow>
+
+            <CustomRow key="rw2">
+              <CustomCol key="rw2.3" xl={9}>
+                <Form.Item
+                  name="RecursiveFlag"
+                  label="Recursive Flag"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input your Source Type!",
+                    },
+                  ]}
+                >
+                  <Switch defaultChecked checkedChildren={"On"} unCheckedChildren="Off" />
+                </Form.Item>
+                <Tree checkable loadData={onLoadData} treeData={treeData} />
+
+              </CustomCol>
+
+              <CustomCol key="rw2.3" xl={9}>
+                <Form.Item
+                  name="sources"
+                  label="Retrive Attachments?"
+                >
+                  <Switch defaultChecked checkedChildren={"On"} unCheckedChildren="Off" />
+                </Form.Item>
+
               </CustomCol>
             </CustomRow>
 
@@ -159,7 +266,7 @@ function ConfigConfluenceTemplate(props) {
 
         </StyledCard>
       </CustomCol>
-    </CustomRow>
+    </CustomRow >
   );
 }
 
