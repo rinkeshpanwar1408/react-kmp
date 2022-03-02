@@ -20,6 +20,10 @@
     border-radius: $border-radius-small;
     border-width: 0.2rem;
   }
+
+  .ant-checkbox-checked .ant-checkbox-inner::after{
+    left:25%;
+  }
   
   .ant-checkbox-disabled .ant-checkbox-inner {
     background-color: rgba($color: $bordercolor, $alpha: $opacity-high) !important;

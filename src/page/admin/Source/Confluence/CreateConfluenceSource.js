@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Breadcrumb, Button, Input, PageHeader, Space, Table, Tag, Form, Typography } from "antd";
-import { HomeOutlined, UserOutlined, LockOutlined } from '@ant-design/icons'
+import { Breadcrumb, Button, Input, PageHeader, Space, Table, Tag, Form, Typography, Modal } from "antd";
+import { HomeOutlined, UserOutlined, LockOutlined,ExclamationCircleOutlined } from '@ant-design/icons'
 import { StyledCard } from "../../../../styled-components/CommonControls";
 import CustomRow from "../../../../components/CustomRow";
 import CustomCol from "../../../../components/CustomCol";
@@ -11,6 +11,7 @@ import { Link, useHistory, useRouteMatch } from "react-router-dom";
 import * as RouteUrl from "../../../../model/route";
 import { useParams } from "react-router-dom";
 const { Title } = Typography;
+const { confirm,info } = Modal;
 
 function CreateConfluenceSource(props) {
   const [validate, setValidate] = useState(false);
@@ -56,9 +57,23 @@ function CreateConfluenceSource(props) {
     }
 
   };
+
   const validateForm = () => {
     setValidate(!validate);
   }
+
+  function infoConfig() {
+    confirm({
+      content: "Click to destroy all",
+      onOk() {
+        console.log('OK');
+      },
+      onCancel() {
+        console.log('Cancel');
+      },
+    });
+  }
+
   return (
     <CustomRow justify="center">
       <CustomCol xl={16} >
@@ -175,7 +190,7 @@ function CreateConfluenceSource(props) {
                     },
                   ]}
                 >
-                  <Input.Password
+                  <Input
                     placeholder="Enter Password"
                   />
                 </Form.Item>
@@ -186,10 +201,7 @@ function CreateConfluenceSource(props) {
             <CustomRow key="rw3">
               <CustomCol key="rw3.1" xxl={24} xl={24} className="text-right">
                 <Space direction="horizontal">
-                  <Button type="primary" onClick={validateForm} >
-                    Test
-                  </Button>
-                  <Button type="primary" onClick={validateForm} >
+                  <Button type="primary" onClick={infoConfig} >
                     Validate Connection
                   </Button>
                   <Button type="primary" htmlType="submit">
@@ -199,7 +211,6 @@ function CreateConfluenceSource(props) {
               </CustomCol>
             </CustomRow>
           </Form>
-
         </StyledCard>
       </CustomCol>
     </CustomRow>
