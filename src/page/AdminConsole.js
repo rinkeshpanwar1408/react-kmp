@@ -50,6 +50,9 @@ function AdminConsole(props) {
         <Route path={`${match.path}/${RouteUrl.SOURCES}/${RouteUrl.CONFLUENCE}/${RouteUrl.CREATESOURCE}`} exact>
           <CreateConfluenceSource />
         </Route>
+        <Route path={`${match.path}/${RouteUrl.SOURCES}/${RouteUrl.CONFLUENCE}/${RouteUrl.CREATESOURCE}/:full_source_name`} exact>
+          <CreateConfluenceSource />
+        </Route>
         <Route path={`${match.path}/${RouteUrl.SOURCES}/${RouteUrl.CONFLUENCE}/${RouteUrl.CONFIGTEMPLATE}`} exact>
           <ConfigConfluenceTemplate />
         </Route>

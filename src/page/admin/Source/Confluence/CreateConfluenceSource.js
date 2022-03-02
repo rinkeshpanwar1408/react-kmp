@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Breadcrumb, Button, Input, PageHeader, Space, Table, Tag, Form, Typography } from "antd";
 import { HomeOutlined, UserOutlined, LockOutlined } from '@ant-design/icons'
 import { StyledCard } from "../../../../styled-components/CommonControls";
 import CustomRow from "../../../../components/CustomRow";
 import CustomCol from "../../../../components/CustomCol";
-import { useDispatch } from "react-redux";
-import { CreateSource } from "../../../../store/action/sourceActions";
+import { useDispatch, useSelector } from "react-redux";
+import { CreateSource, GetSources } from "../../../../store/action/sourceActions";
 import useMessage from "../../../../hooks/useMessge";
 import { Link, useHistory, useRouteMatch } from "react-router-dom";
 import * as RouteUrl from "../../../../model/route";
@@ -13,8 +13,10 @@ import { useParams } from "react-router-dom";
 const { Title } = Typography;
 
 function CreateConfluenceSource(props) {
+  const SourceList = useSelector(state => state.source.Sources);
   const [validate, setValidate] = useState(false);
   const [CreateSourceForm] = Form.useForm();
+  const [result, setResult] = useState(false)
   const dispatch = useDispatch();
   const {
     ShowSuccessMessage,
@@ -24,9 +26,40 @@ function CreateConfluenceSource(props) {
 
   const history = useHistory();
   const match = useRouteMatch();
-  const params = useParams();
+  const { full_source_name } = useParams();
 
-  console.log(params);
+
+  useEffect(() => {
+    (result && !full_source_name) && CreateSourceForm.setFieldsValue({
+      sourcename: ""
+    })
+  }, [result])
+
+  useEffect(() => {
+    full_source_name ? CreateSourceForm.setFieldsValue({
+      sourcetype: full_source_name.substring(full_source_name.lastIndexOf("-") + 1),
+      sourcename: full_source_name.substring(0, full_source_name.lastIndexOf("-"))
+    }) : CreateSourceForm.setFieldsValue({
+      sourcetype: "Confluence",
+      sourcename: ""
+    })
+  }, [full_source_name])
+
+  useEffect(() => {
+    if (SourceList.length <= 0) {
+      try {
+        const getData = async () => {
+          const response = await dispatch(GetSources());
+        }
+        getData();
+      }
+      catch (error) {
+        ShowErrorMessage("Something Went Wrong");
+      }
+    }
+  }, [dispatch])
+
+
   console.log(CreateSourceForm);
 
   const submitHandler = async () => {
@@ -59,6 +92,17 @@ function CreateConfluenceSource(props) {
   const validateForm = () => {
     setValidate(!validate);
   }
+
+  const onBlurSourceHandler = async (e) => {
+    if (!full_source_name) {
+      const res = await SourceList.filter((val => val.full_source_name === e.target.value + "-" + "Confluence"))
+      const output=res.length > 0 ? true : false;
+      setResult(res.length > 0 ? true : false);
+      output && ShowWarningMessage(`${res[0].full_source_name} source is already used please try using unique name`)
+    }
+  }
+
+
   return (
     <CustomRow justify="center">
       <CustomCol xl={16} >
@@ -67,12 +111,16 @@ function CreateConfluenceSource(props) {
           className="FormPageHeader"
           extra={[
             <Breadcrumb>
-              <Breadcrumb.Item onClick={()=>{
+              <Breadcrumb.Item onClick={() => {
                 history.push(`/${RouteUrl.ADMIN}`)
               }}>
                 <HomeOutlined />
               </Breadcrumb.Item>
-              <Breadcrumb.Item>Create Source</Breadcrumb.Item>
+              <Breadcrumb.Item>Sources</Breadcrumb.Item>
+              <Breadcrumb.Item>Confluence</Breadcrumb.Item>
+              {!full_source_name && <Breadcrumb.Item>Create Source</Breadcrumb.Item>}
+              {full_source_name && <Breadcrumb.Item>{full_source_name}</Breadcrumb.Item>}
+              {full_source_name && <Breadcrumb.Item>edit</Breadcrumb.Item>}
             </Breadcrumb>
           ]}
         >
@@ -100,7 +148,9 @@ function CreateConfluenceSource(props) {
                 >
 
                   <Input
-                    placeholder="Enter Source Name"
+                    placeholder="Enter Source Name" onBlur={(e) =>
+                      onBlurSourceHandler(e)
+                    }
                   />
                 </Form.Item>
               </CustomCol>

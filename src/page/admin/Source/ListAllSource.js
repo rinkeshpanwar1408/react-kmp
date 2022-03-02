@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { GetSources } from "../../../store/action/sourceActions";
 import CustomPopconfirm from "../../../components/CustomPopconfirm";
 import useMessage from "../../../hooks/useMessge";
-import { useHistory, useRouteMatch } from "react-router-dom";
+import { useHistory, useRouteMatch, Link } from "react-router-dom";
 import * as RouteUrl from "../../../model/route";
 
 function ListAllSources(props) {
@@ -23,7 +23,7 @@ function ListAllSources(props) {
 
   const onEditSourceHandler = (source) => {
     history.push({
-      pathname: `${RouteMatch.path}/${RouteUrl.CONFLUENCE}/${RouteUrl.CREATESOURCE}`,
+      pathname: `${RouteMatch.path}/${RouteUrl.CONFLUENCE}/${RouteUrl.CREATESOURCE}/${source}`,
     });
   }
 
@@ -64,7 +64,7 @@ function ListAllSources(props) {
       render: (text, record) => (
         <Space>
           <Tooltip title="Edit">
-            <Button type="primary" shape="circle" icon={<FiEdit fontSize="20" />} onClick={() => onEditSourceHandler(text.source_name)} />
+            <Button type="primary" shape="circle" icon={<FiEdit fontSize="20" />} onClick={() => onEditSourceHandler(text.full_source_name)} />
           </Tooltip>
 
           <Tooltip title="Delete">
@@ -81,7 +81,7 @@ function ListAllSources(props) {
     },
   ];
 
-  return (
+  return (<>
     <CustomRow justify="center">
       <CustomCol xl={16} >
         <PageHeader
@@ -89,8 +89,12 @@ function ListAllSources(props) {
           className="FormPageHeader"
           extra={[
             <Breadcrumb>
-              <Breadcrumb.Item href="">
-                <HomeOutlined />
+              <Breadcrumb.Item >
+                <Link to={`${RouteUrl.MONITORJOBS}`}  > <HomeOutlined /></Link>
+
+              </Breadcrumb.Item>
+              <Breadcrumb.Item >
+                Sources
               </Breadcrumb.Item>
             </Breadcrumb>
           ]}
@@ -98,11 +102,23 @@ function ListAllSources(props) {
         </PageHeader>
 
         <StyledCard className="formContainer">
-          <Table loading={isLoadingdata} columns={columns} dataSource={SourceList} bordered pagination={false} />
+          <Table className="m-b-20" loading={isLoadingdata} columns={columns} dataSource={SourceList} bordered pagination={false} />
+          <CustomRow >
+            <CustomCol xxl={24} xl={24} className="text-right" >
+              <Button type="primary" htmlType="submit" onClick={() => {
+                history.push({
+                  pathname: `${RouteMatch.path}/${RouteUrl.CONFLUENCE}/${RouteUrl.CREATESOURCE}`,
+                });
+              }}>
+                Create Source
+              </Button>
+            </CustomCol>
+          </CustomRow>
         </StyledCard>
       </CustomCol>
 
     </CustomRow>
+  </>
   );
 }
 

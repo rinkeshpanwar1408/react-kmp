@@ -79,7 +79,7 @@ function ConfigConfluenceTemplate(props) {
           extra={[
             <Breadcrumb>
               <Breadcrumb.Item>
-                <Link to={`${RouteUrl.ADMIN}/${RouteUrl.SOURCES}`}>
+                <Link to={`/${RouteUrl.MONITORJOBS}`}>
                   <HomeOutlined />
                 </Link>
               </Breadcrumb.Item>
