@@ -28,7 +28,7 @@ import {
 } from "react-icons/fi";
 import { MdOutlineKeyboardVoice, MdSearch } from "react-icons/md";
 import SearchListItem from "../components/SearchListItem";
-import { useHistory, useRouteMatch } from "react-router-dom";
+import { useHistory, useLocation, useRouteMatch } from "react-router-dom";
 import { instanceApi as Api } from "../utility/axios";
 import SimpleBar from "simplebar-react";
 import { FiMenu, FiUser } from "react-icons/fi";
@@ -36,11 +36,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import * as ActionCreator from "../store/action/actions";
 import { DropDownMenuItem } from "./DropDownMenuItem";
-import { BiExitFullscreen, BiFullscreen, BiNetworkChart } from "react-icons/bi";
 import * as Actions from "../store/action/index";
 import { DarkBlueTheme, LightBlueTheme } from "../model/Theme";
 import { StyledCard } from "../styled-components/CommonControls";
-import { ADMIN } from "../model/route";
+import * as RouteUrl from "../model/route";
 
 const { Content } = Layout;
 const { Title, Text } = Typography;
@@ -158,6 +157,8 @@ const menu2 = (
 function MainHeader(props) {
   const match = useRouteMatch();
   const history = useHistory();
+  const location = useLocation();
+
   const Dispatch = useDispatch();
   const currentTheme = useSelector((state) => state.theme.Theme);
   const [isFullScreen, setIsFullscreen] = useState(false);
@@ -165,6 +166,12 @@ function MainHeader(props) {
   const [visibleSuggestion, setvisibleSuggestion] = useState(false);
   const [suggessionsList, setSuggessionsList] = useState([]);
   const [searchWord, setSearchWord] = useState("");
+
+  let headerClass = "";
+  if (location.pathname === `${match.url}/${RouteUrl.MAINSEARCH}`) {
+    headerClass = "expanded-header"
+  }
+  
 
   const onSearchClickHandler = () => {
     setvisibleSuggestion(false)
@@ -202,33 +209,32 @@ function MainHeader(props) {
     setvisibleSuggestion(false);
   };
 
-  const onFullScreenHandler = async () => {
-    debugger;
+  const onFullScreenHandler = useCallback(async () => {
     if (isFullScreen) {
       await document.exitFullscreen();
     } else {
       document.documentElement.requestFullscreen();
     }
     setIsFullscreen(!isFullScreen);
-  }
+  }, [isFullScreen])
+
 
   useEffect(() => {
     // subscribe event
     document.addEventListener("fullscreenchange", (e) => {
-      debugger;
       if (document.fullscreenElement && !isFullScreen) {
-        onFullScreenHandler()
+        onFullScreenHandler(isFullScreen)
       }
     })
     return () => {
       // unsubscribe event
       document.removeEventListener("fullscreenchange", onFullScreenHandler);
     };
-  }, []);
+  }, [isFullScreen, onFullScreenHandler]);
 
   return (
     <Content
-      className="mainheader"
+      className={`mainheader ${headerClass}`}
       style={{ backgroundImage: `url(${currentTheme.themestyle === "dark" ? background_dark : background_light})` }}
     >
       <div className="mainheader_container">
@@ -269,11 +275,12 @@ function MainHeader(props) {
           </div>
 
           <div className="mainheader_container_navbar_searchcontainer">
+            <Title className="mainheader_container_navbar_searchcontainer-title">Hi, how can we help you?</Title>
             <div className="mainheader_container_navbar_searchcontainer_inputBox">
               <Input
                 placeholder="Hi, how can we help you?"
                 className="mainheader_container_navbar_searchcontainer_inputBox-input"
-                onFocus={() => searchWord ?setvisibleSuggestion(true):setvisibleSuggestion(false)}
+                onFocus={() => searchWord ? setvisibleSuggestion(true) : setvisibleSuggestion(false)}
                 value={searchWord}
                 onChange={(e) => {
                   onSearchTextChangeHandler(e);
@@ -285,15 +292,15 @@ function MainHeader(props) {
                 <MdOutlineKeyboardVoice size={18} />
                 <div
                   onClick={() => {
-                    history.replace(`${match.url}/search`);
+                    history.replace(`${match.url}/${RouteUrl.SEARCH}`);
                   }}
                   className="mainheader_container_navbar_searchcontainer_actionBox-search"
                 >
-                  <MdSearch size={20} onClick={() => onSearchClickHandler()} />
+                  <MdSearch size={20} onClick={onSearchClickHandler} />
                 </div>
               </div>
 
-              {(visibleSuggestion&&searchWord)  && (suggessionsList.length>0?
+              {(visibleSuggestion && searchWord) && (suggessionsList.length > 0 ?
                 <StyledCard className="mainheader_searchlist_container">
                   <SimpleBar className="mainheader_searchlist_container-scrollContainer">
                     {suggessionsList.map((item, i) => {
@@ -307,15 +314,15 @@ function MainHeader(props) {
                     })}
                   </SimpleBar>
                 </StyledCard>
-              :<StyledCard className="mainheader_searchlist_container">
-              <SimpleBar className="mainheader_searchlist_container-scrollContainer">
-              <Text className="mainheader_searchlist_container_item-title">
-               search not found
-            </Text>
-              </SimpleBar>
-            </StyledCard>)
-            
-            }
+                : <StyledCard className="mainheader_searchlist_container">
+                  <SimpleBar className="mainheader_searchlist_container-scrollContainer">
+                    <Text className="mainheader_searchlist_container_item-title">
+                      search not found
+                    </Text>
+                  </SimpleBar>
+                </StyledCard>)
+
+              }
             </div>
           </div>
 
@@ -350,7 +357,7 @@ function MainHeader(props) {
               </Dropdown>
             </div> */}
 
-            {/* {isFullScreen ?
+            {isFullScreen ?
               <FiMinimize
                 size={22}
                 className="mainheader_container_navbar_userContainer-fullscreen"
@@ -360,7 +367,7 @@ function MainHeader(props) {
                 size={22}
                 className="mainheader_container_navbar_userContainer-fullscreen"
                 onClick={() => onFullScreenHandler()}
-              />} */}
+              />}
             <FiHome
               size={22}
               className="mainheader_container_navbar_userContainer-homeIcon"
@@ -430,7 +437,7 @@ function UserMenu(props) {
         <DropDownMenuItem
           title="Admin Console"
           icon={<FiSettings size={20} />}
-          onClick={() => history.replace(`${match.url}/${ADMIN}`)}
+          onClick={() => history.replace(`${match.url}/${RouteUrl.ADMIN}`)}
         />
         <DropDownMenuItem
           title="Dark Mode"

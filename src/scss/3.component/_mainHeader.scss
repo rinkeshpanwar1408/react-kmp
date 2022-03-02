@@ -6,6 +6,7 @@
   z-index: 1;
   width: 100%;
   height: 9rem;
+  transition: all 0.1s ease-in;
 
   &::after {
     content: "";
@@ -24,8 +25,6 @@
     z-index: 1;
     position: relative;
 
-
-
     &_navbar {
       display: flex;
       align-items: center;
@@ -38,7 +37,7 @@
 
         &-divider {
           height: 3.5rem;
-          width: .2rem;
+          width: 0.2rem;
           margin-right: 1rem;
           display: flex;
           align-items: center;
@@ -56,7 +55,7 @@
         align-items: center;
         flex: 1;
 
-        &-fullscreen{
+        &-fullscreen {
           margin: 0 2rem;
         }
 
@@ -128,6 +127,17 @@
         justify-content: center;
         // flex: 1;
         width: 40%;
+        flex-direction: column;
+        transition: all 0.1s linear;
+        margin-top: 0;
+
+        &-title {
+          color: #fff !important;
+          margin: 0 !important;
+          opacity: 0;
+          height: 0;
+          transition: all 0.1s linear;
+        }
 
         &_inputBox {
           width: 100%;
@@ -167,22 +177,6 @@
       align-items: center;
       justify-content: center;
       margin-bottom: 2rem;
-    }
-
-    &_title {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 2rem;
-      height: 4rem;
-      opacity: 1;
-      transition: all 0.5s linear;
-
-      &.hidden {
-        opacity: 0;
-        height: 0;
-        margin-bottom: 0 !important;
-      }
     }
   }
 
@@ -239,5 +233,31 @@
   &-header {
     display: flex;
     padding: 0.2rem 2rem;
+  }
+}
+
+.expanded-header {
+  &.mainheader {
+    position: absolute;
+    height: 24rem;
+  }
+}
+
+.expanded-header {
+  .mainheader {
+    &_container {
+      &_navbar {
+        align-items: flex-start;
+        &_searchcontainer {
+          margin-top: 8rem;
+
+          &-title {
+            opacity: 1;
+            height: auto;
+            margin-bottom: 2.2rem !important;
+          }
+        }
+      }
+    }
   }
 }

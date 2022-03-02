@@ -30,82 +30,76 @@ function AdminConsole(props) {
   const match = useRouteMatch();
   return (
     <React.Fragment>
-      
+
       <Switch>
-        <Route path={`${match.url}/${RouteUrl.MONITORJOBS}`} exact>
+        <Route path={`${match.path}/${RouteUrl.MONITORJOBS}`} exact>
           <MonitorJobs />
         </Route>
-        <Route path={`${match.url}/${RouteUrl.CREATEJOBS}`} exact>
+        <Route path={`${match.path}/${RouteUrl.CREATEJOBS}`} exact>
           <CreateJob />
         </Route>
-        <Route path={`${match.url}/${RouteUrl.SOURCES}`} exact>
+        <Route path={`${match.path}/${RouteUrl.SOURCES}`} exact>
           <ListAllSources />
         </Route>
         <Route
-          path={`${match.url}/${RouteUrl.LISTALLSOURCECONFIGTEMPLATES}`}
+          path={`${match.path}/${RouteUrl.LISTALLSOURCECONFIGTEMPLATES}`}
           exact
         >
           <ListAllConfigTemplates />
         </Route>
-        <Route path={`${match.url}/${RouteUrl.CONFLUENCECREATESOURCE}`} exact>
+        <Route path={`${match.path}/${RouteUrl.SOURCES}/${RouteUrl.CONFLUENCE}/${RouteUrl.CREATESOURCE}`} exact>
           <CreateConfluenceSource />
         </Route>
-        <Route path={`${match.url}/${RouteUrl.CONFLUENCECONFIGTEMPLATE}`} exact>
+        <Route path={`${match.path}/${RouteUrl.SOURCES}/${RouteUrl.CONFLUENCE}/${RouteUrl.CONFIGTEMPLATE}`} exact>
           <ConfigConfluenceTemplate />
         </Route>
 
-        <Route path={`${match.url}/${RouteUrl.SHAREPOINTCREATESOURCE}`} exact>
+        <Route path={`${match.path}/${RouteUrl.SOURCES}/${RouteUrl.SHAREPOINT}/${RouteUrl.CREATESOURCE}`} exact>
           <CreateSharepointSource />
         </Route>
-        <Route path={`${match.url}/${RouteUrl.SHAREPOINTCONFIGTEMPLATE}`} exact>
+        <Route path={`${match.path}/${RouteUrl.SOURCES}/${RouteUrl.SHAREPOINT}/${RouteUrl.CONFIGTEMPLATE}`} exact>
           <ConfigSharepointTemplate />
         </Route>
 
-        <Route
-          path={`${match.url}/${RouteUrl.SHAREPOINTONPREMISECREATESOURCE}`}
-          exact
-        >
+        <Route path={`${match.path}/${RouteUrl.SOURCES}/${RouteUrl.SHAREPOINTONPREMISE}/${RouteUrl.CREATESOURCE}`} exact>
           <CreateSharepointOnPremiseSource />
         </Route>
-        <Route
-          path={`${match.url}/${RouteUrl.SHAREPOINTONPREMISECONFIGTEMPLATE}`}
-          exact
-        >
+        <Route path={`${match.path}/${RouteUrl.SOURCES}/${RouteUrl.SHAREPOINT}/${RouteUrl.CONFIGTEMPLATE}`} exact>
           <ConfigSharepointOnPremiseTemplate />
         </Route>
 
-        <Route path={`${match.url}/${RouteUrl.JIRACREATESOURCE}`} exact>
+        <Route path={`${match.path}/${RouteUrl.SOURCES}/${RouteUrl.JIRA}/${RouteUrl.CREATESOURCE}`} exact>
           <CreateJiraSource />
         </Route>
-        <Route path={`${match.url}/${RouteUrl.JIRACONFIGTEMPLATE}`} exact>
+        <Route path={`${match.path}/${RouteUrl.SOURCES}/${RouteUrl.JIRA}/${RouteUrl.CONFIGTEMPLATE}`} exact>
           <ConfigJiraTemplate />
         </Route>
 
-        <Route path={`${match.url}/${RouteUrl.WEBSITECREATESOURCE}`} exact>
+        <Route path={`${match.path}/${RouteUrl.SOURCES}/${RouteUrl.WEBSITE}/${RouteUrl.CREATESOURCE}`} exact>
           <CreateWebsiteSource />
         </Route>
-        <Route path={`${match.url}/${RouteUrl.WEBSITECONFIGTEMPLATE}`} exact>
+        <Route path={`${match.path}/${RouteUrl.SOURCES}/${RouteUrl.JIRA}/${RouteUrl.CONFIGTEMPLATE}`} exact>
           <ConfigWebsiteTemplate />
         </Route>
 
-        <Route path={`${match.url}/${RouteUrl.FILESYSTEMCREATESOURCE}`} exact>
+        <Route path={`${match.path}/${RouteUrl.SOURCES}/${RouteUrl.FILESYSTEM}/${RouteUrl.CREATESOURCE}`} exact>
           <CreateFileSystemSource />
         </Route>
-        <Route path={`${match.url}/${RouteUrl.FILESYSTEMCONFIGTEMPLATE}`} exact>
+        <Route path={`${match.path}/${RouteUrl.SOURCES}/${RouteUrl.FILESYSTEM}/${RouteUrl.CONFIGTEMPLATE}`} exact>
           <ConfigFileSystemTemplate />
         </Route>
 
-        <Route path={`${match.url}/${RouteUrl.LISTOFUSERGROUP}`} exact>
+        <Route path={`${match.path}/${RouteUrl.LISTOFUSERGROUP}`} exact>
           <ListOfUserGroups />
         </Route>
-        <Route path={`${match.url}/${RouteUrl.CREATEUSERGROUP}`} exact>
+        <Route path={`${match.path}/${RouteUrl.CREATEUSERGROUP}`} exact>
           <CreateUserGroup />
         </Route>
 
         <Redirect
-          from={`${match.url}`}
+          from={`${match.path}`}
           exact
-          to={`${match.url}/${RouteUrl.MONITORJOBS}`}
+          to={`${match.path}/${RouteUrl.MONITORJOBS}`}
         />
       </Switch>
     </React.Fragment>

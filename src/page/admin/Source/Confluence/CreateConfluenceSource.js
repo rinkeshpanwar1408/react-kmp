@@ -9,6 +9,7 @@ import { CreateSource } from "../../../../store/action/sourceActions";
 import useMessage from "../../../../hooks/useMessge";
 import { Link, useHistory, useRouteMatch } from "react-router-dom";
 import * as RouteUrl from "../../../../model/route";
+import { useParams } from "react-router-dom";
 const { Title } = Typography;
 
 function CreateConfluenceSource(props) {
@@ -23,7 +24,10 @@ function CreateConfluenceSource(props) {
 
   const history = useHistory();
   const match = useRouteMatch();
-  console.log(match.url);
+  const params = useParams();
+
+  console.log(params);
+  console.log(CreateSourceForm);
 
   const submitHandler = async () => {
 
@@ -63,10 +67,10 @@ function CreateConfluenceSource(props) {
           className="FormPageHeader"
           extra={[
             <Breadcrumb>
-              <Breadcrumb.Item>
-                <Link to={`${RouteUrl.ADMIN}/${RouteUrl.SOURCES}`}>
-                  <HomeOutlined />
-                </Link>
+              <Breadcrumb.Item onClick={()=>{
+                history.push(`/${RouteUrl.ADMIN}`)
+              }}>
+                <HomeOutlined />
               </Breadcrumb.Item>
               <Breadcrumb.Item>Create Source</Breadcrumb.Item>
             </Breadcrumb>
@@ -74,7 +78,6 @@ function CreateConfluenceSource(props) {
         >
         </PageHeader>
         <StyledCard className="formContainer">
-
           <Form
             name="basic"
             layout="vertical"
@@ -102,11 +105,11 @@ function CreateConfluenceSource(props) {
                 </Form.Item>
               </CustomCol>
 
-              <CustomCol key="rw1.1" xl={2} className="source_type_divider" >
+              <CustomCol key="rw1.2" xl={2} className="source_type_divider" >
                 <Title level={1}>-</Title>
               </CustomCol>
 
-              <CustomCol key="rw1.2" xl={11}  >
+              <CustomCol key="rw1.3" xl={11}  >
                 <Form.Item
                   name="sourcetype"
                   label="Source Type"
@@ -127,7 +130,7 @@ function CreateConfluenceSource(props) {
             </CustomRow>
 
             <CustomRow key="rw2">
-              <CustomCol key="rw1.2" >
+              <CustomCol key="rw2.1" >
                 <Form.Item
                   name="base_url"
                   label='Confluence Url'
@@ -144,7 +147,7 @@ function CreateConfluenceSource(props) {
                 </Form.Item>
               </CustomCol>
 
-              <CustomCol key="rw1.3" >
+              <CustomCol key="rw2.2" >
                 <Form.Item
                   name="useriD"
                   label="User ID"
@@ -161,7 +164,7 @@ function CreateConfluenceSource(props) {
                 </Form.Item>
               </CustomCol>
 
-              <CustomCol key="rw1.4" >
+              <CustomCol key="rw1.3" >
                 <Form.Item
                   name="password"
                   label="Password"
@@ -172,7 +175,7 @@ function CreateConfluenceSource(props) {
                     },
                   ]}
                 >
-                  <Input
+                  <Input.Password
                     placeholder="Enter Password"
                   />
                 </Form.Item>
@@ -181,13 +184,16 @@ function CreateConfluenceSource(props) {
 
 
             <CustomRow key="rw3">
-              <CustomCol key="rw1.3" xxl={24} xl={24} className="text-right">
+              <CustomCol key="rw3.1" xxl={24} xl={24} className="text-right">
                 <Space direction="horizontal">
                   <Button type="primary" onClick={validateForm} >
-                    Validate
+                    Test
+                  </Button>
+                  <Button type="primary" onClick={validateForm} >
+                    Validate Connection
                   </Button>
                   <Button type="primary" htmlType="submit">
-                    Add
+                    Create Source
                   </Button>
                 </Space>
               </CustomCol>

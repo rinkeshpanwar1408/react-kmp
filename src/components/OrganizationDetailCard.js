@@ -9,7 +9,6 @@ import { useSelector } from "react-redux";
 const { Paragraph } = Typography;
 function OrganizationDetailCard(props) {
 
-  debugger;
   const OrganizationDetail = useSelector(
     (state) => state.searchresults.quickLinkDetail
   );

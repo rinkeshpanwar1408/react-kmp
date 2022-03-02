@@ -437,7 +437,8 @@
             }
           }
 
-          &-homeIcon,&-fullscreen {
+          &-homeIcon,
+          &-fullscreen {
             color: $common_extra_color_1;
           }
 
@@ -468,9 +469,14 @@
           }
         }
 
-        &_searchcontainer_inputBox-input{
+        &_searchcontainer_inputBox-input {
           border-color: $common_extra_color_1;
-          color: $common_extra_color_1 !important;
+          color: $light_font_color !important;
+          background-color: $common_light_extra_color_8 !important;
+
+          &::placeholder {
+            color: $common_light_extra_color_7 !important;
+          }
         }
       }
       &_title {
@@ -764,9 +770,15 @@
     color: $common_light_extra_color_5;
   }
 
-  .source_type_divider{
-    h1.ant-typography{
+  .source_type_divider {
+    h1.ant-typography {
       color: $light_font_color;
+    }
+  }
+
+  .filter {
+    &-headertext {
+      color: $common_light_extra_color_6;
     }
   }
 }

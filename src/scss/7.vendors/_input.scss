@@ -9,13 +9,14 @@
 }
 
 .ant-input::placeholder,
-.ant-input-affix-wrapper::placeholder{
+.ant-input-affix-wrapper::placeholder {
   opacity: $opacity-high;
-} 
+}
 
 .ant-input:hover,
 .ant-input:active,
-.ant-input:focus, .ant-input-focused {
+.ant-input:focus,
+.ant-input-focused {
   border-width: 0.2rem !important;
 }
 
@@ -28,4 +29,23 @@
 .ant-form-item-has-error
   :not(.ant-input-affix-wrapper-disabled):not(.ant-input-affix-wrapper-borderless).ant-input-affix-wrapper:hover {
   background-color: transparent;
+}
+
+//Dropdown
+
+.ant-select:not(.ant-select-customize-input) .ant-select-selector{
+  border-width: 0.2rem !important;
+  border-color: rgba($color: $bordercolor, $alpha: $opacity-medium);
+  border-radius: $border-radius-large;
+}
+.ant-select-single.ant-select-lg:not(.ant-select-customize-input) .ant-select-selector{
+  height: 4.9rem;
+}
+
+.ant-select-single.ant-select-lg:not(.ant-select-customize-input) .ant-select-selector::after, .ant-select-single.ant-select-lg:not(.ant-select-customize-input) .ant-select-selector .ant-select-selection-item, .ant-select-single.ant-select-lg:not(.ant-select-customize-input) .ant-select-selector .ant-select-selection-placeholder{
+  line-height: 4.5rem;
+}
+
+.ant-select{
+  
 }

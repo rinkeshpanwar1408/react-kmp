@@ -440,7 +440,8 @@
             }
           }
 
-          &-homeIcon,&-fullscreen {
+          &-homeIcon,
+          &-fullscreen {
             color: $common_extra_color_1;
           }
 
@@ -471,9 +472,14 @@
           }
         }
 
-        &_searchcontainer_inputBox-input{
-          border-color: $common_extra_color_1;
-          color: $common_extra_color_1 !important;
+        &_searchcontainer_inputBox-input {
+          border-color: $bordercolor;
+          color: $dark_font_color !important;
+          background-color: $common_dark_extra_color_8 !important;
+
+          &::placeholder {
+            color: $common_dark_extra_color_7 !important;
+          }
         }
       }
       &_title {
@@ -510,7 +516,7 @@
 
   .WorkSpace {
     &Container {
-      border-color: rgba($color: $bordercolor, $alpha: $opacity-medium);
+      border-color: $common_extra_color_1;
       color: $dark_font_color;
     }
   }
@@ -765,9 +771,15 @@
     color: $common_dark_extra_color_5;
   }
 
-  .source_type_divider{
-    h1.ant-typography{
+  .source_type_divider {
+    h1.ant-typography {
       color: $dark_font_color;
+    }
+  }
+
+  .filter {
+    &-headertext {
+      color: $common_dark_extra_color_6;
     }
   }
 }

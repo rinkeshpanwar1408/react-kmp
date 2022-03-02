@@ -10,17 +10,23 @@ import { useDispatch, useSelector } from "react-redux";
 import { GetSources } from "../../../store/action/sourceActions";
 import CustomPopconfirm from "../../../components/CustomPopconfirm";
 import useMessage from "../../../hooks/useMessge";
-import { useRouteMatch } from "react-router-dom";
+import { useHistory, useRouteMatch } from "react-router-dom";
+import * as RouteUrl from "../../../model/route";
 
 function ListAllSources(props) {
   const SourceList = useSelector(state => state.source.Sources);
   const dispatch = useDispatch();
   const [isLoadingdata, setIsLoadingdata] = useState(false);
   const { ShowErrorMessage } = useMessage();
-  const RouteMatch= useRouteMatch();
+  const RouteMatch = useRouteMatch();
+  const history = useHistory();
 
-  console.log(RouteMatch.path);
-  
+  const onEditSourceHandler = (source) => {
+    history.push({
+      pathname: `${RouteMatch.path}/${RouteUrl.CONFLUENCE}/${RouteUrl.CREATESOURCE}`,
+    });
+  }
+
   useEffect(() => {
     try {
       const getData = async () => {
@@ -58,7 +64,7 @@ function ListAllSources(props) {
       render: (text, record) => (
         <Space>
           <Tooltip title="Edit">
-            <Button type="primary" shape="circle" icon={<FiEdit fontSize="20" />} />
+            <Button type="primary" shape="circle" icon={<FiEdit fontSize="20" />} onClick={() => onEditSourceHandler(text.source_name)} />
           </Tooltip>
 
           <Tooltip title="Delete">
