@@ -1,22 +1,33 @@
 import React, { useState, useEffect } from "react";
-import { Breadcrumb, Button, Input, PageHeader, Space, Table, Tag, Form, Typography } from "antd";
+import { Breadcrumb, Button, Input, PageHeader, Space, Table, Tag, Form, Typography, Modal } from "antd";
 import { HomeOutlined, UserOutlined, LockOutlined } from '@ant-design/icons'
 import { StyledCard } from "../../../../styled-components/CommonControls";
 import CustomRow from "../../../../components/CustomRow";
 import CustomCol from "../../../../components/CustomCol";
 import { useDispatch, useSelector } from "react-redux";
-import { CreateSource, GetSources } from "../../../../store/action/sourceActions";
-import useMessage from "../../../../hooks/useMessge";
+import * as ActionCreator from "../../../../store/action/sourceActions";
+import useNotification from "../../../../hooks/useNotification";
+import useMessage from "../../../../hooks/useMessage";
+import useConfirm from "../../../../hooks/useConfirm";
 import { Link, useHistory, useRouteMatch } from "react-router-dom";
 import * as RouteUrl from "../../../../model/route";
 import { useParams } from "react-router-dom";
+import { sourceApi } from "../../../../utility/axios";
+import { CONFLUENCE } from "../../../../model/constant";
+
 const { Title } = Typography;
+const { confirm } = Modal;
 
 function CreateConfluenceSource(props) {
-  const SourceList = useSelector(state => state.source.Sources);
+  const SourceDetail = useSelector(state => state.source.SourceDetail);
+
   const [validate, setValidate] = useState(false);
   const [CreateSourceForm] = Form.useForm();
-  const [result, setResult] = useState(false)
+  const [isEditMode, setisEditMode] = useState(false);
+  const [sourceId, setsourceId] = useState(0);
+  const history = useHistory();
+  const match = useRouteMatch();
+
   const dispatch = useDispatch();
   const {
     ShowSuccessMessage,
@@ -24,70 +35,106 @@ function CreateConfluenceSource(props) {
     ShowWarningMessage,
   } = useMessage();
 
-  const history = useHistory();
-  const match = useRouteMatch();
+  const { ShowConfirmDailog } = useConfirm();
   const { full_source_name } = useParams();
 
-
   useEffect(() => {
-    (result && !full_source_name) && CreateSourceForm.setFieldsValue({
-      sourcename: ""
-    })
-  }, [result])
-
-  useEffect(() => {
-    full_source_name ? CreateSourceForm.setFieldsValue({
-      sourcetype: full_source_name.substring(full_source_name.lastIndexOf("-") + 1),
-      sourcename: full_source_name.substring(0, full_source_name.lastIndexOf("-"))
-    }) : CreateSourceForm.setFieldsValue({
-      sourcetype: "Confluence",
-      sourcename: ""
-    })
-  }, [full_source_name])
-
-  useEffect(() => {
-    if (SourceList.length <= 0) {
-      try {
-        const getData = async () => {
-          const response = await dispatch(GetSources());
-        }
-        getData();
+    try {
+      const getDetail = async () => {
+        const response = await dispatch(ActionCreator.GetSourceDetail(full_source_name));
+        CreateSourceForm.setFieldsValue({
+          sourcename: response.data.source_name,
+          userId: response.data.user_id,
+          base_url: response.data.base_url,
+          password: response.data.password,
+          sourcetype: response.data.source_type,
+        });
       }
-      catch (error) {
-        ShowErrorMessage("Something Went Wrong");
+
+      if (full_source_name) {
+        setisEditMode(true);
+        getDetail();
       }
+      else {
+        CreateSourceForm.setFieldsValue({
+          sourcetype: CONFLUENCE,
+        });
+      }
+
+    } catch (error) {
+      ShowWarningMessage("Something Went Wrong");
     }
-  }, [dispatch])
-
-
-  console.log(CreateSourceForm);
+  }, [full_source_name, isEditMode])
 
   const submitHandler = async () => {
-
     try {
       const values = await CreateSourceForm.validateFields();
-      const result = await dispatch(
-        CreateSource({
-          id: 0,
-          source_name: values.sourcename + "-" + "Confluence",
-          base_url: values.base_url,
-          user_id: values.useriD,
-          password: values.password,
-          userName: "",
-          validated: validate
-        })
-      );
 
-      if (!result.data) {
-        ShowWarningMessage("data is not correct");
+      if (isEditMode) {
+        const result = await dispatch(
+          ActionCreator.UpdateSource({
+            id: sourceId,
+            source_name: values.sourcename,
+            source_type: CONFLUENCE,
+            base_url: values.base_url,
+            user_id: values.userId,
+            password: values.password,
+            userName: "admin",
+            validated: validate
+          })
+        );
+
+        if (result.data) {
+          ShowSuccessMessage("Source updated successfully");
+        }
+
+
       } else {
-        ShowSuccessMessage("Source created successfully");
+        // const result = await dispatch(
+        //   ActionCreator.CreateSource({
+        //     id: 0,
+        //     source_name: values.sourcename,
+        //     source_type: "Confluence",
+        //     base_url: values.base_url,
+        //     user_id: values.userId,
+        //     password: values.password,
+        //     userName: "admin",
+        //     validated: validate
+        //   })
+        // );
+        // if (result.data) {
+        //   ShowSuccessMessage("Source created successfully");
+        //   warning({
+        //     title: 'Configure Source',
+        //     content: "Do you want to create source config?",
+        //     onOk() { },
+        //     onCancel() { },
+        //   })
+        // }
+
+        if (true) {
+          ShowSuccessMessage("Source created successfully");
+          ShowConfirmDailog("Configure Source",
+            "Do you want to create source config?",
+            () => {
+              history.push(`${RouteUrl.HINTSEARCH}/${RouteUrl.ADMIN}/${RouteUrl.SOURCES}/${RouteUrl.CONFLUENCE}/${RouteUrl.CONFIGTEMPLATE}`)
+            },
+            () => { },
+            "Yes",
+            "No")
+        }
+
       }
+
+      // if (!result.data) {
+      //   ShowWarningMessage("data is not correct");
+      // } else {
+      //   ShowSuccessMessage("Source created successfully");
+      // }
     }
     catch (error) {
       ShowErrorMessage("Something Went Wrong");
     }
-
   };
 
   const validateForm = () => {
@@ -96,10 +143,13 @@ function CreateConfluenceSource(props) {
 
   const onBlurSourceHandler = async (e) => {
     if (!full_source_name) {
-      const res = await SourceList.filter((val => val.full_source_name === e.target.value + "-" + "Confluence"))
-      const output=res.length > 0 ? true : false;
-      setResult(res.length > 0 ? true : false);
-      output && ShowWarningMessage(`${res[0].full_source_name} source is already used please try using unique name`)
+      const res = await sourceApi.get(`validate/${e.target.value}-confluence`);
+      if (!res.data) {
+        CreateSourceForm.setFieldsValue({
+          sourcename: ""
+        })
+        ShowWarningMessage(`This source was already in used used please try with other source name`)
+      }
     }
   }
 
@@ -112,16 +162,20 @@ function CreateConfluenceSource(props) {
           className="FormPageHeader"
           extra={[
             <Breadcrumb>
-              <Breadcrumb.Item onClick={() => {
-                history.push(`/${RouteUrl.ADMIN}`)
-              }}>
-                <HomeOutlined />
+              <Breadcrumb.Item>
+                <Link to={`${RouteUrl.HINTSEARCH}/${RouteUrl.ADMIN}/${RouteUrl.MONITORJOBS}`}>
+                  <HomeOutlined />
+                </Link>
               </Breadcrumb.Item>
-              <Breadcrumb.Item>Sources</Breadcrumb.Item>
+              <Breadcrumb.Item>
+                <Link to={`${RouteUrl.HINTSEARCH}/${RouteUrl.ADMIN}/${RouteUrl.SOURCES}`}>
+                  Sources
+                </Link>
+              </Breadcrumb.Item>
               <Breadcrumb.Item>Confluence</Breadcrumb.Item>
               {!full_source_name && <Breadcrumb.Item>Create Source</Breadcrumb.Item>}
               {full_source_name && <Breadcrumb.Item>{full_source_name}</Breadcrumb.Item>}
-              {full_source_name && <Breadcrumb.Item>edit</Breadcrumb.Item>}
+              {full_source_name && <Breadcrumb.Item>Edit</Breadcrumb.Item>}
             </Breadcrumb>
           ]}
         >
@@ -174,7 +228,6 @@ function CreateConfluenceSource(props) {
 
                   <Input
                     placeholder="Enter Source Type"
-                    defaultValue={"Confluence"}
                   />
                 </Form.Item>
               </CustomCol>
@@ -200,8 +253,8 @@ function CreateConfluenceSource(props) {
 
               <CustomCol key="rw2.2" >
                 <Form.Item
-                  name="useriD"
-                  label="User ID"
+                  name="userId"
+                  label="User Id"
                   rules={[
                     {
                       required: true,
@@ -226,9 +279,7 @@ function CreateConfluenceSource(props) {
                     },
                   ]}
                 >
-                  <Input
-                    placeholder="Enter Password"
-                  />
+                  <Input.Password placeholder="Enter Password" />
                 </Form.Item>
               </CustomCol>
             </CustomRow>
@@ -241,15 +292,15 @@ function CreateConfluenceSource(props) {
                     Validate Connection
                   </Button>
                   <Button type="primary" htmlType="submit">
-                    Create Source
+                    {isEditMode ? "Update Source" : "Create Source"}
                   </Button>
                 </Space>
               </CustomCol>
             </CustomRow>
           </Form>
         </StyledCard>
-      </CustomCol>
-    </CustomRow>
+      </CustomCol >
+    </CustomRow >
   );
 }
 

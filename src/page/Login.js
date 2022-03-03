@@ -17,7 +17,7 @@ import {
 import infy from "../assests/image/InfosysLogo.png";
 import { useDispatch } from "react-redux";
 import * as ActionCreator from "../store/action/AuthActions";
-import useMessage from "../hooks/useMessge";
+import useMessage from "../hooks/useMessage";
 import CustomCol from "../components/CustomCol";
 
 const { Title } = Typography;

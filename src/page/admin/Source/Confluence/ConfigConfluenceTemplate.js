@@ -6,7 +6,7 @@ import CustomRow from "../../../../components/CustomRow";
 import CustomCol from "../../../../components/CustomCol";
 import { useDispatch } from "react-redux";
 import { CreateSource, GetSources } from "../../../../store/action/sourceActions";
-import useMessage from "../../../../hooks/useMessge";
+import useMessage from "../../../../hooks/useMessage";
 import { Link, useHistory, useRouteMatch } from "react-router-dom";
 import * as RouteUrl from "../../../../model/route";
 import { useParams } from "react-router-dom";
@@ -203,27 +203,11 @@ function ConfigConfluenceTemplate(props) {
 
                 </Form.Item>
               </CustomCol>
-
-              <CustomCol key="rw1.3" xl={6} >
-                <Form.Item
-                  name="spaceKey"
-                  label="Space Key"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input your Space Key!",
-                    },
-                  ]}
-                >
-                  <Input
-                    placeholder="Enter Space Key"
-                  />
-                </Form.Item>
-              </CustomCol>
             </CustomRow>
 
             <CustomRow key="rw2">
-              <CustomCol key="rw2.3" xl={9}>
+             
+              <CustomCol key="rw2.2" xl={9}>
                 <Form.Item
                   name="RecursiveFlag"
                   label="Recursive Flag"
@@ -239,7 +223,6 @@ function ConfigConfluenceTemplate(props) {
                 <Tree checkable loadData={onLoadData} treeData={treeData} />
 
               </CustomCol>
-
               <CustomCol key="rw2.3" xl={9}>
                 <Form.Item
                   name="sources"
@@ -248,6 +231,23 @@ function ConfigConfluenceTemplate(props) {
                   <Switch defaultChecked checkedChildren={"On"} unCheckedChildren="Off" />
                 </Form.Item>
 
+              </CustomCol>
+
+              <CustomCol key="rw2.1" xl={6} >
+                <Form.Item
+                  name="spaceKey"
+                  label="Space Key"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input your Space Key!",
+                    },
+                  ]}
+                >
+                  <Input
+                    placeholder="Enter Space Key"
+                  />
+                </Form.Item>
               </CustomCol>
             </CustomRow>
 

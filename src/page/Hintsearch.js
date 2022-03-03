@@ -37,6 +37,7 @@ function HintSearch(props) {
   const history = useHistory();
   const location = useLocation();
 
+
   const [collapsed, setcollapsed] = useState(true);
   const onCollapseHandler = () => {
     setcollapsed(!collapsed);

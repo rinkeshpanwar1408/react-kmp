@@ -150,7 +150,7 @@
   }
   //Message
   .ant-message-notice-content {
-    background-color: $darkBg;
+    background-color: $common_dark_extra_color_8;
   }
 
   .ant-message-custom-content {
@@ -331,7 +331,7 @@
   //Modal
   .ant-modal-content,
   .ant-modal-header {
-    background-color: $darkBg;
+    background-color: $common_dark_extra_color_8;
   }
 
   .ant-modal-title,
@@ -781,5 +781,11 @@
     &-headertext {
       color: $common_dark_extra_color_6;
     }
+  }
+
+  //Modal Confirm
+  .ant-modal-confirm-body .ant-modal-confirm-title,
+  .ant-modal-confirm-body .ant-modal-confirm-content {
+    color: $dark_font_color;
   }
 }

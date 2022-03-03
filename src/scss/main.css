@@ -1008,7 +1008,6 @@ body {
 
 .ant-btn:not(.ant-btn-circle) {
   border-radius: 0.5rem;
-  margin-bottom: 1rem;
 }
 
 .ant-btn-circle {
@@ -2993,7 +2992,7 @@ body {
 }
 
 .light .ant-message-notice-content {
-  background-color: #F0F2F5;
+  background-color: #ffffff;
 }
 
 .light .ant-message-custom-content {
@@ -3174,7 +3173,7 @@ body {
 
 .light .ant-modal-content,
 .light .ant-modal-header {
-  background-color: #F0F2F5;
+  background-color: #ffffff;
 }
 
 .light .ant-modal-title,
@@ -3569,6 +3568,11 @@ body {
   color: #212b36;
 }
 
+.light .ant-modal-confirm-body .ant-modal-confirm-title,
+.light .ant-modal-confirm-body .ant-modal-confirm-content {
+  color: #1d2022;
+}
+
 .dark .header-notification-container .icon {
   color: #637381;
 }
@@ -3717,7 +3721,7 @@ body {
 }
 
 .dark .ant-message-notice-content {
-  background-color: #161c24;
+  background-color: #212b36;
 }
 
 .dark .ant-message-custom-content {
@@ -3919,7 +3923,7 @@ body {
 
 .dark .ant-modal-content,
 .dark .ant-modal-header {
-  background-color: #161c24;
+  background-color: #212b36;
 }
 
 .dark .ant-modal-title,
@@ -4311,6 +4315,11 @@ body {
 }
 
 .dark .filter-headertext {
+  color: #ffffff;
+}
+
+.dark .ant-modal-confirm-body .ant-modal-confirm-title,
+.dark .ant-modal-confirm-body .ant-modal-confirm-content {
   color: #ffffff;
 }
 

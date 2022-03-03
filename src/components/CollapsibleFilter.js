@@ -27,10 +27,10 @@ function CollapsibleFilter() {
           key="1"
         >
           <div>
-            <Button type="primary" block>
+            <Button type="primary" block className="m-b-5">
               Apply Filter
             </Button>
-            <Button type="default" block>
+            <Button type="default" block className="m-b-5">
               Reset Filter
             </Button>
           </div>

@@ -12,7 +12,6 @@ const useMessage = () => {
       duration: 10,
       className: `${currentTheme.themestyle}`,
       type: "success",
-      placement:"topRight"
     });
   };
 
@@ -23,7 +22,6 @@ const useMessage = () => {
       duration: 10,
       className: `${currentTheme.themestyle}`,
       type: "info",
-      placement:"topRight"
     });
   };
 
@@ -44,7 +42,6 @@ const useMessage = () => {
       duration: 10,
       className: `${currentTheme.themestyle}`,
       type: "warning",
-      placement:"topRight"
     });
   };
 
