@@ -20,6 +20,7 @@ const { confirm } = Modal;
 
 function CreateConfluenceSource(props) {
   const SourceDetail = useSelector(state => state.source.SourceDetail);
+  const UserDetail = useSelector(state => state.auth.UserDetail);
 
   const [validate, setValidate] = useState(false);
   const [CreateSourceForm] = Form.useForm();
@@ -49,6 +50,8 @@ function CreateConfluenceSource(props) {
           password: response.data.password,
           sourcetype: response.data.source_type,
         });
+
+        setsourceId(response.data.id)
       }
 
       if (full_source_name) {
@@ -71,6 +74,7 @@ function CreateConfluenceSource(props) {
       const values = await CreateSourceForm.validateFields();
 
       if (isEditMode) {
+        debugger;
         const result = await dispatch(
           ActionCreator.UpdateSource({
             id: sourceId,
@@ -79,7 +83,7 @@ function CreateConfluenceSource(props) {
             base_url: values.base_url,
             user_id: values.userId,
             password: values.password,
-            userName: "admin",
+            userName: UserDetail.userName,
             validated: validate
           })
         );
@@ -90,29 +94,19 @@ function CreateConfluenceSource(props) {
 
 
       } else {
-        // const result = await dispatch(
-        //   ActionCreator.CreateSource({
-        //     id: 0,
-        //     source_name: values.sourcename,
-        //     source_type: "Confluence",
-        //     base_url: values.base_url,
-        //     user_id: values.userId,
-        //     password: values.password,
-        //     userName: "admin",
-        //     validated: validate
-        //   })
-        // );
-        // if (result.data) {
-        //   ShowSuccessMessage("Source created successfully");
-        //   warning({
-        //     title: 'Configure Source',
-        //     content: "Do you want to create source config?",
-        //     onOk() { },
-        //     onCancel() { },
-        //   })
-        // }
-
-        if (true) {
+        const result = await dispatch(
+          ActionCreator.CreateSource({
+            id: 0,
+            source_name: values.sourcename,
+            source_type: "Confluence",
+            base_url: values.base_url,
+            user_id: values.userId,
+            password: values.password,
+            userName: UserDetail.userName,
+            validated: validate
+          })
+        );
+        if (result.data) {
           ShowSuccessMessage("Source created successfully");
           ShowConfirmDailog("Configure Source",
             "Do you want to create source config?",
@@ -124,6 +118,17 @@ function CreateConfluenceSource(props) {
             "No")
         }
 
+        // if (true) {
+        //   ShowSuccessMessage("Source created successfully");
+        //   ShowConfirmDailog("Configure Source",
+        //     "Do you want to create source config?",
+        //     () => {
+        //       history.push(`${RouteUrl.HINTSEARCH}/${RouteUrl.ADMIN}/${RouteUrl.SOURCES}/${RouteUrl.CONFLUENCE}/${RouteUrl.CONFIGTEMPLATE}`)
+        //     },
+        //     () => { },
+        //     "Yes",
+        //     "No")
+        // }
       }
 
       // if (!result.data) {

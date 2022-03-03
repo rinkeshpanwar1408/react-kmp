@@ -173,6 +173,10 @@
   .ant-input:focus,
   .ant-input-affix-wrapper:not(.ant-input-affix-wrapper-disabled):hover {
     border-color: $color-1;
+  }
+
+  .ant-input-affix-wrapper:focus, .ant-input-affix-wrapper-focused {
+    border-color: $color-1;
     box-shadow: 0 0 0 2px rgba($color: $color-1, $alpha: $opacity-low);
   }
 

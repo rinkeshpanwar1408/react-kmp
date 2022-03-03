@@ -25,7 +25,13 @@ export function LoginUser(payload, cb, errorcb) {
     try {
       const response = await Login(payload);
       //Dispatch
-
+      if (response.data) {
+        dispatch({
+          type: Actions.LOGINUSER,
+          payload: response.data
+        }
+        );
+      }
       return response;
     } catch (error) {
       if (errorcb) errorcb(error);
@@ -35,4 +41,17 @@ export function LoginUser(payload, cb, errorcb) {
   };
 }
 
-
+export function LogoutUser(cb, errorcb) {
+  return async function (dispatch) {
+    try {
+      //Dispatch
+      dispatch({
+        type: Actions.LOGOUTUSER,
+      })
+    } catch (error) {
+      if (errorcb) errorcb(error);
+      dispatch({ type: Actions.SETERROR, payload: error });
+      throw (error);
+    }
+  };
+}

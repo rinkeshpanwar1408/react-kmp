@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyledMainContentContainer } from "../styled-components/Master";
 import background from "../assests/image/header_bg_light.png";
 //import background from "../assests/image/header-bg-dark.png";
@@ -19,12 +19,18 @@ import { useDispatch } from "react-redux";
 import * as ActionCreator from "../store/action/AuthActions";
 import useMessage from "../hooks/useMessage";
 import CustomCol from "../components/CustomCol";
+import { useHistory } from "react-router-dom";
+import * as RouteUrl from "../model/route";
 
 const { Title } = Typography;
 
 const Login = (props) => {
   const [loginForm] = Form.useForm();
   const dispatch = useDispatch();
+  const history = useHistory();
+
+  const [isLoading, setisLoading] = useState(false)
+
   const {
     ShowSuccessMessage,
     ShowErrorMessage,
@@ -33,6 +39,7 @@ const Login = (props) => {
 
   const onLoginHandler = async () => {
     try {
+      setisLoading(true)
       const values = await loginForm.validateFields();
       const result = await dispatch(
         ActionCreator.LoginUser({
@@ -45,9 +52,13 @@ const Login = (props) => {
         ShowWarningMessage(result.data.message);
       } else {
         ShowSuccessMessage(`Welcome ${result.data?.userName}`);
+        history.push(`${RouteUrl.HINTSEARCH}`)
       }
     } catch (error) {
       ShowErrorMessage("Something Went Wrong");
+    }
+    finally {
+      setisLoading(false)
     }
   };
 
@@ -116,7 +127,7 @@ const Login = (props) => {
 
             <Row key="rw2">
               <CustomCol key="rw1.3" xxl={24} xl={24} className="text-right">
-                <Button type="primary" htmlType="submit">
+                <Button type="primary" htmlType="submit" loading={isLoading}>
                   Login
                 </Button>
               </CustomCol>

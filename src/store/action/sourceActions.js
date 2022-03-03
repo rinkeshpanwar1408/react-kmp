@@ -26,9 +26,9 @@ const UpdateSourceApi = async (payload) => {
   }
 }
 
-const GetSourcesApi = async () => {
+const GetSourcesApi = async (payload) => {
   try {
-    const response = await Api.get('/source/all');
+    const response = await Api.post('/source/all',{"userName": payload.username});
     return response;
   } catch (error) {
     let errorInfo;
@@ -67,8 +67,8 @@ export function CreateSource(payload) {
 
 export function UpdateSource(payload) {
   return async function (dispatch) {
-    debugger;
     try {
+      debugger;
       const response = await UpdateSourceApi(payload);
       debugger;
       if (response.data) {
@@ -83,9 +83,10 @@ export function UpdateSource(payload) {
 }
 
 export function GetSources() {
-  return async function (dispatch) {
+  return async function (dispatch,getState) {
     try {
-      const response = await GetSourcesApi();
+      const state = getState();
+      const response = await GetSourcesApi({username:state.auth.UserDetail.userName});
       if (response?.data) {
         dispatch({
           type: Actions.GETSOURCES,

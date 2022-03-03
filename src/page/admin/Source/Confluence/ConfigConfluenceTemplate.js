@@ -7,7 +7,7 @@ import CustomCol from "../../../../components/CustomCol";
 import { useDispatch } from "react-redux";
 import { CreateSource, GetSources } from "../../../../store/action/sourceActions";
 import useMessage from "../../../../hooks/useMessage";
-import { Link, useHistory, useRouteMatch } from "react-router-dom";
+import { Link, useHistory, useLocation, useRouteMatch } from "react-router-dom";
 import * as RouteUrl from "../../../../model/route";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -50,23 +50,26 @@ function ConfigConfluenceTemplate(props) {
   const [validate, setValidate] = useState(false);
   const [CreateSourceForm] = Form.useForm();
   const dispatch = useDispatch();
+  const location = useLocation();
+
+  const params = new URLSearchParams(location.search);
+
+  CreateSourceForm.setFieldsValue({
+    source:params.get("source"),
+    template:"Template"
+  })
+
   const {
     ShowSuccessMessage,
     ShowErrorMessage,
     ShowWarningMessage,
   } = useMessage();
 
-  const history = useHistory();
-  const match = useRouteMatch();
-  const params = useParams();
-
-
 
   useEffect(() => {
     const fillDropDown = () => {
       dispatch(GetSources())
     }
-    debugger;
     if (SourceList.length <= 0) {
       fillDropDown();
     }
@@ -168,15 +171,13 @@ function ConfigConfluenceTemplate(props) {
                     },
                   ]}
                 >
-                  <Input
-                    placeholder="Enter Source Name"
-                  />
+                  <Input placeholder="Enter Source Name" />
                 </Form.Item>
               </CustomCol>
 
               <CustomCol key="rw1.2" xl={9}  >
                 <Form.Item
-                  name="sources"
+                  name="source"
                   label="Source"
                   rules={[
                     {
@@ -196,17 +197,26 @@ function ConfigConfluenceTemplate(props) {
                   >
                     {
                       SourceList.map((item, i) => {
-                        return < Option value={item.source_name}>{item.source_name}</Option>
+                        return < Option value={item.full_source_name}>{item.full_source_name}</Option>
                       })
                     }
                   </Select>
 
                 </Form.Item>
               </CustomCol>
+
+              <CustomCol key="rw1.3" xl={6} >
+                <Form.Item
+                  name="template"
+                  label="Template"
+                >
+                  <Input placeholder="Enter Source Name" addonBefore="-" />
+                </Form.Item>
+              </CustomCol>
             </CustomRow>
 
             <CustomRow key="rw2">
-             
+
               <CustomCol key="rw2.2" xl={9}>
                 <Form.Item
                   name="RecursiveFlag"
@@ -250,8 +260,6 @@ function ConfigConfluenceTemplate(props) {
                 </Form.Item>
               </CustomCol>
             </CustomRow>
-
-
 
             <CustomRow key="rw3">
               <CustomCol key="rw3.1" xxl={24} xl={24} className="text-right">

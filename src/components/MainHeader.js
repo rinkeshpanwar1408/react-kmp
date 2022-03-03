@@ -161,6 +161,9 @@ function MainHeader(props) {
 
   const Dispatch = useDispatch();
   const currentTheme = useSelector((state) => state.theme.Theme);
+  const LoginUserDetail = useSelector((state) => state.auth.UserDetail);
+
+
   const [isFullScreen, setIsFullscreen] = useState(false);
 
   const [visibleSuggestion, setvisibleSuggestion] = useState(false);
@@ -171,7 +174,7 @@ function MainHeader(props) {
   if (location.pathname === `${match.url}/${RouteUrl.MAINSEARCH}`) {
     headerClass = "expanded-header"
   }
-  
+
 
   const onSearchClickHandler = () => {
     setvisibleSuggestion(false)
@@ -375,14 +378,13 @@ function MainHeader(props) {
             />
             <Dropdown
               overlay={<UserMenu />}
-              trigger={"click"}
               placement="bottomRight"
               arrow
             >
               <div className="mainheader_container_navbar_userContainer_userProfile">
                 <FiUser size={22} className="mainheader_container_navbar_userContainer_userProfile-userIcon" />
                 <Text className="mainheader_container_navbar_userContainer_userProfile-text">
-                  Admin
+                  {LoginUserDetail.userName}
                 </Text>
               </div>
             </Dropdown>
@@ -452,7 +454,11 @@ function UserMenu(props) {
       </div>
       <Divider />
       <div>
-        <DropDownMenuItem title="Logout" icon={<FiLogOut size={20} />} />
+        <DropDownMenuItem
+          title="Logout"
+          icon={<FiLogOut size={20} />}
+          onClick={() => history.replace(`${RouteUrl.LOGIN}`)}
+        />
       </div>
     </div>
   );

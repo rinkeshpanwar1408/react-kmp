@@ -1,5 +1,6 @@
 import { combineReducers, createStore, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
+import AuthReducer from "./AuthReducer";
 import ErrorReducer from "./ErrorReducer";
 import SearchResultsReducer from "./searchResultsReducer";
 import SourceConfigReducer from "./SourceConfigReducer";
@@ -11,8 +12,8 @@ const rootReducer = combineReducers({
   theme:ThemeReducer,
   error:ErrorReducer,
   source:SourceReducer,
-  sourceConfig:SourceConfigReducer
-  // auth:AuthReducer
+  sourceConfig:SourceConfigReducer,
+  auth:AuthReducer
 });
 
 const store = createStore(rootReducer, applyMiddleware(thunk));

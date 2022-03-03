@@ -21,7 +21,6 @@ import PageNotFound from "./page/PageNotFound";
 function App() {
   const currentTheme = useSelector((state) => state.theme.Theme);
   const Error = useSelector((state) => state.error.Error);
-
   return (
     <ThemeProvider theme={currentTheme}>
       <StyledMainLayout
@@ -34,23 +33,27 @@ function App() {
             />
           }
         >
-          <Switch>
-            <Route path={RouteUrl.LOGIN} exact><Login /></Route>
-            <Route path={RouteUrl.HINTSEARCH} >
-              <HintSearch />
-            </Route>
-            <Redirect from="/" exact to={RouteUrl.HINTSEARCH} />
+          {!Error &&
+            <Switch>
+              <Route path={RouteUrl.LOGIN} exact><Login /></Route>
+              <Route path={RouteUrl.HINTSEARCH} >
+                <HintSearch />
+              </Route>
+              <Redirect from="/" exact to={RouteUrl.HINTSEARCH} />
+
+              <Route>
+                <PageNotFound />
+              </Route>
+            </Switch>
+          }
+          {Error &&
             <Route path={`${RouteUrl.ERROR}`} exact>
               <ErrorPage />
             </Route>
-
-            {Error &&
-              <Redirect exact to={RouteUrl.ERROR} />
-            }
-            <Route>
-              <PageNotFound />
-            </Route>
-          </Switch>
+          }
+          {Error &&
+            <Redirect to={RouteUrl.ERROR} />
+          }
         </Suspense>
       </StyledMainLayout>
     </ThemeProvider >

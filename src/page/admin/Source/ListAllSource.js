@@ -4,7 +4,7 @@ import { HomeOutlined, UserOutlined } from '@ant-design/icons'
 import { StyledCard } from "../../../styled-components/CommonControls";
 import CustomCol from "../../../components/CustomCol";
 import CustomRow from "../../../components/CustomRow";
-import { FiEdit, FiTrash2 } from "react-icons/fi";
+import { FiEdit, FiSettings, FiTrash2 } from "react-icons/fi";
 import { sourceApi } from "../../../utility/axios";
 import { useDispatch, useSelector } from "react-redux";
 import { GetSources } from "../../../store/action/sourceActions";
@@ -25,13 +25,12 @@ function ListAllSources(props) {
     history.push({
       pathname: `${RouteMatch.path}/${RouteUrl.CONFLUENCE}/${RouteUrl.CREATESOURCE}/${source}`,
     });
-
-
   }
 
   useEffect(() => {
     try {
       const getData = async () => {
+        debugger;
         setIsLoadingdata(true);
         const response = await dispatch(GetSources());
         setIsLoadingdata(false);
@@ -78,6 +77,18 @@ function ListAllSources(props) {
               <Button danger type="primary" shape="circle" icon={<FiTrash2 fontSize="20" />} />
             </CustomPopconfirm>
           </Tooltip>
+
+          <Tooltip title="Add Configuration Template">
+            <Button type="default" shape="circle" icon={<FiSettings fontSize="20" />} onClick={() => {
+              debugger;
+              history.push({
+                pathname:`${RouteMatch.path}/${RouteUrl.CONFLUENCE}/${RouteUrl.CONFIGTEMPLATE}`,
+                search:`source=${text.full_source_name}`
+              })
+            }} />
+          </Tooltip>
+
+
         </Space>
       ),
     },
