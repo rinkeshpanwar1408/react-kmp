@@ -1,38 +1,47 @@
 import React, { useEffect, useState } from "react";
-import { Breadcrumb, Button, Input, PageHeader, Space, Table, Tag, Form, Typography, Select, Switch, Checkbox, Tree } from "antd";
+import { Breadcrumb, Button, Input, PageHeader, Space, Table, Modal, Form, Typography, Select, Switch, Checkbox, Tree, Divider } from "antd";
 import { HomeOutlined, UserOutlined, LockOutlined } from '@ant-design/icons'
 import { StyledCard } from "../../../../styled-components/CommonControls";
 import CustomRow from "../../../../components/CustomRow";
 import CustomCol from "../../../../components/CustomCol";
 import { useDispatch } from "react-redux";
-import { CreateSource, GetSources } from "../../../../store/action/sourceActions";
+import * as SourceActionCreator from "../../../../store/action/sourceActions";
+import * as SourceConfigActionCreator from "../../../../store/action/sourceConfigActions";
 import useMessage from "../../../../hooks/useMessage";
 import { Link, useHistory, useLocation, useRouteMatch } from "react-router-dom";
 import * as RouteUrl from "../../../../model/route";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-const { Title } = Typography;
-const { Option } = Select;
+import { sourceApi } from "../../../../utility/axios";
+import { SourceConfig } from "../../../../model/Source";
+import { CONFLUENCE, TEMPLATE } from "../../../../model/constant";
 
-const initTreeData = [
-  {
-    title: 'Expand to load',
-    key: '0',
-  },
-  {
-    title: 'Expand to load',
-    key: '1',
-  },
-  {
-    title: 'Tree Node',
-    key: '2',
-    isLeaf: true,
-  },
-];
+const { Title, Text } = Typography;
+const { Option } = Select;
+const { TreeNode } = Tree;
+
+const createNewTreeData = (treeData, checkedKeys, parentArr = []) => {
+
+  return treeData.reduce((acc, treeDataItem) => {
+    if (checkedKeys.includes(treeDataItem.id)) {
+      if (treeDataItem.children) {
+        parentArr.push(treeDataItem.id)
+        acc.push({
+          ...treeDataItem,
+          children: createNewTreeData(treeDataItem.children, checkedKeys, parentArr)
+        });
+      } else {
+        acc.push(treeDataItem);
+      }
+    }
+    return acc;
+  }, []);
+};
 
 function updateTreeData(list, key, children) {
   return list.map((node) => {
-    if (node.key === key) {
+
+    if (node.id === key) {
       return { ...node, children };
     }
 
@@ -46,19 +55,21 @@ function updateTreeData(list, key, children) {
 
 function ConfigConfluenceTemplate(props) {
   const SourceList = useSelector(state => state.source.Sources);
+  const [showOtherFields, setshowOtherFields] = useState(false)
+  const [showPageSelectionModal, setshowPageSelectionModal] = useState(false);
+  const [IsEditMode, setIsEditMode] = useState(false);
+
+  const [testtreeData, settesttreeData] = useState([]);
+  const [newData, setnewData] = useState([]);
+  const [treecheckedKeys, settreeCheckedKeys] = useState([]);
+  const [treeallCheckedKeys, setalltreeCheckedKeys] = useState([]);
+  const [ExpandKeys, setExpandKeys] = useState([]);
+  const [autoExpand, setautoExpand] = useState(false);
 
   const [validate, setValidate] = useState(false);
   const [CreateSourceForm] = Form.useForm();
   const dispatch = useDispatch();
   const location = useLocation();
-
-  const params = new URLSearchParams(location.search);
-
-  CreateSourceForm.setFieldsValue({
-    source:params.get("source"),
-    template:"Template"
-  })
-
   const {
     ShowSuccessMessage,
     ShowErrorMessage,
@@ -67,216 +78,394 @@ function ConfigConfluenceTemplate(props) {
 
 
   useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    CreateSourceForm.setFieldsValue({
+      source: params.get("source"),
+      template: "Template"
+    })
+  }, [CreateSourceForm, location.search])
+
+  useEffect(() => {
     const fillDropDown = () => {
-      dispatch(GetSources())
+      dispatch(SourceActionCreator.GetSources())
     }
-    if (SourceList.length <= 0) {
-      fillDropDown();
+    fillDropDown();
+
+    //Create Tree Structure from existing data
+    let tempParentArr = [];
+    let tempChildArr = [];
+
+    // if (localStorage.getItem("parentArr")) {
+    //   tempParentArr = [...JSON.parse(localStorage.getItem("parentArr"))];
+    // }
+
+    // if (localStorage.getItem("testTreeData")) {
+    //   tempChildArr = [...JSON.parse(localStorage.getItem("testTreeData"))];
+    // }
+
+    const combineArr = new Set([...tempChildArr, ...tempParentArr]);
+    setalltreeCheckedKeys([...combineArr]);
+
+    const getTestTreeData = async () => {
+
+      function createInitialTreeData(list, key, children) {
+        return list.map((node) => {
+          if (node.id === key) {
+            return { ...node, children };
+          }
+          if (node.children) {
+            return { ...node, children: createInitialTreeData(node.children, key, children) };
+          }
+          return node;
+        });
+      }
+
+      const result = await sourceApi.get("/getpages/Infy-Confluence/FSSTARA");
+      let testArr = [];
+
+      if (result?.data) {
+        const isExist = tempParentArr.findIndex(i => i == result.data.id)
+
+        if (isExist >= 0) {
+          tempParentArr = tempParentArr.filter(i => i !== result.data.id);
+          testArr.push(result.data);
+          const resultChild = await sourceApi.get(`/getchildpages/Infy-Confluence/${result.data.id}`);
+          const childArr = []
+          resultChild.data.forEach(x => {
+            const index = tempParentArr.findIndex(i => i == x.id);
+            if (index >= 0) {
+              childArr.push(x);
+            }
+          })
+          testArr = createInitialTreeData(testArr, result.data.id, childArr);
+        }
+
+        tempParentArr.forEach(async (item) => {
+          const resultChild = await sourceApi.get(`/getchildpages/Infy-Confluence/${item}`);
+          const childArr = []
+          resultChild.data.forEach(x => {
+            const index = tempChildArr.findIndex(i => i == x.id);
+            if (index >= 0) {
+              childArr.push(x);
+            }
+          })
+          testArr = createInitialTreeData(testArr, item, childArr);
+          setnewData(testArr)
+        });
+      }
     }
-  }, [dispatch, SourceList])
+    getTestTreeData();
+  }, [dispatch])
 
 
   const submitHandler = async () => {
     try {
       const values = await CreateSourceForm.validateFields();
-      const result = await dispatch(
-        CreateSource({
-          id: 0,
-          source_name: values.sourcename + "-" + "Confluence",
-          base_url: values.base_url,
-          user_id: values.useriD,
-          password: values.password,
-          userName: "",
-          validated: validate
-        })
-      );
+      const sourceDetail = await dispatch(SourceActionCreator.GetSourceDetail(values.source));
+      const SorceConfig = new SourceConfig(
+        values.configname,
+        sourceDetail.data.source_name,
+        values.configname + "-" + sourceDetail.data.full_source_name + "-" + TEMPLATE,
+        sourceDetail.data.full_source_name
+        ,CONFLUENCE, values.spacekey, values.recursiveflag, values.retriveattachments,
+        treecheckedKeys, ExpandKeys, treecheckedKeys, [], "", []);
 
-      if (!result.data) {
-        ShowWarningMessage("data is not correct");
-      } else {
-        ShowSuccessMessage("Source created successfully");
+      debugger;
+      if (IsEditMode) {
+        // const result = await dispatch(
+        //   ActionCreator.UpdateSource({
+        //     id: sourceId,
+        //     source_name: values.sourcename,
+        //     source_type: CONFLUENCE,
+        //     base_url: values.base_url,
+        //     user_id: values.userId,
+        //     password: values.password,
+        //     userName: UserDetail.userName,
+        //     validated: validate
+        //   })
+        // );
+
+        // if (result.data) {
+        //   ShowSuccessMessage("Config Template updated successfully");
+        // }
+
+      }
+      else {
+        const result = await dispatch(SourceConfigActionCreator.CreateSourceConfig(SorceConfig));
+        if (result.data) {
+          ShowSuccessMessage("Config Template created successfully");
+        }
       }
     }
     catch (error) {
       ShowErrorMessage("Something Went Wrong");
     }
-
   };
+
   const validateForm = () => {
     setValidate(!validate);
   }
 
-  const [treeData, setTreeData] = useState(initTreeData);
-  const onLoadData = ({ key, children }) =>
-    new Promise((resolve) => {
+  const onCheckHandler = (checkedKeys, e) => {
+    const allCheckedKeys = [...checkedKeys, ...e.halfCheckedKeys];
+    // createNewTreeData(treeData, allCheckedKeys);
+    settreeCheckedKeys(checkedKeys);
+    setalltreeCheckedKeys(allCheckedKeys);
+  };
+
+  const onLoadData = ({ key, children }) => {
+    const getChildData = async () => {
       if (children) {
-        resolve();
         return;
       }
+      const result = await sourceApi.get(`/getchildpages/Infy-Confluence/${key}`);
+      settesttreeData((origin) =>
+        updateTreeData(origin, key, result.data)
+      );
+    }
+    return getChildData(key);
+  };
 
-      setTimeout(() => {
-        setTreeData((origin) =>
-          updateTreeData(origin, key, [
-            {
-              title: 'Child Node',
-              key: `${key}-0`,
-            },
-            {
-              title: 'Child Node',
-              key: `${key}-1`,
-            },
-          ]),
+
+  const renderTreeNodes = (data) =>
+    data.map((item) => {
+      if (item.children) {
+        return (
+          <TreeNode title={item.title} key={item.key} dataRef={item}>
+            {renderTreeNodes(item.children)}
+          </TreeNode>
         );
-        resolve();
-      }, 1000);
+      }
+      return <TreeNode {...item} />;
     });
 
+  const onModalToggleHandler = () => {
+    const getTestTreeData = async () => {
+      setautoExpand(false);
+      const result = await sourceApi.get("/getpages/Infy-Confluence/FSSTARA");
+      const testArr = [];
+      testArr.push(result.data)
+      settesttreeData(testArr);
+      // if (localStorage.getItem("parentArr")) {
+      //   const ExpandKeysData = JSON.parse(localStorage.getItem("parentArr"));
+      //   setExpandKeys(ExpandKeysData)
+      // }
+      // if (localStorage.getItem("testTreeData")) {
+      //   settreeCheckedKeys(JSON.parse(localStorage.getItem("testTreeData")))
+      // }
+    }
+    if (testtreeData.length <= 0) {
+      getTestTreeData();
+    }
+    setshowPageSelectionModal(true);
+  }
+
+  const onPageSaveSelectionHandler = () => {
+    // if (localStorage.getItem("testTreeData")) {
+    //   localStorage.removeItem("testTreeData");
+    // }
+    // localStorage.setItem("testTreeData", JSON.stringify(treecheckedKeys));
+
+    const parentArr = []
+    const newData = createNewTreeData(testtreeData, treeallCheckedKeys, parentArr);
+    // if (localStorage.getItem("parentArr")) {
+    //   localStorage.removeItem("parentArr")
+    // }
+    // localStorage.setItem("parentArr", JSON.stringify(parentArr));
+
+    setshowPageSelectionModal(false);
+    setnewData(newData);
+  }
 
   return (
-    <CustomRow justify="center">
-      <CustomCol xl={18} >
-        <PageHeader
-          title="Create Config Template"
-          className="FormPageHeader"
-          extra={[
-            <Breadcrumb>
-              <Breadcrumb.Item>
-                <Link to={`/${RouteUrl.MONITORJOBS}`}>
-                  <HomeOutlined />
-                </Link>
-              </Breadcrumb.Item>
-              <Breadcrumb.Item>Create Config Template</Breadcrumb.Item>
-            </Breadcrumb>
-          ]}
-        >
-        </PageHeader>
-        <StyledCard className="formContainer">
-          <Form
-            name="basic"
-            layout="vertical"
-            size="large"
-            autocomplete="off"
-            onFinish={submitHandler}
-            form={CreateSourceForm}
+    <React.Fragment>
+      <CustomRow justify="center">
+        <CustomCol xl={18} >
+          <PageHeader
+            title="Create Config Template"
+            className="FormPageHeader"
+            extra={[
+              <Breadcrumb>
+                <Breadcrumb.Item>
+                  <Link to={`/${RouteUrl.MONITORJOBS}`}>
+                    <HomeOutlined />
+                  </Link>
+                </Breadcrumb.Item>
+                <Breadcrumb.Item>Create Config Template</Breadcrumb.Item>
+              </Breadcrumb>
+            ]}
           >
-            <CustomRow key="rw1">
-              <CustomCol key="rw1.1" xl={9} >
-                <Form.Item
-                  name="configname"
-                  label="Config Name"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input your Config Name!",
-                    },
-                  ]}
-                >
-                  <Input placeholder="Enter Source Name" />
-                </Form.Item>
-              </CustomCol>
-
-              <CustomCol key="rw1.2" xl={9}  >
-                <Form.Item
-                  name="source"
-                  label="Source"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input your Source Type!",
-                    },
-                  ]}
-                >
-
-                  <Select
-                    showSearch
-                    placeholder="Select a Source"
-                    optionFilterProp="children"
-                    filterOption={(input, option) =>
-                      option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                    }
+          </PageHeader>
+          <StyledCard className="formContainer">
+            <Form
+              name="basic"
+              layout="vertical"
+              size="large"
+              autoComplete="off"
+              onFinish={submitHandler}
+              form={CreateSourceForm}
+            >
+              <CustomRow key="rw1">
+                <CustomCol key="rw1.1" xl={10} >
+                  <Form.Item
+                    name="configname"
+                    label="Config Name"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please input your Config Name!",
+                      },
+                    ]}
                   >
-                    {
-                      SourceList.map((item, i) => {
-                        return < Option value={item.full_source_name}>{item.full_source_name}</Option>
-                      })
-                    }
-                  </Select>
+                    <Input placeholder="Enter Source Name" />
+                  </Form.Item>
+                </CustomCol>
 
-                </Form.Item>
-              </CustomCol>
+                <CustomCol key="rw1.2" xl={10}  >
+                  <Form.Item
+                    name="source"
+                    label="Source"
+                    rules={[{
+                      required: true, message: "Please input your Source Type!",
+                    }]}
+                  >
+                    <Select
+                      showSearch
+                      placeholder="Select a Source"
+                      optionFilterProp="children"
+                      filterOption={(input, option) =>
+                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                      }
+                    >
+                      {SourceList.map((item, i) => {
+                        return <Option key={i} value={item.full_source_name}>{item.full_source_name}</Option>
+                      })}
+                    </Select>
+                  </Form.Item>
+                </CustomCol>
 
-              <CustomCol key="rw1.3" xl={6} >
-                <Form.Item
-                  name="template"
-                  label="Template"
-                >
-                  <Input placeholder="Enter Source Name" addonBefore="-" />
-                </Form.Item>
-              </CustomCol>
-            </CustomRow>
+                <CustomCol key="rw1.3" xl={4} className="source_type_divider">
+                  <Title level={4} className=" m-b-0">-Template</Title>
+                </CustomCol>
+              </CustomRow>
 
-            <CustomRow key="rw2">
+              <CustomRow key="rw2">
 
-              <CustomCol key="rw2.2" xl={9}>
-                <Form.Item
-                  name="RecursiveFlag"
-                  label="Recursive Flag"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input your Source Type!",
-                    },
-                  ]}
-                >
-                  <Switch defaultChecked checkedChildren={"On"} unCheckedChildren="Off" />
-                </Form.Item>
-                <Tree checkable loadData={onLoadData} treeData={treeData} />
+                <CustomCol key="rw2.1" xl={10} >
+                  <Form.Item
+                    name="spacekey"
+                    label="Space Name to Extract Data"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please input your Space Name!",
+                      },
+                    ]}
+                  >
+                    <Input
+                      placeholder="Enter Space Name"
+                    />
+                  </Form.Item>
+                </CustomCol>
+                <CustomCol key="rw2.2" xl={6}>
+                  <Form.Item label="Retrive Attachments?" valuePropName="checked" name="retriveattachments" >
+                    <Switch checkedChildren="On" checked unCheckedChildren="Off" />
+                  </Form.Item>
 
-              </CustomCol>
-              <CustomCol key="rw2.3" xl={9}>
-                <Form.Item
-                  name="sources"
-                  label="Retrive Attachments?"
-                >
-                  <Switch defaultChecked checkedChildren={"On"} unCheckedChildren="Off" />
-                </Form.Item>
+                </CustomCol>
+              </CustomRow>
 
-              </CustomCol>
+              <CustomRow key="rw3">
+                <CustomCol key="rw3.1" xl={9}>
+                  <Form.Item label={<div className="form_title_with_sub">
+                    <Text className="form_title_with_sub-title">Recursive Flag</Text>
+                    <Text type="secondary" className="form_title_with_sub-subtitle">Turn this off to select specific child pages</Text>
+                  </div>} valuePropName="checked" name="recursiveflag" >
+                    <Switch checkedChildren="On" defaultChecked unCheckedChildren="Off" onChange={() => setshowOtherFields(!showOtherFields)} />
+                  </Form.Item>
 
-              <CustomCol key="rw2.1" xl={6} >
-                <Form.Item
-                  name="spaceKey"
-                  label="Space Key"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input your Space Key!",
-                    },
-                  ]}
-                >
-                  <Input
-                    placeholder="Enter Space Key"
-                  />
-                </Form.Item>
-              </CustomCol>
-            </CustomRow>
+                  {showOtherFields &&
+                    <React.Fragment>
+                      <Button type="primary" size="small" className="m-b-10" onClick={() => {
+                        onModalToggleHandler()
+                      }}>
+                        Fetch Confluence Page Tree
+                      </Button>
 
-            <CustomRow key="rw3">
-              <CustomCol key="rw3.1" xxl={24} xl={24} className="text-right">
-                <Space direction="horizontal">
-                  <Button type="primary" htmlType="submit">
-                    Create Config
-                  </Button>
-                </Space>
-              </CustomCol>
-            </CustomRow>
-          </Form>
+                      <Tree
+                        treeData={newData}
+                        autoExpandParent={false}
+                        // expandedKeys={JSON.parse(localStorage.getItem("parentArr"))}
+                        fieldNames={{
+                          title: "title", key: "id", children: "children"
+                        }}
+                      />
+                    </React.Fragment>
+                  }
+                </CustomCol>
+              </CustomRow>
 
-        </StyledCard>
-      </CustomCol>
-    </CustomRow >
+              <CustomRow key="rw4">
+                <CustomCol key="rw4.1" xxl={24} xl={24} className="text-right">
+                  <Space direction="horizontal">
+                    <Button type="primary" htmlType="submit">
+                      Create Config
+                    </Button>
+                  </Space>
+                </CustomCol>
+              </CustomRow>
+            </Form>
+
+          </StyledCard>
+        </CustomCol>
+      </CustomRow >
+
+      <Modal
+        title="Confluence Page Tree"
+        visible={showPageSelectionModal}
+        onCancel={() => {
+          onPageSaveSelectionHandler()
+        }}
+        width={"30%"}
+        footer={
+          <Button onClick={() => {
+            onPageSaveSelectionHandler()
+          }}>Close</Button>
+        }
+      >
+        <Tree
+          checkable
+          autoExpandParent={autoExpand}
+          loadData={onLoadData}
+          treeData={testtreeData}
+          onCheck={onCheckHandler}
+          checkedKeys={treecheckedKeys}
+          expandedKeys={ExpandKeys}
+          onExpand={(keys, info) => {
+            if (info.expanded) {
+              setautoExpand(true);
+              if (!ExpandKeys.includes(info.node.key)) {
+                setExpandKeys(ExpandKeys.concat(info.node.key))
+              }
+            }
+            else {
+              if (ExpandKeys.includes(info.node.key)) {
+                const keys = [...ExpandKeys];
+                const newKeys = keys.filter(i => i !== info.node.key);
+                setExpandKeys(newKeys)
+              }
+            }
+          }}
+          fieldNames={{
+            title: "title", key: "id", children: "children"
+          }} />
+      </Modal>
+    </React.Fragment>
   );
 }
-
 export default ConfigConfluenceTemplate;
+
+
+
+
 

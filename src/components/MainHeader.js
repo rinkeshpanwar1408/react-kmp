@@ -35,11 +35,13 @@ import { FiMenu, FiUser } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import * as ActionCreator from "../store/action/actions";
+import * as AuthActionCreator from "../store/action/AuthActions";
 import { DropDownMenuItem } from "./DropDownMenuItem";
 import * as Actions from "../store/action/index";
 import { DarkBlueTheme, LightBlueTheme } from "../model/Theme";
 import { StyledCard } from "../styled-components/CommonControls";
 import * as RouteUrl from "../model/route";
+import { AutoLogin } from "../store/action/AuthActions";
 
 const { Content } = Layout;
 const { Title, Text } = Typography;
@@ -158,10 +160,11 @@ function MainHeader(props) {
   const match = useRouteMatch();
   const history = useHistory();
   const location = useLocation();
-
   const Dispatch = useDispatch();
+
+
   const currentTheme = useSelector((state) => state.theme.Theme);
-  const LoginUserDetail = useSelector((state) => state.auth.UserDetail);
+  const { userName } = useSelector((state) => state.auth.UserDetail);
 
 
   const [isFullScreen, setIsFullscreen] = useState(false);
@@ -203,6 +206,18 @@ function MainHeader(props) {
     }
   }, [searchWord]);
 
+  useEffect(() => {
+    if (!userName) {
+      if (localStorage.getItem("userDetail")) {
+        Dispatch(AuthActionCreator.AutoLogin(localStorage.getItem("userDetail")));
+      }
+      else {
+        history.push(RouteUrl.LOGIN)
+      }
+    }
+  }, [userName, history])
+
+
   const onSearchTextChangeHandler = (event) => {
     setSearchWord(event.target.value);
   };
@@ -234,6 +249,8 @@ function MainHeader(props) {
       document.removeEventListener("fullscreenchange", onFullScreenHandler);
     };
   }, [isFullScreen, onFullScreenHandler]);
+
+
 
   return (
     <Content
@@ -384,7 +401,7 @@ function MainHeader(props) {
               <div className="mainheader_container_navbar_userContainer_userProfile">
                 <FiUser size={22} className="mainheader_container_navbar_userContainer_userProfile-userIcon" />
                 <Text className="mainheader_container_navbar_userContainer_userProfile-text">
-                  {LoginUserDetail.userName}
+                  {userName}
                 </Text>
               </div>
             </Dropdown>
@@ -410,7 +427,7 @@ function UserMenu(props) {
   const Dispatch = useDispatch();
   const currentTheme = useSelector((state) => state.theme.Theme);
 
-  const onThemeChange = (themetype, color) => {
+  const onThemeClickChange = (themetype, color) => {
     switch (color) {
       // case "brown":
       //   dispatch({
@@ -426,6 +443,11 @@ function UserMenu(props) {
         });
     }
   };
+
+  const onLogoutClickHandler = () => {
+    Dispatch(AuthActionCreator.LogoutUser())
+    history.replace(`${RouteUrl.LOGIN}`);
+  }
 
   return (
     <div className="DropDownMenu userMenu">
@@ -444,12 +466,12 @@ function UserMenu(props) {
         <DropDownMenuItem
           title="Dark Mode"
           icon={<FiMoon size={20} />}
-          onClick={() => onThemeChange("dark", currentTheme.themecolor)}
+          onClick={() => onThemeClickChange("dark", currentTheme.themecolor)}
         />
         <DropDownMenuItem
           title="Light Mode"
           icon={<FiSun size={20} />}
-          onClick={() => onThemeChange("light", currentTheme.themecolor)}
+          onClick={() => onThemeClickChange("light", currentTheme.themecolor)}
         />
       </div>
       <Divider />
@@ -457,7 +479,7 @@ function UserMenu(props) {
         <DropDownMenuItem
           title="Logout"
           icon={<FiLogOut size={20} />}
-          onClick={() => history.replace(`${RouteUrl.LOGIN}`)}
+          onClick={onLogoutClickHandler}
         />
       </div>
     </div>

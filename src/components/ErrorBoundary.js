@@ -16,7 +16,6 @@ class ErrorBoundary extends Component {
       errorInfo: errorInfo
     })
     var logs = { "error": error, "errorInfo": errorInfo,"ErrorBoundary":"Generated from ErrorBoundary." }
-    debugger;
     console.log(logs);
     // sendLogs(logs).then((response) => {
     // }, (error) => { })

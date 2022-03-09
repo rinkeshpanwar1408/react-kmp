@@ -1968,14 +1968,11 @@ body {
 .ant-modal-body {
   overflow: auto;
   padding: 1.2rem 1.5rem;
-}
-
-.search-result-preview .ant-modal-body {
   max-height: 40rem;
 }
 
 .ant-modal-header {
-  border-radius: 1rem !important;
+  border-radius: 1rem 1rem 0 0 !important;
 }
 
 .main_sidebar {
@@ -2258,7 +2255,9 @@ body {
   top: 0.4rem;
 }
 
-.ant-checkbox-inner {
+.ant-checkbox-inner,
+.ant-tree-checkbox-inner,
+.ant-tree-checkbox-indeterminate .ant-tree-checkbox-inner {
   background-color: transparent;
   border-color: #919eab;
   border-radius: 0.5rem;
@@ -2272,7 +2271,8 @@ body {
   border-color: #919eab;
 }
 
-.ant-checkbox-checked::after {
+.ant-checkbox-checked::after,
+.ant-tree-checkbox-checked::after {
   border-radius: 0.5rem;
   border-width: 0.2rem;
 }
@@ -2452,6 +2452,19 @@ body {
   line-height: 4.5rem;
 }
 
+.ant-input-group-addon {
+  border-color: rgba(145, 158, 171, 0.5);
+  border-width: 0.2rem !important;
+}
+
+.ant-select:not(.ant-select-customize-input) .ant-select-selector {
+  background-color: transparent;
+}
+
+.ant-input-group-addon {
+  background-color: transparent;
+}
+
 .FormPageHeader {
   border-radius: 1rem;
   padding: 1.2rem 2rem;
@@ -2477,6 +2490,10 @@ body {
 }
 
 .ant-table {
+  background-color: transparent;
+}
+
+.ant-table-tbody > tr.ant-table-row:hover > td, .ant-table-tbody > tr > td.ant-table-cell-row-hover {
   background-color: transparent;
 }
 
@@ -2608,6 +2625,14 @@ body {
   border-color: rgba(145, 158, 171, 0.2);
 }
 
+.ant-alert {
+  border-radius: 1rem;
+}
+
+.ant-tree {
+  background-color: transparent;
+}
+
 .light.blue .ant-btn-primary {
   background-color: #265fd5;
   border-color: #265fd5;
@@ -2689,7 +2714,8 @@ body {
   color: #265fd5;
 }
 
-.blue .ant-checkbox-checked .ant-checkbox-inner {
+.blue .ant-checkbox-checked .ant-checkbox-inner,
+.blue .ant-tree-checkbox-checked .ant-tree-checkbox-inner {
   background-color: #265fd5;
   border-color: #265fd5;
 }
@@ -2698,7 +2724,8 @@ body {
   border-color: #265fd5;
 }
 
-.blue .ant-checkbox-indeterminate .ant-checkbox-inner::after {
+.blue .ant-checkbox-indeterminate .ant-checkbox-inner::after,
+.blue .ant-tree-checkbox-indeterminate .ant-tree-checkbox-inner::after {
   background-color: #265fd5;
 }
 
@@ -2709,7 +2736,11 @@ body {
 .blue .ant-checkbox-wrapper:hover .ant-checkbox-inner,
 .blue .ant-checkbox:hover .ant-checkbox-inner,
 .blue .ant-checkbox-input:focus + .ant-checkbox-inner,
-.blue .ant-checkbox-checked::after {
+.blue .ant-checkbox-checked::after,
+.blue .ant-tree-checkbox-wrapper:hover .ant-tree-checkbox-inner,
+.blue .ant-tree-checkbox:hover .ant-tree-checkbox-inner,
+.blue .ant-tree-checkbox-input:focus + .ant-tree-checkbox-inner,
+.blue .ant-tree-checkbox-checked::after {
   border-color: #265fd5;
 }
 
@@ -2844,7 +2875,8 @@ body {
   border-color: #265fd5;
 }
 
-.blue .ant-input-affix-wrapper:focus, .blue .ant-input-affix-wrapper-focused {
+.blue .ant-input-affix-wrapper:focus,
+.blue .ant-input-affix-wrapper-focused {
   border-color: #265fd5;
   -webkit-box-shadow: 0 0 0 2px rgba(38, 95, 213, 0.2);
           box-shadow: 0 0 0 2px rgba(38, 95, 213, 0.2);
@@ -2895,7 +2927,8 @@ body {
 }
 
 .light .ant-btn-dangerous.ant-btn-primary:hover,
-.light .ant-btn-dangerous.ant-btn-primary:active {
+.light .ant-btn-dangerous.ant-btn-primary:active,
+.light .ant-btn-dangerous.ant-btn-primary:focus {
   background-color: #ff4d4f;
   border-color: #ff4d4f;
   color: #ffffff;
@@ -3056,14 +3089,14 @@ body {
 }
 
 .light .ant-popover-inner-content {
-  background-color: #F0F2F5;
+  background-color: #ffffff;
   -webkit-box-shadow: 0px 1px 4px rgba(145, 158, 171, 0.5);
           box-shadow: 0px 1px 4px rgba(145, 158, 171, 0.5);
 }
 
 .light .ant-popover-arrow-content,
 .light .ant-popover-inner {
-  background-color: #F0F2F5;
+  background-color: #ffffff;
 }
 
 .light .ant-popover-message-title {
@@ -3252,6 +3285,11 @@ body {
   color: #1d2022;
 }
 
+.light .ant-select,
+.light .ant-select-arrow {
+  color: #1d2022;
+}
+
 .light .ant-form-item-has-error
 :not(.ant-input-disabled):not(.ant-input-borderless).ant-input,
 .light .ant-form-item-has-error
@@ -3267,6 +3305,14 @@ body {
 .light .ant-form-item-label
 > label.ant-form-item-required:not(.ant-form-item-required-mark-optional)::before {
   color: #ff4d4f;
+}
+
+.light .form_title_with_sub-title {
+  color: #1d2022;
+}
+
+.light .form_title_with_sub-subtitle {
+  color: #637381;
 }
 
 .light .main_sidebar {
@@ -3597,6 +3643,14 @@ body {
   color: #1d2022;
 }
 
+.light .ant-tree .ant-tree-node-content-wrapper:hover {
+  background-color: #F0F2F5;
+}
+
+.light .ant-tree {
+  color: #1d2022;
+}
+
 .dark .header-notification-container .icon {
   color: #637381;
 }
@@ -3785,7 +3839,7 @@ body {
 }
 
 .dark .ant-popover-inner-content {
-  background-color: #161c24;
+  background-color: #212b36;
   -webkit-box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.5);
           box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.5);
   color: #ffffff;
@@ -3793,7 +3847,7 @@ body {
 
 .dark .ant-popover-arrow-content,
 .dark .ant-popover-inner {
-  background-color: #161c24;
+  background-color: #212b36;
 }
 
 .dark .ant-popover-message-title {
@@ -4002,6 +4056,11 @@ body {
   color: #ffffff;
 }
 
+.dark .ant-select,
+.dark .ant-select-arrow {
+  color: #ffffff;
+}
+
 .dark .ant-form-item-has-error
 :not(.ant-input-disabled):not(.ant-input-borderless).ant-input,
 .dark .ant-form-item-has-error
@@ -4017,6 +4076,14 @@ body {
 .dark .ant-form-item-label
 > label.ant-form-item-required:not(.ant-form-item-required-mark-optional)::before {
   color: #a61d24;
+}
+
+.dark .form_title_with_sub-title {
+  color: #ffffff;
+}
+
+.dark .form_title_with_sub-subtitle {
+  color: #919eab;
 }
 
 .dark .main_sidebar {
@@ -4347,6 +4414,14 @@ body {
   color: #ffffff;
 }
 
+.dark .ant-tree .ant-tree-node-content-wrapper:hover {
+  background-color: #161c24;
+}
+
+.dark .ant-tree {
+  color: #ffffff;
+}
+
 .ant-menu {
   border-right: none;
 }
@@ -4460,5 +4535,23 @@ body {
 
 .source_type_divider h1.ant-typography {
   margin-bottom: .5rem;
+}
+
+.ant-form-item {
+  margin-bottom: 1.6rem;
+}
+
+.form_title_with_sub {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.form_title_with_sub-subtitle {
+  font-size: 1.2rem;
 }
 /*# sourceMappingURL=main.css.map */

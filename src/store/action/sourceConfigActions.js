@@ -7,7 +7,8 @@ import { createSource } from "./actions";
 
 const CreateSourceConfigApi = async (payload) => {
     try {
-        const response = await Api(payload);
+        debugger;
+        const response = await Api.post("/source/config/create", payload);
         return response;
     } catch (error) {
         let errorInfo;
@@ -16,9 +17,9 @@ const CreateSourceConfigApi = async (payload) => {
     }
 }
 
-const GetSourceConfigList_Api = async () => {
+const GetSourceConfigList_Api = async (payload) => {
     try {
-        const response = await Api.get('/source/config/all');
+        const response = await Api.post('/source/config/all', { "userName": payload.username });
         return response;
     } catch (error) {
         let errorInfo;
@@ -31,10 +32,14 @@ const GetSourceConfigList_Api = async () => {
 //Source Actions
 export function CreateSourceConfig(payload) {
     return async function (dispatch) {
+        debugger;
         try {
             const response = await CreateSourceConfigApi(payload);
             if (response.data) {
-                dispatch(createSource(payload));
+                dispatch({
+                    type: Actions.CREATESOURCECONFIG,
+                    payload: payload
+                });
             }
             return response;
         } catch (error) {
@@ -46,16 +51,16 @@ export function CreateSourceConfig(payload) {
 
 
 export function GetSourceConfigList() {
-    return async function (dispatch) {
+    return async function (dispatch, getState) {
         try {
-            const response = await GetSourceConfigList_Api();
+            const state = getState();
+            const response = await GetSourceConfigList_Api({ username: state.auth.UserDetail.userName });
             if (response?.data) {
                 dispatch({
                     type: Actions.GETSOURCECONFIGS,
                     payload: response.data
                 })
             }
-
             return response;
         } catch (error) {
             dispatch({ type: Actions.SETERROR, payload: error });

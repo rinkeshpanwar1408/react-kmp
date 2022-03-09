@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Breadcrumb, Button, Input, PageHeader, Space, Table, Tag, Form, Typography, Modal } from "antd";
+import { Breadcrumb, Button, Input, PageHeader, Space, Table, Tag, Form, Typography, Modal, Alert } from "antd";
 import { HomeOutlined, UserOutlined, LockOutlined } from '@ant-design/icons'
 import { StyledCard } from "../../../../styled-components/CommonControls";
 import CustomRow from "../../../../components/CustomRow";
@@ -15,7 +15,7 @@ import { useParams } from "react-router-dom";
 import { sourceApi } from "../../../../utility/axios";
 import { CONFLUENCE } from "../../../../model/constant";
 
-const { Title } = Typography;
+const { Title, Text } = Typography;
 const { confirm } = Modal;
 
 function CreateConfluenceSource(props) {
@@ -26,6 +26,9 @@ function CreateConfluenceSource(props) {
   const [CreateSourceForm] = Form.useForm();
   const [isEditMode, setisEditMode] = useState(false);
   const [sourceId, setsourceId] = useState(0);
+  const [IsSubmitLoading, setIsSubmitLoading] = useState(false);
+
+
   const history = useHistory();
   const match = useRouteMatch();
 
@@ -50,7 +53,6 @@ function CreateConfluenceSource(props) {
           password: response.data.password,
           sourcetype: response.data.source_type,
         });
-
         setsourceId(response.data.id)
       }
 
@@ -63,7 +65,6 @@ function CreateConfluenceSource(props) {
           sourcetype: CONFLUENCE,
         });
       }
-
     } catch (error) {
       ShowWarningMessage("Something Went Wrong");
     }
@@ -71,10 +72,10 @@ function CreateConfluenceSource(props) {
 
   const submitHandler = async () => {
     try {
+      setIsSubmitLoading(true);
       const values = await CreateSourceForm.validateFields();
 
       if (isEditMode) {
-        debugger;
         const result = await dispatch(
           ActionCreator.UpdateSource({
             id: sourceId,
@@ -93,7 +94,8 @@ function CreateConfluenceSource(props) {
         }
 
 
-      } else {
+      }
+      else {
         const result = await dispatch(
           ActionCreator.CreateSource({
             id: 0,
@@ -111,34 +113,19 @@ function CreateConfluenceSource(props) {
           ShowConfirmDailog("Configure Source",
             "Do you want to create source config?",
             () => {
-              history.push(`${RouteUrl.HINTSEARCH}/${RouteUrl.ADMIN}/${RouteUrl.SOURCES}/${RouteUrl.CONFLUENCE}/${RouteUrl.CONFIGTEMPLATE}`)
+              history.push(`${RouteUrl.HINTSEARCH}/${RouteUrl.ADMIN}/${RouteUrl.SOURCES}/${RouteUrl.CONFLUENCE}/${RouteUrl.CONFIGTEMPLATE}?source=${values.sourcename}-Confluence`)
             },
             () => { },
             "Yes",
             "No")
         }
-
-        // if (true) {
-        //   ShowSuccessMessage("Source created successfully");
-        //   ShowConfirmDailog("Configure Source",
-        //     "Do you want to create source config?",
-        //     () => {
-        //       history.push(`${RouteUrl.HINTSEARCH}/${RouteUrl.ADMIN}/${RouteUrl.SOURCES}/${RouteUrl.CONFLUENCE}/${RouteUrl.CONFIGTEMPLATE}`)
-        //     },
-        //     () => { },
-        //     "Yes",
-        //     "No")
-        // }
       }
-
-      // if (!result.data) {
-      //   ShowWarningMessage("data is not correct");
-      // } else {
-      //   ShowSuccessMessage("Source created successfully");
-      // }
     }
     catch (error) {
       ShowErrorMessage("Something Went Wrong");
+    }
+    finally {
+      setIsSubmitLoading(false);
     }
   };
 
@@ -148,7 +135,7 @@ function CreateConfluenceSource(props) {
 
   const onBlurSourceHandler = async (e) => {
     if (!full_source_name) {
-      const res = await sourceApi.get(`validate/${e.target.value}-confluence`);
+      const res = await sourceApi.get(`validate/${e.target.value}-${CONFLUENCE}`);
       if (!res.data) {
         CreateSourceForm.setFieldsValue({
           sourcename: ""
@@ -163,7 +150,7 @@ function CreateConfluenceSource(props) {
     <CustomRow justify="center">
       <CustomCol xl={16} >
         <PageHeader
-          title="Create Source"
+          title={isEditMode ? "Edit Source" : "Create Source"}
           className="FormPageHeader"
           extra={[
             <Breadcrumb>
@@ -186,6 +173,17 @@ function CreateConfluenceSource(props) {
         >
         </PageHeader>
         <StyledCard className="formContainer">
+          {
+            isEditMode &&
+            <Alert
+              description={
+                <Text>For this source configuration template is missing please click <Link to={`${RouteUrl.HINTSEARCH}/${RouteUrl.ADMIN}/${RouteUrl.SOURCES}/${RouteUrl.CONFLUENCE}/${RouteUrl.CONFIGTEMPLATE}?source=${full_source_name}`}>here</Link></Text>
+              }
+              type="error"
+              className="m-b-20"
+              closable
+            />
+          }
           <Form
             name="basic"
             layout="vertical"
@@ -293,16 +291,17 @@ function CreateConfluenceSource(props) {
             <CustomRow key="rw3">
               <CustomCol key="rw3.1" xxl={24} xl={24} className="text-right">
                 <Space direction="horizontal">
-                  <Button type="primary"  >
+                  <Button type="primary">
                     Validate Connection
                   </Button>
-                  <Button type="primary" htmlType="submit">
+                  <Button type="primary" htmlType="submit" loading={IsSubmitLoading}>
                     {isEditMode ? "Update Source" : "Create Source"}
                   </Button>
                 </Space>
               </CustomCol>
             </CustomRow>
           </Form>
+
         </StyledCard>
       </CustomCol >
     </CustomRow >

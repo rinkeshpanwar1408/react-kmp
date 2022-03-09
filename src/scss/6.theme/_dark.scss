@@ -187,13 +187,13 @@
   }
   //pop-Confirm / Popover
   .ant-popover-inner-content {
-    background-color: $darkBg;
+    background-color: $common_dark_extra_color_8;
     box-shadow: 0px 1px 4px rgba($dark_shadow_color, 0.5);
     color: $dark_font_color;
   }
   .ant-popover-arrow-content,
   .ant-popover-inner {
-    background-color: $darkBg;
+    background-color: $common_dark_extra_color_8;
   }
   .ant-popover-message-title {
     color: $dark_font_color;
@@ -389,6 +389,11 @@
     color: $dark_font_color;
   }
 
+  .ant-select,
+  .ant-select-arrow {
+    color: $dark_font_color;
+  }
+
   //input
   .ant-form-item-has-error
     :not(.ant-input-disabled):not(.ant-input-borderless).ant-input,
@@ -404,6 +409,15 @@
   .ant-form-item-label
     > label.ant-form-item-required:not(.ant-form-item-required-mark-optional)::before {
     color: $dark-danger-primary;
+  }
+
+  .form_title_with_sub {
+    &-title {
+      color: $dark_font_color;
+    }
+    &-subtitle {
+      color: $common_dark_extra_color_5;
+    }
   }
 
   //Main Side Nav
@@ -786,6 +800,15 @@
   //Modal Confirm
   .ant-modal-confirm-body .ant-modal-confirm-title,
   .ant-modal-confirm-body .ant-modal-confirm-content {
+    color: $dark_font_color;
+  }
+
+  //Tree
+  .ant-tree .ant-tree-node-content-wrapper:hover {
+    background-color: $darkBg;
+  }
+
+  .ant-tree {
     color: $dark_font_color;
   }
 }

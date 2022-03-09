@@ -6,6 +6,7 @@ export default function CustomPopconfirm(props) {
     const currentTheme = useSelector((state) => state.theme.Theme);
     return (
         <Popconfirm
+       
             {...props}
             overlayClassName={`${currentTheme.themestyle} ${currentTheme.themecolor}`}
         >

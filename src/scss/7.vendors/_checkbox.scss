@@ -2,7 +2,9 @@
     top: 0.4rem;
   }
   
-  .ant-checkbox-inner {
+  .ant-checkbox-inner ,
+  .ant-tree-checkbox-inner,
+  .ant-tree-checkbox-indeterminate .ant-tree-checkbox-inner{
     background-color: transparent;
     border-color:  $bordercolor;
     border-radius: $border-radius-small;
@@ -16,7 +18,8 @@
     border-color: $bordercolor;
   }
   
-  .ant-checkbox-checked::after {
+  .ant-checkbox-checked::after,
+  .ant-tree-checkbox-checked::after {
     border-radius: $border-radius-small;
     border-width: 0.2rem;
   }

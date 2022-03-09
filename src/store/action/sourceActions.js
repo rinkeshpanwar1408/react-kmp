@@ -1,12 +1,12 @@
 
 import { sourceApi as Api } from "../../utility/axios";
 import * as Actions from "./index";
-import { createSource } from "./actions";
 
 //Api
 const CreateSourceApi = async (payload) => {
   try {
-    const response = await Api.post("/source/create", payload);
+    debugger;
+    const response = await Api.post("/source/create", { payload });
     return response;
   } catch (error) {
     let errorInfo;
@@ -26,9 +26,20 @@ const UpdateSourceApi = async (payload) => {
   }
 }
 
+const DeleteSourceApi = async (payload) => {
+  try {
+    const response = await Api.delete("/del/source", { "full_source_name": payload });
+    return response;
+  } catch (error) {
+    let errorInfo;
+    errorInfo = error.message;
+    throw errorInfo;
+  }
+}
+
 const GetSourcesApi = async (payload) => {
   try {
-    const response = await Api.post('/source/all',{"userName": payload.username});
+    const response = await Api.post('/source/all', { "userName": payload.username });
     return response;
   } catch (error) {
     let errorInfo;
@@ -52,10 +63,12 @@ const GetSourceDetailApi = async (fullSourceName) => {
 export function CreateSource(payload) {
   return async function (dispatch) {
     try {
-      debugger;
       const response = await CreateSourceApi(payload);
       if (response.data) {
-        dispatch(createSource(payload));
+        dispatch({
+          type: Actions.CREATESOURCE,
+          payload: payload
+        });
       }
       return response;
     } catch (error) {
@@ -68,11 +81,28 @@ export function CreateSource(payload) {
 export function UpdateSource(payload) {
   return async function (dispatch) {
     try {
-      debugger;
       const response = await UpdateSourceApi(payload);
-      debugger;
       if (response.data) {
-        dispatch(createSource(payload));
+        //dispatch(createSource(payload));
+      }
+      return response;
+    } catch (error) {
+      dispatch({ type: Actions.SETERROR, payload: error });
+      throw (error);
+    }
+  };
+}
+
+export function DeleteSource(payload) {
+  return async function (dispatch) {
+    try {
+      debugger;
+      const response = await DeleteSourceApi(payload);
+      if (response.data) {
+        dispatch({
+          type: Actions.DELETESOURCE,
+          payload: payload
+        })
       }
       return response;
     } catch (error) {
@@ -83,17 +113,16 @@ export function UpdateSource(payload) {
 }
 
 export function GetSources() {
-  return async function (dispatch,getState) {
+  return async function (dispatch, getState) {
     try {
       const state = getState();
-      const response = await GetSourcesApi({username:state.auth.UserDetail.userName});
+      const response = await GetSourcesApi({ username: state.auth.UserDetail.userName });
       if (response?.data) {
         dispatch({
           type: Actions.GETSOURCES,
           payload: response.data
         })
       }
-
       return response;
     } catch (error) {
       dispatch({ type: Actions.SETERROR, payload: error });

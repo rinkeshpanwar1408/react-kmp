@@ -12,7 +12,7 @@ const useNotification = () => {
       className: `${currentTheme.themestyle}`,
       key: Math.random().toString(),
       type: "success",
-      duration: 10,
+      duration: 5,
       placement:"topRight"
     });
   };
@@ -24,7 +24,7 @@ const useNotification = () => {
       className: `${currentTheme.themestyle}`,
       key: Math.random().toString(),
       type: "info",
-      duration: 10,
+      duration: 5,
       placement:"topRight"
     });
   };
@@ -36,7 +36,7 @@ const useNotification = () => {
       className: `${currentTheme.themestyle}`,
       key: Math.random().toString(),
       type: "error",
-      duration: 10,
+      duration: 5,
       placement:"topRight"
     });
   };
@@ -48,7 +48,7 @@ const useNotification = () => {
       className: `${currentTheme.themestyle}`,
       key: Math.random().toString(),
       type: "warning",
-      duration: 10,
+      duration: 5,
       placement:"topRight"
     });
   };

@@ -26,7 +26,8 @@
   }
 
   .ant-btn-dangerous.ant-btn-primary:hover,
-  .ant-btn-dangerous.ant-btn-primary:active {
+  .ant-btn-dangerous.ant-btn-primary:active,
+  .ant-btn-dangerous.ant-btn-primary:focus {
     background-color: $light-danger-secondary;
     border-color: $light-danger-secondary;
     color: $common_extra_color_1;
@@ -190,12 +191,12 @@
 
   //pop-Confirm
   .ant-popover-inner-content {
-    background-color: $lightBg;
+    background-color: $common_light_extra_color_8;
     box-shadow: 0px 1px 4px rgba($light_shadow_color, 0.5);
   }
   .ant-popover-arrow-content,
   .ant-popover-inner {
-    background-color: $lightBg;
+    background-color: $common_light_extra_color_8;
   }
   .ant-popover-message-title {
     color: $light_font_color;
@@ -385,6 +386,11 @@
     color: $light_font_color;
   }
 
+  .ant-select,
+  .ant-select-arrow {
+    color: $light_font_color;
+  }
+
   //input
   .ant-form-item-has-error
     :not(.ant-input-disabled):not(.ant-input-borderless).ant-input,
@@ -400,6 +406,15 @@
   .ant-form-item-label
     > label.ant-form-item-required:not(.ant-form-item-required-mark-optional)::before {
     color: $light-danger-primary;
+  }
+
+  .form_title_with_sub {
+    &-title {
+      color: $light_font_color;
+    }
+    &-subtitle {
+      color: $common_light_extra_color_5;
+    }
   }
 
   //Main Side Nav Start
@@ -785,6 +800,15 @@
   //Modal Confirm
   .ant-modal-confirm-body .ant-modal-confirm-title,
   .ant-modal-confirm-body .ant-modal-confirm-content {
+    color: $light_font_color;
+  }
+
+  //Tree
+  .ant-tree .ant-tree-node-content-wrapper:hover {
+    background-color: $lightBg;
+  }
+
+  .ant-tree {
     color: $light_font_color;
   }
 }

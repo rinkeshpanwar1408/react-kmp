@@ -117,3 +117,15 @@
     margin-bottom: .5rem;
   }
 }
+
+.ant-form-item{
+  margin-bottom: 1.6rem;
+}
+
+.form_title_with_sub{
+  display: flex;
+  flex-direction:column;
+  &-subtitle{
+    font-size: 1.2rem;
+  }
+}

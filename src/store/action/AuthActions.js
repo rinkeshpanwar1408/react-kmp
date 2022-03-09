@@ -41,6 +41,23 @@ export function LoginUser(payload, cb, errorcb) {
   };
 }
 
+export function AutoLogin(payload, cb, errorcb) {
+  return async function (dispatch) {
+    try {
+      dispatch({
+        type: Actions.LOGINUSER,
+        payload: JSON.parse(payload)
+      });
+      return payload;
+    } catch (error) {
+      if (errorcb) errorcb(error);
+      dispatch({ type: Actions.SETERROR, payload: error });
+      throw (error);
+    }
+  };
+}
+
+
 export function LogoutUser(cb, errorcb) {
   return async function (dispatch) {
     try {

@@ -9,7 +9,7 @@ const useMessage = () => {
     message.open({
       content: displaymessage,
       key: Math.random().toString(),
-      duration: 10,
+      duration: 5,
       className: `${currentTheme.themestyle}`,
       type: "success",
     });
@@ -19,7 +19,7 @@ const useMessage = () => {
     message.open({
       content: displaymessage,
       key: Math.random().toString(),
-      duration: 10,
+      duration: 5,
       className: `${currentTheme.themestyle}`,
       type: "info",
     });
@@ -29,7 +29,7 @@ const useMessage = () => {
     message.open({
       content: displaymessage,
       key: Math.random().toString(),
-      duration: 10,
+      duration: 5,
       className: `${currentTheme.themestyle}`,
       type: "error",
     });
@@ -39,7 +39,7 @@ const useMessage = () => {
     message.open({
       content: displaymessage,
       key: Math.random().toString(),
-      duration: 10,
+      duration: 5,
       className: `${currentTheme.themestyle}`,
       type: "warning",
     });

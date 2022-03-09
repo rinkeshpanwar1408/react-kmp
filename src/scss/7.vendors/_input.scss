@@ -66,5 +66,17 @@
   line-height: 4.5rem;
 }
 
-.ant-select {
+.ant-input-group-addon {
+  border-color: rgba($color: $bordercolor, $alpha: $opacity-medium);
+  border-width: 0.2rem !important;
 }
+
+//DropDown
+.ant-select:not(.ant-select-customize-input) .ant-select-selector {
+  background-color: transparent;
+}
+
+.ant-input-group-addon {
+  background-color: transparent;
+}
+

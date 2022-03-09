@@ -81,7 +81,7 @@ const Login = (props) => {
             onFinish={onLoginHandler}
             className="login-form"
             form={loginForm}
-            autocomplete="off"
+            autoComplete="off"
           >
             <Row key="rw1">
               <CustomCol key="rw1.1" >

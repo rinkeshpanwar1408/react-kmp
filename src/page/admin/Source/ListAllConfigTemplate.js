@@ -10,7 +10,6 @@ import CustomRow from "../../../components/CustomRow";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
 import { sourceApi } from "../../../utility/axios";
 import { useDispatch, useSelector } from "react-redux";
-import { GetSources } from "../../../store/action/sourceActions";
 import CustomPopconfirm from "../../../components/CustomPopconfirm";
 import useMessage from "../../../hooks/useMessage";
 import { Link, useHistory, useRouteMatch } from "react-router-dom";
@@ -33,7 +32,6 @@ function ListAllConfigTemplates(props) {
       const getData = async () => {
         setIsLoadingdata(true);
         const response = await dispatch(GetSourceConfigList());
-        debugger;
         setIsLoadingdata(false);
       }
       getData();
@@ -49,11 +47,6 @@ function ListAllConfigTemplates(props) {
       dataIndex: 'configName',
       key: 'configName',
     },
-    // {
-    //   title: 'Source Name',
-    //   dataIndex: 'source_name',
-    //   key: 'source_name',
-    // },
     {
       title: 'Source Type',
       dataIndex: 'sourceType',
@@ -127,7 +120,18 @@ function ListAllConfigTemplates(props) {
         </PageHeader>
 
         <StyledCard className="formContainer">
-          <Table loading={isLoadingdata} columns={columns} dataSource={SourceConfigList} bordered pagination={false} />
+          <Table className="m-b-20" loading={isLoadingdata} columns={columns} dataSource={SourceConfigList} bordered pagination={false} />
+          <CustomRow >
+            <CustomCol xxl={24} xl={24} className="text-right" >
+              <Button type="primary" htmlType="submit" onClick={() => {
+                history.push({
+                  pathname: `${RouteMatch.path}/${RouteUrl.CONFLUENCE}/${RouteUrl.CONFIGTEMPLATE}`,
+                });
+              }}>
+                Create Source
+              </Button>
+            </CustomCol>
+          </CustomRow>
         </StyledCard>
       </CustomCol>
 

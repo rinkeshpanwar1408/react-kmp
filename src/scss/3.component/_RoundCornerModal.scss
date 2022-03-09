@@ -1,17 +1,13 @@
-.ant-modal-content{
-    border-radius: 1rem !important;
-
+.ant-modal-content {
+  border-radius: 1rem !important;
 }
 
 .ant-modal-body {
-    overflow: auto;
-    padding: 1.2rem 1.5rem;
+  overflow: auto;
+  padding: 1.2rem 1.5rem;
+  max-height: 40rem;
 }
 
-.search-result-preview .ant-modal-body {
-    max-height: 40rem;
-}
-
-.ant-modal-header{
-    border-radius: 1rem !important;
+.ant-modal-header {
+  border-radius: 1rem 1rem 0 0 !important;
 }

@@ -7,7 +7,7 @@ const initialState = {
 const SourceConfigReducer = (state = initialState, action) => {
     switch (action.type) {
         case Actions.CREATESOURCECONFIG:
-            return state;
+            return { ...state, SourceConfigs: [...state.SourceConfigs, action.payload] }
         case Actions.GETSOURCECONFIGS:
             return { ...state, SourceConfigs: action?.payload }
         case Actions.GETSOURCECONFIGDETAIL:

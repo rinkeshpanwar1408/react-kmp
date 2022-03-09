@@ -7,7 +7,7 @@ import CustomRow from "../../../components/CustomRow";
 import { FiEdit, FiSettings, FiTrash2 } from "react-icons/fi";
 import { sourceApi } from "../../../utility/axios";
 import { useDispatch, useSelector } from "react-redux";
-import { GetSources } from "../../../store/action/sourceActions";
+import * as SourceActionCreator from "../../../store/action/sourceActions";
 import CustomPopconfirm from "../../../components/CustomPopconfirm";
 import useMessage from "../../../hooks/useMessage";
 import { useHistory, useRouteMatch, Link } from "react-router-dom";
@@ -21,18 +21,26 @@ function ListAllSources(props) {
   const RouteMatch = useRouteMatch();
   const history = useHistory();
 
-  const onEditSourceHandler = (source) => {
+  const onEditSourceHandler = (fullSource) => {
     history.push({
-      pathname: `${RouteMatch.path}/${RouteUrl.CONFLUENCE}/${RouteUrl.CREATESOURCE}/${source}`,
+      pathname: `${RouteMatch.path}/${RouteUrl.CONFLUENCE}/${RouteUrl.CREATESOURCE}/${fullSource}`,
     });
+  }
+
+  const onDeleteSourceHandler = async (fullSource) => {
+    try {
+      const response = await dispatch(SourceActionCreator.DeleteSource(fullSource));
+    }
+    catch (error) {
+      ShowErrorMessage("Something Went Wrong");
+    }
   }
 
   useEffect(() => {
     try {
       const getData = async () => {
-        debugger;
         setIsLoadingdata(true);
-        const response = await dispatch(GetSources());
+        const response = await dispatch(SourceActionCreator.GetSources());
         setIsLoadingdata(false);
       }
       getData();
@@ -65,7 +73,8 @@ function ListAllSources(props) {
       render: (text, record) => (
         <Space>
           <Tooltip title="Edit">
-            <Button type="primary" shape="circle" icon={<FiEdit fontSize="20" />} onClick={() => onEditSourceHandler(text.full_source_name)} />
+            <Button type="primary" shape="circle" icon={<FiEdit fontSize="20" />}
+              onClick={() => onEditSourceHandler(text.full_source_name)} />
           </Tooltip>
 
           <Tooltip title="Delete">
@@ -73,6 +82,7 @@ function ListAllSources(props) {
               title="Are you sure to delete this task?"
               okText="Yes"
               cancelText="No"
+              onConfirm={() => onDeleteSourceHandler(text.full_source_name)}
             >
               <Button danger type="primary" shape="circle" icon={<FiTrash2 fontSize="20" />} />
             </CustomPopconfirm>
@@ -80,10 +90,9 @@ function ListAllSources(props) {
 
           <Tooltip title="Add Configuration Template">
             <Button type="default" shape="circle" icon={<FiSettings fontSize="20" />} onClick={() => {
-              debugger;
               history.push({
-                pathname:`${RouteMatch.path}/${RouteUrl.CONFLUENCE}/${RouteUrl.CONFIGTEMPLATE}`,
-                search:`source=${text.full_source_name}`
+                pathname: `${RouteMatch.path}/${RouteUrl.CONFLUENCE}/${RouteUrl.CONFIGTEMPLATE}`,
+                search: `source=${text.full_source_name}`
               })
             }} />
           </Tooltip>

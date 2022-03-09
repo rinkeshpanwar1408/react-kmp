@@ -21,6 +21,7 @@ function SearchResult(props) {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const Dispatch = useDispatch();
   const [showFilter, setshowFilter] = useState(true);
+  const [isLoading,setisLoading] = useState(false)
 
   useEffect(() => {
     Dispatch(ActionCreators.getSearchedData());
