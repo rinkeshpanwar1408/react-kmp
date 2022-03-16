@@ -5,8 +5,7 @@ import * as Actions from "./index";
 //Api
 const CreateSourceApi = async (payload) => {
   try {
-    debugger;
-    const response = await Api.post("/source/create", { payload });
+    const response = await Api.post("/source/create", payload);
     return response;
   } catch (error) {
     let errorInfo;
@@ -17,6 +16,7 @@ const CreateSourceApi = async (payload) => {
 
 const UpdateSourceApi = async (payload) => {
   try {
+    debugger;
     const response = await Api.put("/source/update", payload);
     return response;
   } catch (error) {
@@ -28,7 +28,9 @@ const UpdateSourceApi = async (payload) => {
 
 const DeleteSourceApi = async (payload) => {
   try {
-    const response = await Api.delete("/del/source", { "full_source_name": payload });
+    const response = await Api.delete("/source/del", {
+      data: { "full_source_name": payload }
+    });
     return response;
   } catch (error) {
     let errorInfo;
@@ -50,6 +52,7 @@ const GetSourcesApi = async (payload) => {
 
 const GetSourceDetailApi = async (fullSourceName) => {
   try {
+    debugger;
     const response = await Api.get(`/source/details/${fullSourceName}`);
     return response;
   } catch (error) {
@@ -81,6 +84,7 @@ export function CreateSource(payload) {
 export function UpdateSource(payload) {
   return async function (dispatch) {
     try {
+      debugger;
       const response = await UpdateSourceApi(payload);
       if (response.data) {
         //dispatch(createSource(payload));
@@ -96,7 +100,6 @@ export function UpdateSource(payload) {
 export function DeleteSource(payload) {
   return async function (dispatch) {
     try {
-      debugger;
       const response = await DeleteSourceApi(payload);
       if (response.data) {
         dispatch({

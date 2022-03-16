@@ -26,7 +26,7 @@ import { StyledMainContentContainer } from "../styled-components/Master";
 import { useDispatch } from "react-redux";
 import * as RouteUrl from "../model/route";
 import { BsBox, BsUiChecksGrid } from "react-icons/bs";
-import { BiUser } from "react-icons/bi";
+import { BiBriefcaseAlt, BiGitMerge, BiUser } from "react-icons/bi";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -69,41 +69,73 @@ function HintSearch(props) {
             autoHide
           >
             <Menu mode="inline" style={{ height: "100%", borderRight: 0 }}>
-              <SubMenu key="sub1" icon={<BsUiChecksGrid />} title="Execution">
-                <Menu.Item key="1" onClick={() => history.push()}>
-                  <Link to={`${match.path}/${RouteUrl.ADMIN}/${RouteUrl.MONITORJOBS}`}>
-                    Monitor Jobs
+
+              <SubMenu key="Menu1" icon={<BiGitMerge className="text-color-5" />} title="Workspace">
+                <Menu.Item key="Menu1.1">
+                  <Link to={`${match.path}/${RouteUrl.ADMIN}/${RouteUrl.WORKSPACE}`}>
+                    List Of Workspaces
                   </Link>
                 </Menu.Item>
-                <Menu.Item key="2">
-                  <Link to={`${match.path}/${RouteUrl.ADMIN}/${RouteUrl.CREATEJOBS}`}>
-                    Create/Run a Job
+                <Menu.Item key="Menu1.2">
+                  <Link to={`${match.path}/${RouteUrl.ADMIN}/${RouteUrl.WORKSPACE}`}>
+                    Create Work Space
+                  </Link>
+                </Menu.Item>
+                <SubMenu key="Menu1_sub1" title="Execution">
+                  <Menu.Item key="Menu1_sub1.1" onClick={() => history.push()}>
+                    <Link to={`${match.path}/${RouteUrl.ADMIN}/${RouteUrl.MONITORJOBS}`}>
+                      Monitor Jobs
+                    </Link>
+                  </Menu.Item>
+                  <Menu.Item key="Menu1_sub1.2">
+                    <Link to={`${match.path}/${RouteUrl.ADMIN}/${RouteUrl.CREATEJOBS}`}>
+                      Create/Run a Job
+                    </Link>
+                  </Menu.Item>
+                </SubMenu>
+                <SubMenu key="Menu1_sub2" title="Search View Settings">
+                  <Menu.Item key="Menu1_sub2.1" onClick={() => history.push()}>
+                    <Link to={`${match.path}/${RouteUrl.ADMIN}/${RouteUrl.PERSONALIZESEARCHCONFIG}`}>
+                      Personalize Your Search
+                    </Link>
+                  </Menu.Item>
+                  <Menu.Item key="Menu1_sub2.2">
+                    <Link to={`${match.path}/${RouteUrl.ADMIN}/${RouteUrl.CATEGORIZESEARCHCONFIG}`}>
+                      Categorize Your Search
+                    </Link>
+                  </Menu.Item>
+                  <Menu.Item key="Menu1_sub1.3">
+                    <Link to={`${match.path}/${RouteUrl.ADMIN}/${RouteUrl.OPTIMIZESEARCHCONFIG}`}>
+                      Optimize Your Search
+                    </Link>
+                  </Menu.Item>
+                </SubMenu>
+                <Menu.Item key="Menu1.3">
+                  <Link to={`${match.path}/${RouteUrl.ADMIN}/${RouteUrl.WORKSPACE}`}>
+                    Dashboard
                   </Link>
                 </Menu.Item>
               </SubMenu>
-              <SubMenu key="sub2" icon={<BsBox />} title="Source">
-                <Menu.Item key="5">
+
+              <SubMenu key="Menu2" icon={<BsBox className="text-color-4" />} title="Source">
+                <Menu.Item key="Menu2.1">
                   <Link to={`${match.path}/${RouteUrl.ADMIN}/${RouteUrl.SOURCES}`}>
                     List All Sources
                   </Link>
                 </Menu.Item>
-                <Menu.Item key="6">
-                  <Link
-                    to={`${match.path}/${RouteUrl.ADMIN}/${RouteUrl.LISTALLSOURCECONFIGTEMPLATES}`}
-                  >
+                <Menu.Item key="Menu2.2">
+                  <Link to={`${match.path}/${RouteUrl.ADMIN}/${RouteUrl.LISTALLSOURCECONFIGTEMPLATES}`}>
                     List All Config Templates
                   </Link>
                 </Menu.Item>
 
-                <SubMenu key="sub2.1" title="Confluence">
-                  <Menu.Item key="7">
-                    <Link
-                      to={`${match.path}/${RouteUrl.ADMIN}/${RouteUrl.SOURCES}/${RouteUrl.CONFLUENCE}/${RouteUrl.CREATESOURCE}`}
-                    >
+                <SubMenu key="Menu2sub1" title="Confluence">
+                  <Menu.Item key="Menu2sub1.1">
+                    <Link to={`${match.path}/${RouteUrl.ADMIN}/${RouteUrl.SOURCES}/${RouteUrl.CONFLUENCE}/${RouteUrl.CREATESOURCE}`}>
                       Create Source
                     </Link>
                   </Menu.Item>
-                  <Menu.Item key="8">
+                  <Menu.Item key="Menu2sub1.2">
                     <Link
                       to={`${match.path}/${RouteUrl.ADMIN}/${RouteUrl.SOURCES}/${RouteUrl.CONFLUENCE}/${RouteUrl.CONFIGTEMPLATE}`}
                     >
@@ -112,15 +144,15 @@ function HintSearch(props) {
                   </Menu.Item>
                 </SubMenu>
 
-                <SubMenu key="sub2.2" title="Sharepoint Online">
-                  <Menu.Item key="9">
+                <SubMenu key="Menu2sub2" title="Sharepoint Online">
+                  <Menu.Item key="Menu2sub2.1">
                     <Link
                       to={`${match.path}/${RouteUrl.ADMIN}/${RouteUrl.SOURCES}/${RouteUrl.SHAREPOINT}/${RouteUrl.CREATESOURCE}`}
                     >
                       Create Source
                     </Link>
                   </Menu.Item>
-                  <Menu.Item key="10">
+                  <Menu.Item key="Menu2sub2.2">
                     <Link
                       to={`${match.path}/${RouteUrl.ADMIN}/${RouteUrl.SOURCES}/${RouteUrl.SHAREPOINT}/${RouteUrl.CONFIGTEMPLATE}`}
                     >
@@ -129,15 +161,15 @@ function HintSearch(props) {
                   </Menu.Item>
                 </SubMenu>
 
-                <SubMenu key="sub2.3" title="Sharepoint on Premise">
-                  <Menu.Item key="11">
+                <SubMenu key="Menu2sub3" title="Sharepoint on Premise">
+                  <Menu.Item key="Menu2sub3.1">
                     <Link
                       to={`${match.path}/${RouteUrl.ADMIN}/${RouteUrl.SOURCES}/${RouteUrl.SHAREPOINTONPREMISE}/${RouteUrl.CREATESOURCE}`}
                     >
                       Create Source
                     </Link>
                   </Menu.Item>
-                  <Menu.Item key="12">
+                  <Menu.Item key="Menu2sub3.2">
                     <Link
                       to={`${match.path}/${RouteUrl.ADMIN}/${RouteUrl.SOURCES}/${RouteUrl.SHAREPOINTONPREMISE}/${RouteUrl.CONFIGTEMPLATE}`}
                     >
@@ -146,13 +178,13 @@ function HintSearch(props) {
                   </Menu.Item>
                 </SubMenu>
 
-                <SubMenu key="sub2.4" title="Jira">
-                  <Menu.Item key="13">
+                <SubMenu key="Menu2sub4" title="Jira">
+                  <Menu.Item key="Menu2sub4.1">
                     <Link to={`${match.path}/${RouteUrl.ADMIN}/${RouteUrl.SOURCES}/${RouteUrl.JIRA}/${RouteUrl.CREATESOURCE}`}>
                       Create Source
                     </Link>
                   </Menu.Item>
-                  <Menu.Item key="14">
+                  <Menu.Item key="Menu2sub4.2">
                     <Link
                       to={`${match.path}/${RouteUrl.ADMIN}/${RouteUrl.SOURCES}/${RouteUrl.JIRA}/${RouteUrl.CONFIGTEMPLATE}`}
                     >
@@ -161,15 +193,15 @@ function HintSearch(props) {
                   </Menu.Item>
                 </SubMenu>
 
-                <SubMenu key="sub2.5" title="Website">
-                  <Menu.Item key="15">
+                <SubMenu key="Menu2sub5" title="Website">
+                  <Menu.Item key="Menu2sub5.1">
                     <Link
                       to={`${match.path}/${RouteUrl.ADMIN}/${RouteUrl.SOURCES}/${RouteUrl.WEBSITE}/${RouteUrl.CREATESOURCE}`}
                     >
                       Create Source
                     </Link>
                   </Menu.Item>
-                  <Menu.Item key="16">
+                  <Menu.Item key="Menu2sub5.2">
                     <Link
                       to={`${match.path}/${RouteUrl.ADMIN}/${RouteUrl.SOURCES}/${RouteUrl.WEBSITE}/${RouteUrl.CONFIGTEMPLATE}`}
                     >
@@ -178,15 +210,15 @@ function HintSearch(props) {
                   </Menu.Item>
                 </SubMenu>
 
-                <SubMenu key="sub2.6" title="File System">
-                  <Menu.Item key="17">
+                <SubMenu key="Menu2sub6" title="File System">
+                  <Menu.Item key="Menu2sub6.1">
                     <Link
                       to={`${match.path}/${RouteUrl.ADMIN}/${RouteUrl.SOURCES}/${RouteUrl.FILESYSTEM}/${RouteUrl.CREATESOURCE}`}
                     >
                       Create Source
                     </Link>
                   </Menu.Item>
-                  <Menu.Item key="18">
+                  <Menu.Item key="Menu2sub6.2">
                     <Link
                       to={`${match.path}/${RouteUrl.ADMIN}/${RouteUrl.SOURCES}/${RouteUrl.FILESYSTEM}/${RouteUrl.CONFIGTEMPLATE}`}
                     >
@@ -197,21 +229,22 @@ function HintSearch(props) {
               </SubMenu>
 
               <SubMenu
-                key="sub3"
+                key="Menu3"
                 title="User Management"
-                icon={<BiUser />}
+                icon={<BiUser className="text-color-6" />}
               >
-                <Menu.Item key="19">
+                <Menu.Item key="Menu3.1">
                   <Link to={`${match.path}/${RouteUrl.ADMIN}/${RouteUrl.LISTOFUSERGROUP}`}>
                     List of User Groups
                   </Link>
                 </Menu.Item>
-                <Menu.Item key="20">
+                <Menu.Item key="Menu3.2">
                   <Link to={`${match.path}/${RouteUrl.ADMIN}/${RouteUrl.CREATEUSERGROUP}`}>
                     Create a User Group
                   </Link>
                 </Menu.Item>
               </SubMenu>
+
             </Menu>
           </SimpleBar>
 

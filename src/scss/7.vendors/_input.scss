@@ -80,3 +80,13 @@
   background-color: transparent;
 }
 
+//Input Number
+.ant-input-number{
+  width: 100%;
+  border-width: 0.2rem !important;
+  border-color: rgba($color: $bordercolor, $alpha: $opacity-medium);
+  border-radius: $border-radius-large;
+  padding: 1rem;
+  font-size: 1.6rem;
+  background-color: transparent;
+}

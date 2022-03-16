@@ -6,6 +6,7 @@ export const opacity_high = ".8";
 export const opacity_medium = ".4";
 export const opacity_low = ".2";
 
+
 //Font-size
 export const xlarge_font = "2.4rem";
 export const large_font = "2rem";
@@ -14,9 +15,9 @@ export const small_font = "1.4rem";
 export const xsmall_font = "1.2rem";
 
 // Border Radius
-export const border_radius_large= "1rem";
-export const border_radius_medium= "0.8rem";
-export const border_radius_small= "0.5rem";
+export const border_radius_large = "1rem";
+export const border_radius_medium = "0.8rem";
+export const border_radius_small = "0.5rem";
 
 //Other Colors
 export const dark_success_bg = "#162312";
@@ -54,8 +55,8 @@ export const bordercolor = "#919EAB";
 export const light_font_color = "#212b36";
 export const dark_font_color = "#ffffff";
 
-export const light_shadow_color= "145,158,171";
-export const dark_shadow_color= "0,0,0";
+export const light_shadow_color = "145,158,171";
+export const dark_shadow_color = "0,0,0";
 
 export const common_extra_color_1 = "#ffffff";
 
@@ -70,6 +71,9 @@ export const common_dark_extra_color_7 = "#637381";
 
 export const common_light_extra_color_8 = "#ffffff";
 export const common_dark_extra_color_8 = "#212b36";
+
+export const common_light_extra_color_9 = "#ffffff";
+export const common_dark_extra_color_9 = "#161c24";
 
 //1. Blue
 export const LightBlueTheme = {

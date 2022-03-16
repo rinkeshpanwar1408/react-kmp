@@ -25,13 +25,23 @@ import CreateFileSystemSource from "./admin/Source/FileSystem/CreateFileSystemSo
 import CreateUserGroup from "./admin/Users/CreateUserGroup";
 import ListOfUserGroups from "./admin/Users/ListOfUserGroups";
 import { PageHeader } from "antd";
+import { MultiTableDrag } from "./MultiTableDrag";
+import CreateWorkSpace from "./admin/WorkSpace/CreateWorkSpace";
+import CategorizeSearch from "./admin/WorkSpace/CategorizeSearch";
+import PersonalizeSearch from "./admin/WorkSpace/PersonalizeSearch";
+import OptimizeSearch from "./admin/WorkSpace/OptimizeSearch";
+import Dashboard from "./admin/Dashboard";
 
 function AdminConsole(props) {
   const match = useRouteMatch();
+  console.log(match.path);
   return (
     <React.Fragment>
 
       <Switch>
+        <Route path={`${match.path}/${RouteUrl.DASHBOARD}`} exact>
+          <Dashboard />
+        </Route>
         <Route path={`${match.path}/${RouteUrl.MONITORJOBS}`} exact>
           <MonitorJobs />
         </Route>
@@ -53,7 +63,11 @@ function AdminConsole(props) {
         <Route path={`${match.path}/${RouteUrl.SOURCES}/${RouteUrl.CONFLUENCE}/${RouteUrl.CREATESOURCE}/:full_source_name`} exact>
           <CreateConfluenceSource />
         </Route>
+
         <Route path={`${match.path}/${RouteUrl.SOURCES}/${RouteUrl.CONFLUENCE}/${RouteUrl.CONFIGTEMPLATE}`} exact>
+          <ConfigConfluenceTemplate />
+        </Route>
+        <Route path={`${match.path}/${RouteUrl.SOURCES}/${RouteUrl.CONFLUENCE}/${RouteUrl.CONFIGTEMPLATE}/:full_config_name`} exact>
           <ConfigConfluenceTemplate />
         </Route>
 
@@ -92,6 +106,10 @@ function AdminConsole(props) {
           <ConfigFileSystemTemplate />
         </Route>
 
+        <Route path={`${match.path}/${RouteUrl.WORKSPACE}`} exact>
+          <CreateWorkSpace />
+        </Route>
+
         <Route path={`${match.path}/${RouteUrl.LISTOFUSERGROUP}`} exact>
           <ListOfUserGroups />
         </Route>
@@ -99,10 +117,23 @@ function AdminConsole(props) {
           <CreateUserGroup />
         </Route>
 
+        <Route path={`${match.path}/${RouteUrl.PERSONALIZESEARCHCONFIG}`} exact>
+          <PersonalizeSearch />
+        </Route>
+
+        <Route path={`${match.path}/${RouteUrl.CATEGORIZESEARCHCONFIG}`} exact>
+          <CategorizeSearch />
+        </Route>
+
+        <Route path={`${match.path}/${RouteUrl.OPTIMIZESEARCHCONFIG}`} exact>
+          <OptimizeSearch />
+        </Route>
+
+
         <Redirect
           from={`${match.path}`}
           exact
-          to={`${match.path}/${RouteUrl.MONITORJOBS}`}
+          to={`${match.path}/${RouteUrl.DASHBOARD}`}
         />
       </Switch>
     </React.Fragment>

@@ -347,7 +347,7 @@ function MainHeader(props) {
           </div>
 
           <div className="mainheader_container_navbar_userContainer">
-            {/* <div className="mainheader_container_navbar_userContainer_menus">
+            <div className="mainheader_container_navbar_userContainer_menus">
               <Dropdown
                 overlayClassName="mainheader_container_navbar_userContainer_menus_items"
                 overlay={menu}
@@ -361,7 +361,7 @@ function MainHeader(props) {
                   <DownOutlined />
                 </div>
               </Dropdown>
-
+ {/*
               <Dropdown
                 overlayClassName="mainheader_container_navbar_userContainer_menus_items"
                 overlay={menu2}
@@ -374,8 +374,8 @@ function MainHeader(props) {
                   </Text>
                   <DownOutlined />
                 </div>
-              </Dropdown>
-            </div> */}
+              </Dropdown>*/}
+            </div> 
 
             {isFullScreen ?
               <FiMinimize

@@ -87,7 +87,7 @@
 
   //menu
   .ant-menu {
-    background-color: $common_light_extra_color_8;
+    background-color: $common_light_extra_color_9;
   }
 
   //divider
@@ -419,7 +419,7 @@
 
   //Main Side Nav Start
   .main_sidebar {
-    background-color: $common_light_extra_color_8;
+    background-color: $common_light_extra_color_9;
   }
   //Main Side Nav End
 
@@ -810,5 +810,21 @@
 
   .ant-tree {
     color: $light_font_color;
+  }
+
+  //Infobox
+  .InfoBox {
+    background: $common_light_extra_color_8;
+    box-shadow: 0px 1px 4px rgba($light_shadow_color, 0.5);
+    &_IconContainer {
+    }
+    &_DataContainer {
+      &-title {
+        color: $light_font_color;
+      }
+      &-count {
+        color: $light_font_color;
+      }
+    }
   }
 }

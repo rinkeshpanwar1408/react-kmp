@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Breadcrumb, Button, Input, PageHeader, Space, Table, Modal, Form, Typography, Select, Switch, Checkbox, Tree, Divider } from "antd";
-import { HomeOutlined, UserOutlined, LockOutlined } from '@ant-design/icons'
+import { Breadcrumb, Button, Input, PageHeader, Space, Modal, Form, Typography, Select, Switch, Tree, Checkbox } from "antd";
+import { HomeOutlined } from '@ant-design/icons'
 import { StyledCard } from "../../../../styled-components/CommonControls";
 import CustomRow from "../../../../components/CustomRow";
 import CustomCol from "../../../../components/CustomCol";
@@ -8,35 +8,20 @@ import { useDispatch } from "react-redux";
 import * as SourceActionCreator from "../../../../store/action/sourceActions";
 import * as SourceConfigActionCreator from "../../../../store/action/sourceConfigActions";
 import useMessage from "../../../../hooks/useMessage";
-import { Link, useHistory, useLocation, useRouteMatch } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import * as RouteUrl from "../../../../model/route";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { sourceApi } from "../../../../utility/axios";
-import { SourceConfig } from "../../../../model/Source";
+import { ConfluenceSourceConfig } from "../../../../model/Source";
 import { CONFLUENCE, TEMPLATE } from "../../../../model/constant";
+import * as ActionCreator from "../../../../store/action/sourceConfigActions";
 
 const { Title, Text } = Typography;
 const { Option } = Select;
 const { TreeNode } = Tree;
 
-const createNewTreeData = (treeData, checkedKeys, parentArr = []) => {
 
-  return treeData.reduce((acc, treeDataItem) => {
-    if (checkedKeys.includes(treeDataItem.id)) {
-      if (treeDataItem.children) {
-        parentArr.push(treeDataItem.id)
-        acc.push({
-          ...treeDataItem,
-          children: createNewTreeData(treeDataItem.children, checkedKeys, parentArr)
-        });
-      } else {
-        acc.push(treeDataItem);
-      }
-    }
-    return acc;
-  }, []);
-};
 
 function updateTreeData(list, key, children) {
   return list.map((node) => {
@@ -55,19 +40,21 @@ function updateTreeData(list, key, children) {
 
 function ConfigConfluenceTemplate(props) {
   const SourceList = useSelector(state => state.source.Sources);
-  const [showOtherFields, setshowOtherFields] = useState(false)
+  const [showOtherFields, setshowOtherFields] = useState(true)
   const [showPageSelectionModal, setshowPageSelectionModal] = useState(false);
+  const [IsLoading, setIsLoading] = useState(false);
   const [IsEditMode, setIsEditMode] = useState(false);
+  const [ConfigId, setConfigId] = useState(0);
 
-  const [testtreeData, settesttreeData] = useState([]);
+  const [SelectedTreeData, setSelectedTreeData] = useState([]);
   const [newData, setnewData] = useState([]);
-  const [treecheckedKeys, settreeCheckedKeys] = useState([]);
-  const [treeallCheckedKeys, setalltreeCheckedKeys] = useState([]);
+  const [CheckedTreeKeys, setCheckedTreeKeys] = useState([]);
+  const [TempCheckedTreeKeys, setTempCheckedTreeKeys] = useState([]);
+  const [AllCheckedTreeKeys, setAllCheckedTreeKeys] = useState([]);
   const [ExpandKeys, setExpandKeys] = useState([]);
   const [autoExpand, setautoExpand] = useState(false);
 
-  const [validate, setValidate] = useState(false);
-  const [CreateSourceForm] = Form.useForm();
+  const [CreateSourceConfigForm] = Form.useForm();
   const dispatch = useDispatch();
   const location = useLocation();
   const {
@@ -76,14 +63,50 @@ function ConfigConfluenceTemplate(props) {
     ShowWarningMessage,
   } = useMessage();
 
+  const { full_config_name } = useParams();
+  useEffect(() => {
+    try {
+      const getDetail = async () => {
+        const response = await dispatch(ActionCreator.GetSourceConfigDetail(full_config_name));
+        CreateSourceConfigForm.setFieldsValue({
+          recursiveflag: response.data[0].recursive_fetch,
+          configname: response.data[0].config_name,
+          source: response.data[0].full_source_name,
+          retriveattachments: response.data[0].fetch_attachments,
+          spacekey: response.data[0].space_key,
+        });
+        setshowOtherFields(response.data[0].recursive_fetch)
+        setConfigId(response.data[0].id)
+        setSelectedTreeData(response.data[0].full_item_tree);
+        setnewData(response.data[0].selected_item_tree);
+        setExpandKeys(response.data[0].parent_items)
+        setCheckedTreeKeys(response.data[0].checked_items);
+
+        const combineArr = new Set([...response.data[0].checked_items, ...response.data[0].parent_items]);
+        setAllCheckedTreeKeys([...combineArr]);
+      }
+
+      if (full_config_name) {
+        setIsEditMode(true);
+        getDetail();
+      }
+      else {
+        CreateSourceConfigForm.setFieldsValue({
+          sourcetype: CONFLUENCE,
+        });
+      }
+    } catch (error) {
+      ShowWarningMessage("Something Went Wrong");
+    }
+  }, [full_config_name, IsEditMode])
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
-    CreateSourceForm.setFieldsValue({
+    CreateSourceConfigForm.setFieldsValue({
       source: params.get("source"),
       template: "Template"
     })
-  }, [CreateSourceForm, location.search])
+  }, [CreateSourceConfigForm, location.search])
 
   useEffect(() => {
     const fillDropDown = () => {
@@ -91,86 +114,22 @@ function ConfigConfluenceTemplate(props) {
     }
     fillDropDown();
 
-    //Create Tree Structure from existing data
-    let tempParentArr = [];
-    let tempChildArr = [];
-
-    // if (localStorage.getItem("parentArr")) {
-    //   tempParentArr = [...JSON.parse(localStorage.getItem("parentArr"))];
-    // }
-
-    // if (localStorage.getItem("testTreeData")) {
-    //   tempChildArr = [...JSON.parse(localStorage.getItem("testTreeData"))];
-    // }
-
-    const combineArr = new Set([...tempChildArr, ...tempParentArr]);
-    setalltreeCheckedKeys([...combineArr]);
-
-    const getTestTreeData = async () => {
-
-      function createInitialTreeData(list, key, children) {
-        return list.map((node) => {
-          if (node.id === key) {
-            return { ...node, children };
-          }
-          if (node.children) {
-            return { ...node, children: createInitialTreeData(node.children, key, children) };
-          }
-          return node;
-        });
-      }
-
-      const result = await sourceApi.get("/getpages/Infy-Confluence/FSSTARA");
-      let testArr = [];
-
-      if (result?.data) {
-        const isExist = tempParentArr.findIndex(i => i == result.data.id)
-
-        if (isExist >= 0) {
-          tempParentArr = tempParentArr.filter(i => i !== result.data.id);
-          testArr.push(result.data);
-          const resultChild = await sourceApi.get(`/getchildpages/Infy-Confluence/${result.data.id}`);
-          const childArr = []
-          resultChild.data.forEach(x => {
-            const index = tempParentArr.findIndex(i => i == x.id);
-            if (index >= 0) {
-              childArr.push(x);
-            }
-          })
-          testArr = createInitialTreeData(testArr, result.data.id, childArr);
-        }
-
-        tempParentArr.forEach(async (item) => {
-          const resultChild = await sourceApi.get(`/getchildpages/Infy-Confluence/${item}`);
-          const childArr = []
-          resultChild.data.forEach(x => {
-            const index = tempChildArr.findIndex(i => i == x.id);
-            if (index >= 0) {
-              childArr.push(x);
-            }
-          })
-          testArr = createInitialTreeData(testArr, item, childArr);
-          setnewData(testArr)
-        });
-      }
-    }
-    getTestTreeData();
   }, [dispatch])
 
 
-  const submitHandler = async () => {
+  const OnFormSubmitHandler = async () => {
     try {
-      const values = await CreateSourceForm.validateFields();
+      const values = await CreateSourceConfigForm.validateFields();
       const sourceDetail = await dispatch(SourceActionCreator.GetSourceDetail(values.source));
-      const SorceConfig = new SourceConfig(
+
+      const SorceConfig = new ConfluenceSourceConfig(
         values.configname,
         sourceDetail.data.source_name,
         values.configname + "-" + sourceDetail.data.full_source_name + "-" + TEMPLATE,
-        sourceDetail.data.full_source_name
-        ,CONFLUENCE, values.spacekey, values.recursiveflag, values.retriveattachments,
-        treecheckedKeys, ExpandKeys, treecheckedKeys, [], "", []);
+        sourceDetail.data.full_source_name, CONFLUENCE, values.spacekey,
+        showOtherFields, values.retriveattachments ? values.retriveattachments : false,
+        CheckedTreeKeys, ExpandKeys, newData, SelectedTreeData);
 
-      debugger;
       if (IsEditMode) {
         // const result = await dispatch(
         //   ActionCreator.UpdateSource({
@@ -194,23 +153,38 @@ function ConfigConfluenceTemplate(props) {
         const result = await dispatch(SourceConfigActionCreator.CreateSourceConfig(SorceConfig));
         if (result.data) {
           ShowSuccessMessage("Config Template created successfully");
+          resetData();
         }
       }
     }
     catch (error) {
       ShowErrorMessage("Something Went Wrong");
+      resetData();
     }
   };
 
-  const validateForm = () => {
-    setValidate(!validate);
+  const resetData = () => {
+    setnewData([])
+    setCheckedTreeKeys([]);
+    setTempCheckedTreeKeys([]);
+    setAllCheckedTreeKeys([]);
+    setExpandKeys([]);
+
+    CreateSourceConfigForm.resetFields();
   }
 
   const onCheckHandler = (checkedKeys, e) => {
     const allCheckedKeys = [...checkedKeys, ...e.halfCheckedKeys];
-    // createNewTreeData(treeData, allCheckedKeys);
-    settreeCheckedKeys(checkedKeys);
-    setalltreeCheckedKeys(allCheckedKeys);
+    setCheckedTreeKeys(checkedKeys);
+    setTempCheckedTreeKeys(e.checkedNodes.map(item => {
+      return {
+        id: item.id,
+        parent_page_id: item.parent_page_id
+      }
+    }));
+
+
+    setAllCheckedTreeKeys(allCheckedKeys);
   };
 
   const onLoadData = ({ key, children }) => {
@@ -219,7 +193,7 @@ function ConfigConfluenceTemplate(props) {
         return;
       }
       const result = await sourceApi.get(`/getchildpages/Infy-Confluence/${key}`);
-      settesttreeData((origin) =>
+      setSelectedTreeData((origin) =>
         updateTreeData(origin, key, result.data)
       );
     }
@@ -244,8 +218,8 @@ function ConfigConfluenceTemplate(props) {
       setautoExpand(false);
       const result = await sourceApi.get("/getpages/Infy-Confluence/FSSTARA");
       const testArr = [];
-      testArr.push(result.data)
-      settesttreeData(testArr);
+      testArr.push(result.data);
+      setSelectedTreeData(testArr);
       // if (localStorage.getItem("parentArr")) {
       //   const ExpandKeysData = JSON.parse(localStorage.getItem("parentArr"));
       //   setExpandKeys(ExpandKeysData)
@@ -254,25 +228,39 @@ function ConfigConfluenceTemplate(props) {
       //   settreeCheckedKeys(JSON.parse(localStorage.getItem("testTreeData")))
       // }
     }
-    if (testtreeData.length <= 0) {
+    if (SelectedTreeData.length <= 0) {
       getTestTreeData();
     }
     setshowPageSelectionModal(true);
   }
 
   const onPageSaveSelectionHandler = () => {
-    // if (localStorage.getItem("testTreeData")) {
-    //   localStorage.removeItem("testTreeData");
-    // }
-    // localStorage.setItem("testTreeData", JSON.stringify(treecheckedKeys));
+    const parentArr = [];
+    let childArr = [...TempCheckedTreeKeys];
 
-    const parentArr = []
-    const newData = createNewTreeData(testtreeData, treeallCheckedKeys, parentArr);
-    // if (localStorage.getItem("parentArr")) {
-    //   localStorage.removeItem("parentArr")
-    // }
-    // localStorage.setItem("parentArr", JSON.stringify(parentArr));
+    const createNewTreeData = (treeData, allCheckedNodes) => {
+      return treeData.reduce((acc, treeDataItem) => {
+        if (allCheckedNodes.includes(treeDataItem.id)) {
+          if (treeDataItem.children) {
+            if (childArr.find(x => x.id === treeDataItem.id)) {
+              childArr = childArr.filter(i => i.parent_page_id !== treeDataItem.id);
+            }
+            parentArr.push(treeDataItem.id)
+            acc.push({
+              ...treeDataItem,
+              children: createNewTreeData(treeDataItem.children, allCheckedNodes)
+            });
+          } else {
+            acc.push(treeDataItem);
+          }
+        }
+        return acc;
+      }, []);
+    };
 
+    const newData = createNewTreeData(SelectedTreeData, AllCheckedTreeKeys);
+    const newCheckedKeys = childArr.map(i => i.id);
+    setCheckedTreeKeys(newCheckedKeys);
     setshowPageSelectionModal(false);
     setnewData(newData);
   }
@@ -282,16 +270,25 @@ function ConfigConfluenceTemplate(props) {
       <CustomRow justify="center">
         <CustomCol xl={18} >
           <PageHeader
-            title="Create Config Template"
+            title={IsEditMode ? "Update Config Template" : "Create Config Template"}
+
             className="FormPageHeader"
             extra={[
               <Breadcrumb>
                 <Breadcrumb.Item>
-                  <Link to={`/${RouteUrl.MONITORJOBS}`}>
+                  <Link to={`${RouteUrl.HINTSEARCH}/${RouteUrl.ADMIN}/${RouteUrl.MONITORJOBS}`}>
                     <HomeOutlined />
                   </Link>
                 </Breadcrumb.Item>
-                <Breadcrumb.Item>Create Config Template</Breadcrumb.Item>
+                <Breadcrumb.Item>
+                  <Link to={`${RouteUrl.HINTSEARCH}/${RouteUrl.ADMIN}/${RouteUrl.LISTALLSOURCECONFIGTEMPLATES}`}>
+                    Config Templates
+                  </Link>
+                </Breadcrumb.Item>
+                <Breadcrumb.Item>Confluence</Breadcrumb.Item>
+                {!full_config_name && <Breadcrumb.Item>Create Config Template</Breadcrumb.Item>}
+                {full_config_name && <Breadcrumb.Item>{full_config_name}</Breadcrumb.Item>}
+                {full_config_name && <Breadcrumb.Item>Edit</Breadcrumb.Item>}
               </Breadcrumb>
             ]}
           >
@@ -302,8 +299,10 @@ function ConfigConfluenceTemplate(props) {
               layout="vertical"
               size="large"
               autoComplete="off"
-              onFinish={submitHandler}
-              form={CreateSourceForm}
+              onFinish={() => {
+                OnFormSubmitHandler();
+              }}
+              form={CreateSourceConfigForm}
             >
               <CustomRow key="rw1">
                 <CustomCol key="rw1.1" xl={10} >
@@ -321,7 +320,7 @@ function ConfigConfluenceTemplate(props) {
                   </Form.Item>
                 </CustomCol>
 
-                <CustomCol key="rw1.2" xl={10}  >
+                <CustomCol key="rw1.2" xl={8}  >
                   <Form.Item
                     name="source"
                     label="Source"
@@ -344,13 +343,12 @@ function ConfigConfluenceTemplate(props) {
                   </Form.Item>
                 </CustomCol>
 
-                <CustomCol key="rw1.3" xl={4} className="source_type_divider">
+                <CustomCol key="rw1.3" xl={6} className="source_type_divider">
                   <Title level={4} className=" m-b-0">-Template</Title>
                 </CustomCol>
               </CustomRow>
 
               <CustomRow key="rw2">
-
                 <CustomCol key="rw2.1" xl={10} >
                   <Form.Item
                     name="spacekey"
@@ -367,49 +365,45 @@ function ConfigConfluenceTemplate(props) {
                     />
                   </Form.Item>
                 </CustomCol>
-                <CustomCol key="rw2.2" xl={6}>
-                  <Form.Item label="Retrive Attachments?" valuePropName="checked" name="retriveattachments" >
-                    <Switch checkedChildren="On" checked unCheckedChildren="Off" />
-                  </Form.Item>
-
-                </CustomCol>
-              </CustomRow>
-
-              <CustomRow key="rw3">
-                <CustomCol key="rw3.1" xl={9}>
+                <CustomCol key="rw2.2" xl={8}>
                   <Form.Item label={<div className="form_title_with_sub">
                     <Text className="form_title_with_sub-title">Recursive Flag</Text>
                     <Text type="secondary" className="form_title_with_sub-subtitle">Turn this off to select specific child pages</Text>
                   </div>} valuePropName="checked" name="recursiveflag" >
-                    <Switch checkedChildren="On" defaultChecked unCheckedChildren="Off" onChange={() => setshowOtherFields(!showOtherFields)} />
+                    <Switch checkedChildren="On" defaultChecked={showOtherFields} unCheckedChildren="Off" onChange={() => setshowOtherFields(!showOtherFields)} />
+                    {showOtherFields === false &&
+                      <React.Fragment>
+                        <Button type="primary" size="small" className="m-b-10" onClick={() => {
+                          onModalToggleHandler()
+                        }}>
+                          Fetch Confluence Page Tree
+                        </Button>
+                        <Tree
+                          treeData={newData}
+                          autoExpandParent={false}
+                          // expandedKeys={JSON.parse(localStorage.getItem("parentArr"))}
+                          fieldNames={{
+                            title: "title", key: "id", children: "children"
+                          }}
+                        />
+                      </React.Fragment>
+                    }
                   </Form.Item>
 
-                  {showOtherFields &&
-                    <React.Fragment>
-                      <Button type="primary" size="small" className="m-b-10" onClick={() => {
-                        onModalToggleHandler()
-                      }}>
-                        Fetch Confluence Page Tree
-                      </Button>
-
-                      <Tree
-                        treeData={newData}
-                        autoExpandParent={false}
-                        // expandedKeys={JSON.parse(localStorage.getItem("parentArr"))}
-                        fieldNames={{
-                          title: "title", key: "id", children: "children"
-                        }}
-                      />
-                    </React.Fragment>
-                  }
+                </CustomCol>
+                <CustomCol key="rw2.3" xl={6}>
+                  <Form.Item label="Retrive Attachments?" name="retriveattachments" valuePropName="checked" >
+                    <Switch checkedChildren="Yes" unCheckedChildren="No" />
+                  </Form.Item>
                 </CustomCol>
               </CustomRow>
+
 
               <CustomRow key="rw4">
                 <CustomCol key="rw4.1" xxl={24} xl={24} className="text-right">
                   <Space direction="horizontal">
-                    <Button type="primary" htmlType="submit">
-                      Create Config
+                    <Button type="primary" htmlType="submit" loading={IsLoading}>
+                      {IsEditMode ? "Update Config" : "Create Config"}
                     </Button>
                   </Space>
                 </CustomCol>
@@ -437,9 +431,9 @@ function ConfigConfluenceTemplate(props) {
           checkable
           autoExpandParent={autoExpand}
           loadData={onLoadData}
-          treeData={testtreeData}
+          treeData={SelectedTreeData}
           onCheck={onCheckHandler}
-          checkedKeys={treecheckedKeys}
+          checkedKeys={CheckedTreeKeys}
           expandedKeys={ExpandKeys}
           onExpand={(keys, info) => {
             if (info.expanded) {

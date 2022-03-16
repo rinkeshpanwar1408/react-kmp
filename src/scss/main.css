@@ -1968,7 +1968,7 @@ body {
 .ant-modal-body {
   overflow: auto;
   padding: 1.2rem 1.5rem;
-  max-height: 40rem;
+  max-height: 45rem;
 }
 
 .ant-modal-header {
@@ -2117,6 +2117,69 @@ body {
 
 .DropDownMenuItem-title {
   margin-left: 1rem;
+}
+
+.configuration_item {
+  border: 0.2rem solid rgba(145, 158, 171, 0.5);
+  border-radius: 1rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 1.2rem;
+}
+
+.configuration_item .configuration_item-title {
+  margin: 0;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+
+.InfoBox {
+  border: 1px solid rgba(145, 158, 171, 0.2);
+}
+
+.InfoBox_IconContainer {
+  width: 5rem;
+  height: 5rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  border-radius: 2.5rem;
+  font-size: 2.5rem;
+  color: #ffffff;
+  margin-right: 1.2rem;
+}
+
+.InfoBox_DataContainer {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.InfoBox_DataContainer-title {
+  font-size: 1.6rem;
+}
+
+.InfoBox_DataContainer-count {
+  font-size: 2.2rem;
+  font-weight: 600;
 }
 
 .ant-layout {
@@ -2462,6 +2525,16 @@ body {
 }
 
 .ant-input-group-addon {
+  background-color: transparent;
+}
+
+.ant-input-number {
+  width: 100%;
+  border-width: 0.2rem !important;
+  border-color: rgba(145, 158, 171, 0.5);
+  border-radius: 1rem;
+  padding: 1rem;
+  font-size: 1.6rem;
   background-color: transparent;
 }
 
@@ -2898,6 +2971,10 @@ body {
 .blue .main_sidebar-btnCollapsed {
   background-color: #265fd5;
   color: #ffffff;
+}
+
+.blue .InfoBox_IconContainer {
+  background-color: #265fd5;
 }
 
 .light .header-notification-container .icon {
@@ -3651,6 +3728,20 @@ body {
   color: #1d2022;
 }
 
+.light .InfoBox {
+  background: #ffffff;
+  -webkit-box-shadow: 0px 1px 4px rgba(145, 158, 171, 0.5);
+          box-shadow: 0px 1px 4px rgba(145, 158, 171, 0.5);
+}
+
+.light .InfoBox_DataContainer-title {
+  color: #1d2022;
+}
+
+.light .InfoBox_DataContainer-count {
+  color: #1d2022;
+}
+
 .dark .header-notification-container .icon {
   color: #637381;
 }
@@ -3733,7 +3824,7 @@ body {
 }
 
 .dark .ant-menu {
-  background-color: #212b36;
+  background-color: #161c24;
 }
 
 .dark .ant-divider-plain.ant-divider-with-text,
@@ -4087,7 +4178,7 @@ body {
 }
 
 .dark .main_sidebar {
-  background-color: #212b36;
+  background-color: #161c24;
 }
 
 .dark .mainheader {
@@ -4422,6 +4513,20 @@ body {
   color: #ffffff;
 }
 
+.dark .InfoBox {
+  background: #212b36;
+  -webkit-box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.5);
+          box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+.dark .InfoBox_DataContainer-title {
+  color: #ffffff;
+}
+
+.dark .InfoBox_DataContainer-count {
+  color: #ffffff;
+}
+
 .ant-menu {
   border-right: none;
 }
@@ -4553,5 +4658,54 @@ body {
 
 .form_title_with_sub-subtitle {
   font-size: 1.2rem;
+}
+
+.c-multi-drag-table.is-dragging table {
+  border: 1px solid #4285f4;
+}
+
+.c-multi-drag-table .ant-col {
+  position: relative;
+}
+
+.c-multi-drag-table .inner-col {
+  position: relative;
+  height: 100%;
+  background: #fff;
+  padding: 10px;
+  /* z-index: 2; */
+}
+
+.c-multi-drag-table .ant-table-tbody > tr.ant-table-placeholder > td,
+.c-multi-drag-table .ant-table-tbody > tr.ant-table-placeholder:hover > td {
+  background: transparent;
+}
+
+.c-multi-drag-table .ant-table-tbody > tr.row-item {
+  background: #fff;
+}
+
+.c-multi-drag-table
+.ant-table-tbody.is-dragging-over
+> tr.ant-table-placeholder {
+  background: #deebff !important;
+}
+
+.c-multi-drag-table .ant-table-tbody > tr.row-item.row-selected {
+  background: #deebff;
+}
+
+.c-multi-drag-table .ant-table-tbody > tr.row-item.row-dragging {
+  display: table;
+  -webkit-box-shadow: 0px 1px 4px rgba(145, 158, 171, 0.5);
+          box-shadow: 0px 1px 4px rgba(145, 158, 171, 0.5);
+}
+
+.c-multi-drag-table .ant-table-tbody > tr.row-item.row-dragging > td {
+  border-bottom: 0;
+}
+
+.c-multi-drag-table .ant-table-tbody > tr.row-item.row-ghosting {
+  opacity: 0.5;
 }
 /*# sourceMappingURL=main.css.map */

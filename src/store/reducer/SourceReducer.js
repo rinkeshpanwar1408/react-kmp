@@ -13,7 +13,6 @@ const SourceReducer = (state = initialState, action) => {
         case Actions.GETSOURCEDETAIL:
             return { ...state, SourceDetail: action?.payload }
         case Actions.DELETESOURCE:
-            debugger;
             const newSourceList = state.Sources.filter(i => i.full_source_name !== action?.payload)
             return { ...state, Sources: newSourceList }
         default:

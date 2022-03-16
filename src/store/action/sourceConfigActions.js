@@ -7,7 +7,6 @@ import { createSource } from "./actions";
 
 const CreateSourceConfigApi = async (payload) => {
     try {
-        debugger;
         const response = await Api.post("/source/config/create", payload);
         return response;
     } catch (error) {
@@ -28,11 +27,35 @@ const GetSourceConfigList_Api = async (payload) => {
     }
 };
 
+const GetSourceConfigDetailApi = async (fullSourceConfigName) => {
+    try {
+        const response = await Api.get(`/source/config/details/${fullSourceConfigName}`);
+        return response;
+    } catch (error) {
+        let errorInfo;
+        errorInfo = error.message;
+        throw errorInfo;
+    }
+};
+
+
+const DeleteSourceConfigApi = async (payload) => {
+    try {
+        const response = await Api.delete("/del/config", {
+            data: { "full_config_name": payload }
+        });
+        return response;
+    } catch (error) {
+        let errorInfo;
+        errorInfo = error.message;
+        throw errorInfo;
+    }
+}
+
 
 //Source Actions
 export function CreateSourceConfig(payload) {
     return async function (dispatch) {
-        debugger;
         try {
             const response = await CreateSourceConfigApi(payload);
             if (response.data) {
@@ -49,6 +72,24 @@ export function CreateSourceConfig(payload) {
     };
 }
 
+export function DeleteSourceConfig(payload) {
+    return async function (dispatch) {
+        try {
+            debugger;
+            const response = await DeleteSourceConfigApi(payload);
+            if (response.data) {
+                dispatch({
+                    type: Actions.DELETESOURCECONFIG,
+                    payload: payload
+                })
+            }
+            return response;
+        } catch (error) {
+            dispatch({ type: Actions.SETERROR, payload: error });
+            throw (error);
+        }
+    };
+}
 
 export function GetSourceConfigList() {
     return async function (dispatch, getState) {
@@ -62,6 +103,20 @@ export function GetSourceConfigList() {
                 })
             }
             return response;
+        } catch (error) {
+            dispatch({ type: Actions.SETERROR, payload: error });
+            throw (error);
+        }
+    };
+}
+
+export function GetSourceConfigDetail(payload) {
+    return async function (dispatch) {
+        try {
+            const response = await GetSourceConfigDetailApi(payload);
+            if (response?.data) {
+                return response;
+            }
         } catch (error) {
             dispatch({ type: Actions.SETERROR, payload: error });
             throw (error);

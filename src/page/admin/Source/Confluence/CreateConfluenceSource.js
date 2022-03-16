@@ -16,10 +16,8 @@ import { sourceApi } from "../../../../utility/axios";
 import { CONFLUENCE } from "../../../../model/constant";
 
 const { Title, Text } = Typography;
-const { confirm } = Modal;
 
 function CreateConfluenceSource(props) {
-  const SourceDetail = useSelector(state => state.source.SourceDetail);
   const UserDetail = useSelector(state => state.auth.UserDetail);
 
   const [validate, setValidate] = useState(false);
@@ -28,9 +26,7 @@ function CreateConfluenceSource(props) {
   const [sourceId, setsourceId] = useState(0);
   const [IsSubmitLoading, setIsSubmitLoading] = useState(false);
 
-
   const history = useHistory();
-  const match = useRouteMatch();
 
   const dispatch = useDispatch();
   const {
@@ -72,9 +68,9 @@ function CreateConfluenceSource(props) {
 
   const submitHandler = async () => {
     try {
+      debugger;
       setIsSubmitLoading(true);
       const values = await CreateSourceForm.validateFields();
-
       if (isEditMode) {
         const result = await dispatch(
           ActionCreator.UpdateSource({
@@ -92,8 +88,6 @@ function CreateConfluenceSource(props) {
         if (result.data) {
           ShowSuccessMessage("Source updated successfully");
         }
-
-
       }
       else {
         const result = await dispatch(
@@ -177,7 +171,7 @@ function CreateConfluenceSource(props) {
             isEditMode &&
             <Alert
               description={
-                <Text>For this source configuration template is missing please click <Link to={`${RouteUrl.HINTSEARCH}/${RouteUrl.ADMIN}/${RouteUrl.SOURCES}/${RouteUrl.CONFLUENCE}/${RouteUrl.CONFIGTEMPLATE}?source=${full_source_name}`}>here</Link></Text>
+                <Text>For this source configuration template is missing please click <Link to={`${RouteUrl.HINTSEARCH}/${RouteUrl.ADMIN}/${RouteUrl.SOURCES}/${RouteUrl.CONFLUENCE}/${RouteUrl.CONFIGTEMPLATE}?source=${full_source_name}`}>here</Link> to create.</Text>
               }
               type="error"
               className="m-b-20"
@@ -285,6 +279,7 @@ function CreateConfluenceSource(props) {
                   <Input.Password placeholder="Enter Password" />
                 </Form.Item>
               </CustomCol>
+
             </CustomRow>
 
 

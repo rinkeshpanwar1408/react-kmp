@@ -1,6 +1,6 @@
-import { Breadcrumb, Button, PageHeader, Popconfirm, Space, Table, Tag, Tooltip } from "antd";
+import { Menu, Dropdown, Space, Tooltip, Breadcrumb, Button, PageHeader, Popconfirm, Table, Tag } from "antd";
 import React, { useEffect, useState } from "react";
-import { HomeOutlined, UserOutlined } from '@ant-design/icons'
+import { HomeOutlined, UserOutlined, DownOutlined } from '@ant-design/icons'
 import { StyledCard } from "../../../styled-components/CommonControls";
 import CustomCol from "../../../components/CustomCol";
 import CustomRow from "../../../components/CustomRow";
@@ -12,6 +12,9 @@ import CustomPopconfirm from "../../../components/CustomPopconfirm";
 import useMessage from "../../../hooks/useMessage";
 import { useHistory, useRouteMatch, Link } from "react-router-dom";
 import * as RouteUrl from "../../../model/route";
+import { CONFLUENCE } from "../../../model/constant";
+
+
 
 function ListAllSources(props) {
   const SourceList = useSelector(state => state.source.Sources);
@@ -20,6 +23,26 @@ function ListAllSources(props) {
   const { ShowErrorMessage } = useMessage();
   const RouteMatch = useRouteMatch();
   const history = useHistory();
+
+  const menu = (
+    <Menu>
+      <Menu.Item key="1" onClick={() => {
+        history.push({
+          pathname: `${RouteMatch.path}/${RouteUrl.CONFLUENCE}/${RouteUrl.CREATESOURCE}`,
+        });
+      }} >{CONFLUENCE}</Menu.Item>
+      <Menu.Item key="2" onClick={() => {
+        history.push({
+          pathname: `${RouteMatch.path}/${RouteUrl.SHAREPOINT}/${RouteUrl.CREATESOURCE}`,
+        });
+      }}>
+        Sourcepoint Online
+      </Menu.Item>
+      <Menu.Item key="3" >
+        3rd menu item
+      </Menu.Item>
+    </Menu>
+  );
 
   const onEditSourceHandler = (fullSource) => {
     history.push({
@@ -79,7 +102,7 @@ function ListAllSources(props) {
 
           <Tooltip title="Delete">
             <CustomPopconfirm
-              title="Are you sure to delete this task?"
+              title="Are you sure to delete this source?"
               okText="Yes"
               cancelText="No"
               onConfirm={() => onDeleteSourceHandler(text.full_source_name)}
@@ -96,8 +119,6 @@ function ListAllSources(props) {
               })
             }} />
           </Tooltip>
-
-
         </Space>
       ),
     },
@@ -126,14 +147,12 @@ function ListAllSources(props) {
         <StyledCard className="formContainer">
           <Table className="m-b-20" loading={isLoadingdata} columns={columns} dataSource={SourceList} bordered pagination={false} />
           <CustomRow >
-            <CustomCol xxl={24} xl={24} className="text-right" >
-              <Button type="primary" htmlType="submit" onClick={() => {
-                history.push({
-                  pathname: `${RouteMatch.path}/${RouteUrl.CONFLUENCE}/${RouteUrl.CREATESOURCE}`,
-                });
-              }}>
-                Create Source
-              </Button>
+            <CustomCol xxl={24} xl={24} className="text-right">
+              <Dropdown overlay={menu}>
+                <Button type="primary" >
+                  Create Source <DownOutlined />
+                </Button>
+              </Dropdown>
             </CustomCol>
           </CustomRow>
         </StyledCard>

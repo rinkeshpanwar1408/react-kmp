@@ -209,4 +209,13 @@
     background-color: $color-1;
     color: $common_extra_color_1;
   }
+
+  //Infobox
+  .InfoBox {
+    &_IconContainer {
+      background-color: $color-1;
+    }
+    &_DataContainer {
+    }
+  }
 }

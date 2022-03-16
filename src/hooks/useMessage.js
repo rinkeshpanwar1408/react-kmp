@@ -1,3 +1,4 @@
+import React, { useCallback } from "react";
 import { message, notification } from "antd";
 import { useSelector } from "react-redux";
 
@@ -5,7 +6,7 @@ import { useSelector } from "react-redux";
 const useMessage = () => {
   const currentTheme = useSelector((state) => state.theme.Theme);
 
-  const showSuccessMessage = (displaymessage) => {
+  const showSuccessMessage = useCallback((displaymessage) => {
     message.open({
       content: displaymessage,
       key: Math.random().toString(),
@@ -13,9 +14,9 @@ const useMessage = () => {
       className: `${currentTheme.themestyle}`,
       type: "success",
     });
-  };
+  }, [currentTheme.themestyle])
 
-  const showInfoMessage = (displaymessage) => {
+  const showInfoMessage = useCallback((displaymessage) => {
     message.open({
       content: displaymessage,
       key: Math.random().toString(),
@@ -23,19 +24,21 @@ const useMessage = () => {
       className: `${currentTheme.themestyle}`,
       type: "info",
     });
-  };
+  }, [currentTheme.themestyle])
 
-  const showErrorMessage = (displaymessage) => {
-    message.open({
-      content: displaymessage,
-      key: Math.random().toString(),
-      duration: 5,
-      className: `${currentTheme.themestyle}`,
-      type: "error",
-    });
-  };
+  const showErrorMessage = useCallback(
+    (displaymessage) => {
+      message.open({
+        content: displaymessage,
+        key: Math.random().toString(),
+        duration: 5,
+        className: `${currentTheme.themestyle}`,
+        type: "error",
+      });
+    },
+    [currentTheme.themestyle])
 
-  const showWarningMessage = (displaymessage) => {
+  const showWarningMessage = useCallback((displaymessage) => {
     message.open({
       content: displaymessage,
       key: Math.random().toString(),
@@ -43,7 +46,10 @@ const useMessage = () => {
       className: `${currentTheme.themestyle}`,
       type: "warning",
     });
-  };
+  }, [currentTheme.themestyle])
+
+
+
 
   return {
     ShowSuccessMessage: showSuccessMessage,

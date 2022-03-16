@@ -1,22 +1,20 @@
-export class SourceConfig {
-    constructor(configName, source_name, full_config_name,
-        full_source_name, sourceType, spaceKey,
-        recursiveFetch, fetchAttachments, checked_pages, parent_data, pageIdList,
-        includePageNames = [], includePageNamesRegex = "", artifactKeys = []) {
+export class ConfluenceSourceConfig {
+    constructor(config_name, source_name, full_config_name,
+        full_source_name, source_type, space_key,
+        recursive_fetch, fetch_attachments, checked_items, parent_items, selected_item_tree,
+        full_item_tree) {
 
-        this.configName = configName;
+        this.config_name = config_name;
         this.source_name = source_name;
         this.full_config_name = full_config_name;
         this.full_source_name = full_source_name;
-        this.sourceType = sourceType;
-        this.spaceKey = spaceKey;
-        this.recursiveFetch = recursiveFetch;
-        this.fetchAttachments = fetchAttachments;
-        this.checked_pages = checked_pages;
-        this.parent_data = parent_data;
-        this.pageIdList = pageIdList;
-        this.includePageNames = includePageNames;
-        this.includePageNamesRegex = includePageNamesRegex;
-        this.artifactKeys = artifactKeys;
+        this.source_type = source_type;
+        this.space_key = space_key;
+        this.recursive_fetch = recursive_fetch;
+        this.fetch_attachments = fetch_attachments;
+        this.checked_items = checked_items;
+        this.parent_items = parent_items;
+        this.selected_item_tree = selected_item_tree;
+        this.full_item_tree = full_item_tree;
     }
 }
