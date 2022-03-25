@@ -52,7 +52,6 @@ const GetSourcesApi = async (payload) => {
 
 const GetSourceDetailApi = async (fullSourceName) => {
   try {
-    debugger;
     const response = await Api.get(`/source/details/${fullSourceName}`);
     return response;
   } catch (error) {

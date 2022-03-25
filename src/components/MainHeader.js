@@ -14,7 +14,7 @@ import background_light from "../assests/image/header_bg_light.png";
 import infy from "../assests/image/InfosysLogo.png";
 import { DownOutlined } from "@ant-design/icons";
 import {
-  FiBox,
+  FiFolder,
   FiCodesandbox,
   FiEdit,
   FiHome,
@@ -26,6 +26,7 @@ import {
   FiSettings,
   FiSun,
 } from "react-icons/fi";
+import { AiOutlineFolder, AiOutlineEdit, AiOutlineFolderAdd, AiOutlineFolderView, AiOutlineFolderOpen } from "react-icons/ai";
 import { MdOutlineKeyboardVoice, MdSearch } from "react-icons/md";
 import SearchListItem from "../components/SearchListItem";
 import { useHistory, useLocation, useRouteMatch } from "react-router-dom";
@@ -42,6 +43,8 @@ import { DarkBlueTheme, LightBlueTheme } from "../model/Theme";
 import { StyledCard } from "../styled-components/CommonControls";
 import * as RouteUrl from "../model/route";
 import { AutoLogin } from "../store/action/AuthActions";
+import * as WorkspaceActionCreator from "../store/action/workspaceActions";
+import useMessage from "../hooks/useMessage";
 
 const { Content } = Layout;
 const { Title, Text } = Typography;
@@ -161,11 +164,10 @@ function MainHeader(props) {
   const history = useHistory();
   const location = useLocation();
   const Dispatch = useDispatch();
-
+  const { ShowErrorMessage } = useMessage();
 
   const currentTheme = useSelector((state) => state.theme.Theme);
   const { userName } = useSelector((state) => state.auth.UserDetail);
-
 
   const [isFullScreen, setIsFullscreen] = useState(false);
 
@@ -218,6 +220,7 @@ function MainHeader(props) {
   }, [userName, history])
 
 
+
   const onSearchTextChangeHandler = (event) => {
     setSearchWord(event.target.value);
   };
@@ -250,6 +253,19 @@ function MainHeader(props) {
     };
   }, [isFullScreen, onFullScreenHandler]);
 
+
+
+  useEffect(() => {
+    try {
+      const getData = async () => {
+        await Dispatch(WorkspaceActionCreator.GetWorkspaces());
+      }
+      getData();
+    }
+    catch (error) {
+      ShowErrorMessage("Something Went Wrong");
+    }
+  }, [Dispatch])
 
 
   return (
@@ -361,7 +377,7 @@ function MainHeader(props) {
                   <DownOutlined />
                 </div>
               </Dropdown>
- {/*
+              {/*
               <Dropdown
                 overlayClassName="mainheader_container_navbar_userContainer_menus_items"
                 overlay={menu2}
@@ -375,7 +391,7 @@ function MainHeader(props) {
                   <DownOutlined />
                 </div>
               </Dropdown>*/}
-            </div> 
+            </div>
 
             {isFullScreen ?
               <FiMinimize
@@ -424,8 +440,10 @@ function MainHeader(props) {
 function UserMenu(props) {
   const history = useHistory();
   const match = useRouteMatch();
-  const Dispatch = useDispatch();
+  const dispatch = useDispatch();
   const currentTheme = useSelector((state) => state.theme.Theme);
+
+
 
   const onThemeClickChange = (themetype, color) => {
     switch (color) {
@@ -437,7 +455,7 @@ function UserMenu(props) {
       //   break;
 
       default:
-        Dispatch({
+        dispatch({
           type: Actions.UPDATETHEME,
           themeKey: themetype === "dark" ? DarkBlueTheme : LightBlueTheme,
         });
@@ -445,7 +463,7 @@ function UserMenu(props) {
   };
 
   const onLogoutClickHandler = () => {
-    Dispatch(AuthActionCreator.LogoutUser())
+    dispatch(AuthActionCreator.LogoutUser())
     history.replace(`${RouteUrl.LOGIN}`);
   }
 
@@ -487,28 +505,29 @@ function UserMenu(props) {
 }
 
 function WorkSpaceMenu(props) {
+
+  const WorkspaceList = useSelector(state => state.workspace.WorkSpaces);
   return (
     <div className="DropDownMenu WorkSpace">
       <div className="WorkSpace-header">
-        <FiCodesandbox size={20} />
+        <AiOutlineFolderOpen size={20} />
         <Text>Current Work Space</Text>
       </div>
       <Divider />
       <div>
-        <DropDownMenuItem title="Work Space-1" icon={<FiBox size={20} />} />
-        <DropDownMenuItem title="Work Space-2" icon={<FiBox size={20} />} />
-        {/* <DropDownMenuItem title="Dark Mode" icon={<FiMoon size={20}/>} />
-        <DropDownMenuItem title="Light Mode" icon={<FiSun size={20}/>} /> */}
+        {WorkspaceList.map(item => {
+         return <DropDownMenuItem title={item.w_name} icon={<AiOutlineFolder size={22} />} />
+        })}
       </div>
       <Divider />
       <div>
         <DropDownMenuItem
           title="Create New Work Space"
-          icon={<FiPlusCircle size={20} />}
+          icon={<AiOutlineFolderAdd size={22} />}
         />
         <DropDownMenuItem
           title="Edit Current Work Space"
-          icon={<FiEdit size={20} />}
+          icon={<AiOutlineEdit size={22} />}
         />
       </div>
     </div>

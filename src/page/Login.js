@@ -28,7 +28,6 @@ const Login = (props) => {
   const [loginForm] = Form.useForm();
   const dispatch = useDispatch();
   const history = useHistory();
-
   const [isLoading, setisLoading] = useState(false)
 
   const {
@@ -39,7 +38,7 @@ const Login = (props) => {
 
   const onLoginHandler = async () => {
     try {
-      setisLoading(true)
+      setisLoading(true);
       const values = await loginForm.validateFields();
       const result = await dispatch(
         ActionCreator.LoginUser({

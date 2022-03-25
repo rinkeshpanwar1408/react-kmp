@@ -827,4 +827,62 @@
       }
     }
   }
+
+  //Stepper
+  .ant-steps-item-finish
+    > .ant-steps-item-container
+    > .ant-steps-item-content
+    > .ant-steps-item-title,
+  .ant-steps-item-process
+    > .ant-steps-item-container
+    > .ant-steps-item-content
+    > .ant-steps-item-title {
+    color: $light-font-color;
+  }
+
+  //Quicksetup
+  .SourceSelectionItem {
+    &_Container {
+      &.selected {
+        background-color: rgba(
+          $color: $light-success-color,
+          $alpha: $opacity-low
+        );
+      }
+      &.error {
+        background-color: rgba(
+          $color: $light-error-color,
+          $alpha: $opacity-low
+        );
+      }
+
+      &_DetailContainer {
+        &-title {
+          color: $light-font-color;
+        }
+        &-addConfig {
+        }
+      }
+    }
+  }
+
+  .ant-table-tbody > tr.ant-table-row-selected.selected > td {
+    background-color: rgba($color: $light-success-color, $alpha: $opacity-low);
+  }
+
+  .ant-table-tbody > tr.ant-table-row-selected.error > td {
+    background-color: rgba($color: $light-error-color, $alpha: $opacity-low);
+  }
+
+  //Config Item
+  .configuration_item {
+    &_title_container {
+      &-title {
+        color: $light_font_color;
+      }
+      &-hint{
+        color: $light-warning-color;
+      }
+    }
+  }
 }

@@ -68,7 +68,6 @@ function CreateConfluenceSource(props) {
 
   const submitHandler = async () => {
     try {
-      debugger;
       setIsSubmitLoading(true);
       const values = await CreateSourceForm.validateFields();
       if (isEditMode) {

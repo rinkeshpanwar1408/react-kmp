@@ -6,6 +6,7 @@ import SearchResultsReducer from "./searchResultsReducer";
 import SourceConfigReducer from "./SourceConfigReducer";
 import SourceReducer from "./SourceReducer";
 import ThemeReducer from "./ThemeReducer";
+import WorkSpaceReducer from "./WorkSpaceReducer";
 
 const rootReducer = combineReducers({
   searchresults: SearchResultsReducer,
@@ -13,7 +14,8 @@ const rootReducer = combineReducers({
   error:ErrorReducer,
   source:SourceReducer,
   sourceConfig:SourceConfigReducer,
-  auth:AuthReducer
+  auth:AuthReducer,
+  workspace:WorkSpaceReducer
 });
 
 const store = createStore(rootReducer, applyMiddleware(thunk));

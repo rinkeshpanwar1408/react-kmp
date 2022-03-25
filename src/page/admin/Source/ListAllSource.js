@@ -157,7 +157,6 @@ function ListAllSources(props) {
           </CustomRow>
         </StyledCard>
       </CustomCol>
-
     </CustomRow>
   </>
   );

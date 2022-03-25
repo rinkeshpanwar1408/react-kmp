@@ -16,9 +16,23 @@ const CreateSourceConfigApi = async (payload) => {
     }
 }
 
+const UpdateSourceConfigApi = async (payload) => {
+    try {
+        const response = await Api.put("/source/config/update", payload);
+        return response;
+    } catch (error) {
+        let errorInfo;
+        errorInfo = error.message;
+        throw errorInfo;
+    }
+}
+
 const GetSourceConfigList_Api = async (payload) => {
     try {
-        const response = await Api.post('/source/config/all', { "userName": payload.username });
+        const response = await Api.post(
+            '/source/config/all',
+            { "userName": payload.username, "source_ids": payload.source_ids }
+        );
         return response;
     } catch (error) {
         let errorInfo;
@@ -72,6 +86,25 @@ export function CreateSourceConfig(payload) {
     };
 }
 
+export function UpdateSourceConfig(payload) {
+    return async function (dispatch) {
+        debugger;
+        try {
+            const response = await UpdateSourceConfigApi(payload);
+            if (response.data) {
+                dispatch({
+                    type: Actions.UPDATESOURCECONFIG,
+                    payload: payload
+                });
+            }
+            return response;
+        } catch (error) {
+            dispatch({ type: Actions.SETERROR, payload: error });
+            throw (error);
+        }
+    };
+}
+
 export function DeleteSourceConfig(payload) {
     return async function (dispatch) {
         try {
@@ -91,11 +124,11 @@ export function DeleteSourceConfig(payload) {
     };
 }
 
-export function GetSourceConfigList() {
+export function GetSourceConfigList(source_ids = []) {
     return async function (dispatch, getState) {
         try {
             const state = getState();
-            const response = await GetSourceConfigList_Api({ username: state.auth.UserDetail.userName });
+            const response = await GetSourceConfigList_Api({ username: state.auth.UserDetail.userName, source_ids });
             if (response?.data) {
                 dispatch({
                     type: Actions.GETSOURCECONFIGS,

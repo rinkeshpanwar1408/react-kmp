@@ -4,7 +4,9 @@ import InfoBox from "../../components/InfoBox";
 import CustomRow from "../../components/CustomRow";
 import CustomCol from "../../components/CustomCol";
 import { FiCodesandbox, FiGitMerge, FiGrid, FiInfo, FiMail, FiSettings, FiUser } from "react-icons/fi";
-import { AiOutlineInfoCircle } from "react-icons/ai";
+import {
+    CheckCircleOutlined,
+} from '@ant-design/icons';
 import { StyledCard } from "../../styled-components/CommonControls";
 import { Link } from "react-router-dom";
 const { Step } = Steps;
@@ -14,104 +16,121 @@ function Dashboard(props) {
     const dataSource = [
         {
             key: '1',
-            name: 'Source-1',
-            SourceTemplate: 0,
-            WorkSpace: 0,
-            Jobs: 0,
+            WorkSpace: "Workspace-1",
+            Sources: 1,
+            ConfigTemplate: 0,
+            IngestionSetting: 0,
+            Job: 0,
+            ViewSetting: 0,
             Progress: 10
         },
         {
             key: '2',
-            name: 'Source-2',
-            SourceTemplate: 3,
-            WorkSpace: 0,
-            Jobs: 0,
-            Progress: 50
+            WorkSpace: "Workspace-2",
+            Sources: 2,
+            ConfigTemplate: 1,
+            IngestionSetting: 0,
+            Job: 0,
+            ViewSetting: 0,
+            Progress: 10
         },
         {
             key: '3',
-            name: 'Source-3',
-            SourceTemplate: 4,
-            WorkSpace: 3,
-            Jobs: 0,
-            Progress: 75
+            WorkSpace: "Workspace-3",
+            Sources: 0,
+            ConfigTemplate: 0,
+            IngestionSetting: 0,
+            Job: 0,
+            ViewSetting: 0,
+            Progress: 10
         },
         {
             key: '4',
-            name: 'Source-4',
-            SourceTemplate: 6,
-            WorkSpace: 5,
-            Jobs: 3,
-            Progress: 100
+            WorkSpace: "Workspace-4",
+            Sources: 0,
+            ConfigTemplate: 0,
+            IngestionSetting: 0,
+            Job: 0,
+            ViewSetting: 0,
+            Progress: 10
         },
     ];
 
-    const customDot = (dot, { status, index }) => (
-        <Popover
-            content={
-                <span>
-                    step {index} status: {status}
-                </span>
-            }
-        >
-            {dot}
-        </Popover>
-    );
 
     const columns = [
         {
-            title: 'Source',
-            dataIndex: 'name',
-            key: 'name',
-        },
-        {
-            title: 'Config Template',
-            dataIndex: 'SourceTemplate',
-            key: 'SourceTemplate',
-            render: (text, record) => {
-                if (text === 0) {
-                    return <React.Fragment>
-                        <div>
-                            <Tag color="error">Pending</Tag>
-                            <Popover title="Info" content={
-                                <Text>For this source configuration template is missing please click <Link to={`#`}>here</Link> to create</Text>
-                            } trigger="hover">
-                                <Button type="link"><FiInfo size={20} /></Button>
-                            </Popover>
-                        </div>
-                    </React.Fragment>
-                }
-                return text;
-            }
-        },
-        {
-            title: 'Workspaces',
+            title: 'Workspace',
             dataIndex: 'WorkSpace',
             key: 'WorkSpace',
+
+        },
+        {
+            title: 'Sources',
+            dataIndex: 'Sources',
+            key: 'Sources',
             render: (text, record) => {
                 if (text === 0) {
                     return <Tag color="error">Pending</Tag>
                 }
-                return text;
+                return <Tag color="success">Done</Tag>
             }
         },
         {
-            title: 'Jobs',
-            dataIndex: 'Jobs',
-            key: 'Jobs',
+
+
+            title: 'Config Template',
+            dataIndex: 'ConfigTemplate',
+            key: 'ConfigTemplate',
             render: (text, record) => {
                 if (text === 0) {
                     return <Tag color="error">Pending</Tag>
                 }
-                return text;
+                return <Tag color="success">Done</Tag>;
             }
         },
+
+        {
+            title: 'Ingestion Setting',
+            dataIndex: 'IngestionSetting',
+            key: 'IngestionSetting',
+            render: (text, record) => {
+                if (text === 0) {
+                    return <Tag color="error">Pending</Tag>
+                }
+                return <Tag color="success">Done</Tag>;
+            }
+        },
+
+        {
+            title: 'Job',
+            dataIndex: 'Job',
+            key: 'Job',
+            render: (text, record) => {
+                if (text === 0) {
+                    return <Tag color="error">Pending</Tag>
+                }
+                return <Tag color="success">Done</Tag>;
+            }
+        },
+
+        {
+            title: 'View Setting',
+            dataIndex: 'ViewSetting',
+            key: 'ViewSetting',
+            render: (text, record) => {
+                if (text === 0) {
+                    return <Tag color="error">Pending</Tag>
+                }
+                return <Tag color="success">Done</Tag>;
+            }
+        },
+
         {
             title: 'Progress',
             key: 'Progress',
             dataIndex: 'Progress',
             render: (text, record) => {
-                return <Progress  percent={text} size="small" />
+                return <Progress percent={text} size="small" />
             }
         },
 

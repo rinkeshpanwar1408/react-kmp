@@ -19,9 +19,11 @@
 @import "./3.component/DropDownMenuItem";
 @import "./3.component/ConfigurationItem";
 @import "./3.component/InfoBox";
+@import "./3.component/SourceSelectionItem";
 
 @import "./5.pages/home";
 @import "./5.pages/login";
+@import "./5.pages/QuickSetup";
 
 @import "./7.vendors/ant-divider";
 @import "./7.vendors/checkbox";
@@ -32,6 +34,8 @@
 @import "./7.vendors/table";
 @import "./7.vendors/ant-alert";
 @import "./7.vendors/ant-tree";
+@import "./7.vendors/ant_step";
+@import "./7.vendors/ant_card";
 
 
 

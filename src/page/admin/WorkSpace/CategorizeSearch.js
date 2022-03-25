@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Button, Form, InputNumber, PageHeader, Select, Space } from "antd";
 import CustomRow from "../../../components/CustomRow";
 import CustomCol from "../../../components/CustomCol";
-import ConfigurationItem from "../../../components/ConfigurationItem";
+import ConfigurationSwitch from "../../../components/ConfigurationSwitch";
 import { StyledCard } from "../../../styled-components/CommonControls";
 const { Option } = Select;
 
@@ -29,7 +29,7 @@ function CategorizeSearch(props) {
                             <CustomRow>
                                 <CustomCol xl={24}>
                                     <Form.Item name="test" initialValue={false}>
-                                        <ConfigurationItem title="Facets" onValueChange={(val) => { setisfacet(val) }} />
+                                        <ConfigurationSwitch title="Facets" onValueChange={(val) => { setisfacet(val) }} />
                                     </Form.Item>
                                     {isfacet &&
                                         <Form.Item name="facetsfields">
@@ -45,7 +45,7 @@ function CategorizeSearch(props) {
                                         name="test"
                                         initialValue={false}
                                     >
-                                        <ConfigurationItem title="Advance Search" />
+                                        <ConfigurationSwitch title="Advance Search" />
                                     </Form.Item>
 
                                     <Form.Item label="Entries Per Page" initialValue={0}>

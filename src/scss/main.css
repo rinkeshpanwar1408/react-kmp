@@ -1043,6 +1043,12 @@ body {
   border-radius: 3.2rem;
 }
 
+.ant-btn-link {
+  padding: 0;
+  line-height: 1;
+  height: auto;
+}
+
 .mainheader {
   background-position: center center;
   background-repeat: no-repeat;
@@ -2131,7 +2137,36 @@ body {
   padding: 1.2rem;
 }
 
-.configuration_item .configuration_item-title {
+.configuration_item_title_container {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.configuration_item_title_container-title {
+  margin: 0;
+  margin-right: .5rem;
+}
+
+.configuration_input {
+  border: 0.2rem solid rgba(145, 158, 171, 0.5);
+  border-radius: 1rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 0.5rem 1.2rem;
+}
+
+.configuration_input .configuration_input-title {
   margin: 0;
   -webkit-box-flex: 1;
       -ms-flex: 1;
@@ -2180,6 +2215,31 @@ body {
 .InfoBox_DataContainer-count {
   font-size: 2.2rem;
   font-weight: 600;
+}
+
+.SourceSelectionItem {
+  width: 100%;
+}
+
+.SourceSelectionItem_Container {
+  padding: 2rem 1rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(145, 158, 171, 0.5);
+}
+
+.SourceSelectionItem_Container_DetailContainer {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.SourceSelectionItem_Container_DetailContainer-title {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
 }
 
 .ant-layout {
@@ -2294,6 +2354,20 @@ body {
   100% {
     opacity: 1;
   }
+}
+
+.quick_setup_form_content {
+  padding: 1.6rem;
+  border: 1px dashed rgba(145, 158, 171, 0.5);
+  border-radius: 1rem;
+  margin: 1.5rem 0;
+  opacity: 0;
+  display: none;
+}
+
+.quick_setup_form_content.active {
+  opacity: 1;
+  display: block;
 }
 
 .ant-divider {
@@ -2443,6 +2517,11 @@ body {
   background-color: transparent;
 }
 
+.ant-select-multiple .ant-select-selector {
+  padding: 0.4rem;
+  background-color: transparent;
+}
+
 .ant-input::-webkit-input-placeholder,
 .ant-input-affix-wrapper::-webkit-input-placeholder {
   opacity: 0.8;
@@ -2533,9 +2612,13 @@ body {
   border-width: 0.2rem !important;
   border-color: rgba(145, 158, 171, 0.5);
   border-radius: 1rem;
-  padding: 1rem;
   font-size: 1.6rem;
   background-color: transparent;
+  overflow: hidden;
+}
+
+.ant-input-number-lg {
+  padding: 0.2rem;
 }
 
 .FormPageHeader {
@@ -2704,6 +2787,52 @@ body {
 
 .ant-tree {
   background-color: transparent;
+}
+
+.ant-steps-item-icon .ant-steps-icon {
+  top: -1px;
+}
+
+.ant-steps-item-wait .ant-steps-item-icon,
+.ant-steps-item-finish .ant-steps-item-icon {
+  background-color: transparent;
+}
+
+.ant-steps-item-wait
+> .ant-steps-item-container
+> .ant-steps-item-content
+> .ant-steps-item-title::after,
+.ant-steps-item-process
+> .ant-steps-item-container
+> .ant-steps-item-content
+> .ant-steps-item-title::after {
+  background-color: #919eab;
+}
+
+.ant-steps-item-wait .ant-steps-item-icon {
+  border-color: #919eab;
+}
+
+.ant-steps-item-wait .ant-steps-item-icon > .ant-steps-icon,
+.ant-steps-item-wait
+> .ant-steps-item-container
+> .ant-steps-item-content
+> .ant-steps-item-title {
+  color: #919eab;
+}
+
+.ant-card.inner-card {
+  -webkit-box-shadow: none;
+          box-shadow: none;
+  border: 1px solid rgba(145, 158, 171, 0.5);
+}
+
+.ant-card.inner-card .ant-card-head {
+  padding: 0 1.6rem;
+}
+
+.ant-card.inner-card .ant-card-body {
+  padding: 1.6rem;
 }
 
 .light.blue .ant-btn-primary {
@@ -2975,6 +3104,44 @@ body {
 
 .blue .InfoBox_IconContainer {
   background-color: #265fd5;
+}
+
+.blue .ant-steps-item-process > .ant-steps-item-container > .ant-steps-item-icon,
+.blue .ant-steps-item-finish
+> .ant-steps-item-container
+> .ant-steps-item-content
+> .ant-steps-item-title::after {
+  background-color: #265fd5;
+}
+
+.blue .ant-steps-item-process .ant-steps-item-icon,
+.blue .ant-steps
+.ant-steps-item:not(.ant-steps-item-active):not(.ant-steps-item-process)
+> .ant-steps-item-container[role="button"]:hover
+.ant-steps-item-icon,
+.blue .ant-steps-item-finish .ant-steps-item-icon {
+  border-color: #265fd5;
+}
+
+.blue .ant-steps
+.ant-steps-item:not(.ant-steps-item-active):not(.ant-steps-item-process)
+> .ant-steps-item-container[role="button"]:hover
+.ant-steps-item-icon
+.ant-steps-icon,
+.blue .ant-steps-item-finish .ant-steps-item-icon > .ant-steps-icon,
+.blue .ant-steps
+.ant-steps-item:not(.ant-steps-item-active)
+> .ant-steps-item-container[role="button"]:hover
+.ant-steps-item-title,
+.blue .ant-steps
+.ant-steps-item:not(.ant-steps-item-active)
+> .ant-steps-item-container[role="button"]:hover
+.ant-steps-item-subtitle,
+.blue .ant-steps
+.ant-steps-item:not(.ant-steps-item-active)
+> .ant-steps-item-container[role="button"]:hover
+.ant-steps-item-description {
+  color: #265fd5;
 }
 
 .light .header-notification-container .icon {
@@ -3740,6 +3907,45 @@ body {
 
 .light .InfoBox_DataContainer-count {
   color: #1d2022;
+}
+
+.light .ant-steps-item-finish
+> .ant-steps-item-container
+> .ant-steps-item-content
+> .ant-steps-item-title,
+.light .ant-steps-item-process
+> .ant-steps-item-container
+> .ant-steps-item-content
+> .ant-steps-item-title {
+  color: #1d2022;
+}
+
+.light .SourceSelectionItem_Container.selected {
+  background-color: rgba(82, 196, 26, 0.2);
+}
+
+.light .SourceSelectionItem_Container.error {
+  background-color: rgba(255, 77, 79, 0.2);
+}
+
+.light .SourceSelectionItem_Container_DetailContainer-title {
+  color: #1d2022;
+}
+
+.light .ant-table-tbody > tr.ant-table-row-selected.selected > td {
+  background-color: rgba(82, 196, 26, 0.2);
+}
+
+.light .ant-table-tbody > tr.ant-table-row-selected.error > td {
+  background-color: rgba(255, 77, 79, 0.2);
+}
+
+.light .configuration_item_title_container-title {
+  color: #1d2022;
+}
+
+.light .configuration_item_title_container-hint {
+  color: #faad14;
 }
 
 .dark .header-notification-container .icon {
@@ -4525,6 +4731,45 @@ body {
 
 .dark .InfoBox_DataContainer-count {
   color: #ffffff;
+}
+
+.dark .ant-steps-item-finish
+> .ant-steps-item-container
+> .ant-steps-item-content
+> .ant-steps-item-title,
+.dark .ant-steps-item-process
+> .ant-steps-item-container
+> .ant-steps-item-content
+> .ant-steps-item-title {
+  color: #ffffff;
+}
+
+.dark .SourceSelectionItem_Container.selected {
+  background-color: rgba(73, 170, 25, 0.2);
+}
+
+.dark .SourceSelectionItem_Container.error {
+  background-color: rgba(166, 29, 36, 0.2);
+}
+
+.dark .SourceSelectionItem_Container_DetailContainer-title {
+  color: #ffffff;
+}
+
+.dark .ant-table-tbody > tr.ant-table-row-selected.selected > td {
+  background-color: rgba(73, 170, 25, 0.2);
+}
+
+.dark .ant-table-tbody > tr.ant-table-row-selected.error > td {
+  background-color: rgba(166, 29, 36, 0.2);
+}
+
+.dark .configuration_item_title_container-title {
+  color: #ffffff;
+}
+
+.dark .configuration_item_title_container-hint {
+  color: #d89614;
 }
 
 .ant-menu {

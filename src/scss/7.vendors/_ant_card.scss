@@ -1,0 +1,14 @@
+.ant-card.inner-card {
+  box-shadow: none;
+  border: 1px solid rgba($color: $bordercolor, $alpha: $opacity-medium);
+
+  .ant-card-head{
+    padding:  0 1.6rem;
+  }
+
+  .ant-card-body{
+    padding: 1.6rem;
+  }
+
+
+}

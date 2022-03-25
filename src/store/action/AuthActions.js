@@ -4,7 +4,7 @@ import * as Actions from "./index";
 
 export const Login = async (data) => {
   try {
-    const response = await Api.post("/login", { "userName": data.username, "password": data.password });
+    const response = await Api.post("/user/login", { "userName": data.username, "password": data.password });
     return response;
   } catch (error) {
     let errorInfo;

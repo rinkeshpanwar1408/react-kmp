@@ -123,6 +123,7 @@ function ConfigConfluenceTemplate(props) {
       const sourceDetail = await dispatch(SourceActionCreator.GetSourceDetail(values.source));
 
       const SorceConfig = new ConfluenceSourceConfig(
+        ConfigId,
         values.configname,
         sourceDetail.data.source_name,
         values.configname + "-" + sourceDetail.data.full_source_name + "-" + TEMPLATE,
@@ -131,22 +132,11 @@ function ConfigConfluenceTemplate(props) {
         CheckedTreeKeys, ExpandKeys, newData, SelectedTreeData);
 
       if (IsEditMode) {
-        // const result = await dispatch(
-        //   ActionCreator.UpdateSource({
-        //     id: sourceId,
-        //     source_name: values.sourcename,
-        //     source_type: CONFLUENCE,
-        //     base_url: values.base_url,
-        //     user_id: values.userId,
-        //     password: values.password,
-        //     userName: UserDetail.userName,
-        //     validated: validate
-        //   })
-        // );
+        const result = await dispatch(ActionCreator.UpdateSourceConfig(SorceConfig));
 
-        // if (result.data) {
-        //   ShowSuccessMessage("Config Template updated successfully");
-        // }
+        if (result.data) {
+          ShowSuccessMessage("Config Template updated successfully");
+        }
 
       }
       else {

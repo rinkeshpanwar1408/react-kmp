@@ -3,9 +3,10 @@ import { Dropdown, Typography } from "antd";
 import { StyledInfoBox } from "../styled-components/CommonControls";
 import CountUp from 'react-countup';
 const { Text } = Typography;
+
+
 const InfoBox = (props) => {
-    return (
-        <StyledInfoBox className="InfoBox">
+    return (<StyledInfoBox className="InfoBox">
             <div className="InfoBox_IconContainer">
                 {props.icon}
             </div>
@@ -21,10 +22,8 @@ const InfoBox = (props) => {
                     </Dropdown>
                 </div>
             }
-
-        </StyledInfoBox>
-    )
-
+        </StyledInfoBox>)
 }
 
 export default InfoBox;
+

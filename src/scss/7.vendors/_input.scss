@@ -8,6 +8,11 @@
   background-color: transparent;
 }
 
+.ant-select-multiple .ant-select-selector {
+  padding: 0.4rem;
+  background-color: transparent;
+}
+
 .ant-input::placeholder,
 .ant-input-affix-wrapper::placeholder {
   opacity: $opacity-high;
@@ -81,12 +86,16 @@
 }
 
 //Input Number
-.ant-input-number{
+.ant-input-number {
   width: 100%;
   border-width: 0.2rem !important;
   border-color: rgba($color: $bordercolor, $alpha: $opacity-medium);
   border-radius: $border-radius-large;
-  padding: 1rem;
   font-size: 1.6rem;
   background-color: transparent;
+  overflow: hidden;
+}
+
+.ant-input-number-lg {
+  padding: 0.2rem;
 }

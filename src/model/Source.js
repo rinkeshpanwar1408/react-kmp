@@ -1,9 +1,10 @@
 export class ConfluenceSourceConfig {
-    constructor(config_name, source_name, full_config_name,
+    constructor(id, config_name, source_name, full_config_name,
         full_source_name, source_type, space_key,
         recursive_fetch, fetch_attachments, checked_items, parent_items, selected_item_tree,
         full_item_tree) {
-
+        this.id = id;
+        this.config_name = config_name;
         this.config_name = config_name;
         this.source_name = source_name;
         this.full_config_name = full_config_name;

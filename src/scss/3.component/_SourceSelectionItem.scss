@@ -1,0 +1,20 @@
+.SourceSelectionItem {
+  width: 100%;
+
+  &_Container {
+    padding: 2rem 1rem ;
+    border-radius: 1rem;
+    border: 1px solid rgba($color: $bordercolor, $alpha: $opacity-medium);
+
+    &_DetailContainer {
+      display: flex;
+      align-items: center;
+      &-title {
+        flex: 1;
+      }
+
+      &-addConfig {
+      }
+    }
+  }
+}

@@ -31,14 +31,17 @@ import CategorizeSearch from "./admin/WorkSpace/CategorizeSearch";
 import PersonalizeSearch from "./admin/WorkSpace/PersonalizeSearch";
 import OptimizeSearch from "./admin/WorkSpace/OptimizeSearch";
 import Dashboard from "./admin/Dashboard";
+import QuickSetup from "./admin/QuickSetup";
 
 function AdminConsole(props) {
   const match = useRouteMatch();
-  console.log(match.path);
   return (
     <React.Fragment>
 
       <Switch>
+        <Route path={`${match.path}/${RouteUrl.QUICKSETUP}`} exact>
+          <QuickSetup />
+        </Route>
         <Route path={`${match.path}/${RouteUrl.DASHBOARD}`} exact>
           <Dashboard />
         </Route>

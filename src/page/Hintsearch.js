@@ -26,7 +26,9 @@ import { StyledMainContentContainer } from "../styled-components/Master";
 import { useDispatch } from "react-redux";
 import * as RouteUrl from "../model/route";
 import { BsBox, BsUiChecksGrid } from "react-icons/bs";
-import { BiBriefcaseAlt, BiGitMerge, BiUser } from "react-icons/bi";
+import { BiBriefcaseAlt, BiGitMerge, BiListOl, BiListUl, BiUser } from "react-icons/bi";
+import { MdDashboard } from "react-icons/md";
+import { FiList } from "react-icons/fi";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -70,6 +72,12 @@ function HintSearch(props) {
           >
             <Menu mode="inline" style={{ height: "100%", borderRight: 0 }}>
 
+              
+              <Menu.Item key="Menu5" icon={<MdDashboard className="text-color-3" />}>
+                <Link to={`${match.path}/${RouteUrl.ADMIN}/${RouteUrl.DASHBOARD}`}>
+                  Dashboard
+                </Link>
+              </Menu.Item>
               <SubMenu key="Menu1" icon={<BiGitMerge className="text-color-5" />} title="Workspace">
                 <Menu.Item key="Menu1.1">
                   <Link to={`${match.path}/${RouteUrl.ADMIN}/${RouteUrl.WORKSPACE}`}>
@@ -228,11 +236,7 @@ function HintSearch(props) {
                 </SubMenu>
               </SubMenu>
 
-              <SubMenu
-                key="Menu3"
-                title="User Management"
-                icon={<BiUser className="text-color-6" />}
-              >
+              <SubMenu key="Menu3" title="User Management" icon={<BiUser className="text-color-6" />}>
                 <Menu.Item key="Menu3.1">
                   <Link to={`${match.path}/${RouteUrl.ADMIN}/${RouteUrl.LISTOFUSERGROUP}`}>
                     List of User Groups
@@ -245,6 +249,11 @@ function HintSearch(props) {
                 </Menu.Item>
               </SubMenu>
 
+              <Menu.Item key="Menu4" icon={<FiList className="text-color-7" />}>
+                <Link to={`${match.path}/${RouteUrl.ADMIN}/${RouteUrl.QUICKSETUP}`}>
+                  Quick Setup
+                </Link>
+              </Menu.Item>
             </Menu>
           </SimpleBar>
 

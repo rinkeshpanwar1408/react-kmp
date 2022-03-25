@@ -11,6 +11,7 @@ export const ADMIN = "Admin";
 //Admin
 
 export const DASHBOARD = "Dashboard";
+export const QUICKSETUP = "QuickSetup";
 export const DRAGANDDROP = "Execution/DragandDrop";
 export const MONITORJOBS = "Execution/Monitorjobs";
 export const CREATEJOBS = "Execution/Createrunjob";

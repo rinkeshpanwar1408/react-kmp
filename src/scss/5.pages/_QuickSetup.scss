@@ -1,0 +1,15 @@
+.quick_setup_form {
+  &_content {
+    padding: 1.6rem;
+    border: 1px dashed rgba($color: $bordercolor, $alpha: $opacity-medium);
+    border-radius: $border-radius-large;
+    margin: 1.5rem 0;
+    opacity: 0;
+    display: none;
+
+    &.active {
+      opacity: 1;
+      display: block;
+    }
+  }
+}

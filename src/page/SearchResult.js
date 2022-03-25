@@ -16,16 +16,19 @@ const { Text } = Typography;
 
 function SearchResult(props) {
   const [test, setTest] = useState(false);
+
   const searchedData = useSelector((state) => state.searchresults.searchedData);
   const previewData = useSelector((state) => state.searchresults.previewData);
+
   const [isModalVisible, setIsModalVisible] = useState(false);
   const Dispatch = useDispatch();
   const [showFilter, setshowFilter] = useState(true);
-  const [isLoading,setisLoading] = useState(false)
+  const [isLoading,setisLoading] = useState(false);
 
   useEffect(() => {
     Dispatch(ActionCreators.getSearchedData());
   }, [Dispatch]);
+
 
   const searchItemInfoClickHandler = (id) => {
     Dispatch(ActionCreators.getSearchItemPreviewData(id));

@@ -22,7 +22,7 @@ const CreateJob = (props) => {
 
   const [validate, setValidate] = useState(false);
   const [CreateSourceForm] = Form.useForm();
-  const [isEditMode, setisEditMode] = useState(false);
+  const [isEditMode, setisEditMode] = useState(true);
   const [sourceId, setsourceId] = useState(0);
   const [IsSubmitLoading, setIsSubmitLoading] = useState(false);
 
@@ -67,17 +67,7 @@ const CreateJob = (props) => {
         >
         </PageHeader>
         <StyledCard className="formContainer">
-          {
-            isEditMode &&
-            <Alert
-              description={
-                <Text>For this source configuration template is missing please click <Link to={`${RouteUrl.HINTSEARCH}/${RouteUrl.ADMIN}/${RouteUrl.SOURCES}/${RouteUrl.CONFLUENCE}/${RouteUrl.CONFIGTEMPLATE}?source=${full_source_name}`}>here</Link></Text>
-              }
-              type="error"
-              className="m-b-20"
-              closable
-            />
-          }
+
           <Form
             name="basic"
             layout="vertical"

@@ -32,7 +32,6 @@ const entitiesMock = {
 };
 
 const COLUMN_ID_DONE = "done";
-
 const PRIMARY_BUTTON_NUMBER = 0;
 
 function CreateWorkSpace(props) {
@@ -55,7 +54,6 @@ function CreateWorkSpace(props) {
         const newList = { ...entitiesMock };
         newList.columns["todo"].data = SourceConfigList
         setEntities(newList)
-
     }, [SourceConfigList])
 
 

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button, Form, PageHeader, Select, Space } from "antd";
 import CustomRow from "../../../components/CustomRow";
 import CustomCol from "../../../components/CustomCol";
-import ConfigurationItem from "../../../components/ConfigurationItem";
+import ConfigurationSwitch from "../../../components/ConfigurationSwitch";
 import { StyledCard } from "../../../styled-components/CommonControls";
 const { Option } = Select;
 
@@ -31,28 +31,28 @@ function PersonalizeSearch(props) {
                                         name="test"
                                         initialValue={false}
                                     >
-                                        <ConfigurationItem title="Toggle between Text/Semantic Search" />
+                                        <ConfigurationSwitch title="Toggle between Text/Semantic Search" />
                                     </Form.Item>
 
                                     <Form.Item
                                         name="test2"
                                         initialValue={false}
                                     >
-                                        <ConfigurationItem title="Toggle between Department/Relevance based Search" />
+                                        <ConfigurationSwitch title="Toggle between Department/Relevance based Search" />
                                     </Form.Item>
 
                                     <Form.Item
                                         name="test3"
                                         initialValue={false}
                                     >
-                                        <ConfigurationItem title="Voice based Search" />
+                                        <ConfigurationSwitch title="Voice based Search" />
                                     </Form.Item>
 
                                     <Form.Item
                                         name="test4"
                                         initialValue={false}
                                     >
-                                        <ConfigurationItem title="Preview for documents" />
+                                        <ConfigurationSwitch title="Preview for documents" />
                                     </Form.Item>
                                 </CustomCol>
                                 <CustomCol xl={12}>
@@ -60,7 +60,7 @@ function PersonalizeSearch(props) {
                                         name="test5"
                                         initialValue={false}
                                     >
-                                        <ConfigurationItem title="Sorting" onValueChange={(val) => { setisSorting(val) }} />
+                                        <ConfigurationSwitch title="Sorting" onValueChange={(val) => { setisSorting(val) }} />
                                     </Form.Item>
                                     {isSorting &&
                                         <Form.Item name="sortingfields">
@@ -82,7 +82,7 @@ function PersonalizeSearch(props) {
                                         name="test6"
                                         initialValue={false}
                                     >
-                                        <ConfigurationItem title="User Rating" />
+                                        <ConfigurationSwitch title="User Rating" />
                                     </Form.Item>
 
                                 </CustomCol>
