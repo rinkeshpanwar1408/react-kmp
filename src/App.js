@@ -21,6 +21,8 @@ import PageNotFound from "./page/PageNotFound";
 function App() {
   const currentTheme = useSelector((state) => state.theme.Theme);
   const Error = useSelector((state) => state.error.Error);
+
+
   return (
     <ThemeProvider theme={currentTheme}>
       <StyledMainLayout
@@ -46,6 +48,7 @@ function App() {
               </Route>
             </Switch>
           }
+          
           {Error &&
             <Route path={`${RouteUrl.ERROR}`} exact>
               <ErrorPage />

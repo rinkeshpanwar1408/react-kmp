@@ -25,6 +25,7 @@ function CreateConfluenceSource(props) {
   const [isEditMode, setisEditMode] = useState(false);
   const [sourceId, setsourceId] = useState(0);
   const [IsSubmitLoading, setIsSubmitLoading] = useState(false);
+  const [isAddConfigWarningVisible, setIsAddConfigWarningVisible] = useState(false);
 
   const history = useHistory();
 
@@ -49,7 +50,8 @@ function CreateConfluenceSource(props) {
           password: response.data.password,
           sourcetype: response.data.source_type,
         });
-        setsourceId(response.data.id)
+        setsourceId(response.data.id);
+        setIsAddConfigWarningVisible(false)
       }
 
       if (full_source_name) {
@@ -70,6 +72,7 @@ function CreateConfluenceSource(props) {
     try {
       setIsSubmitLoading(true);
       const values = await CreateSourceForm.validateFields();
+
       if (isEditMode) {
         const result = await dispatch(
           ActionCreator.UpdateSource({
@@ -128,7 +131,7 @@ function CreateConfluenceSource(props) {
 
   const onBlurSourceHandler = async (e) => {
     if (!full_source_name) {
-      const res = await sourceApi.get(`validate/${e.target.value}-${CONFLUENCE}`);
+      const res = await sourceApi.get(`source/validate/${e.target.value}-${CONFLUENCE}`);
       if (!res.data) {
         CreateSourceForm.setFieldsValue({
           sourcename: ""
@@ -167,7 +170,7 @@ function CreateConfluenceSource(props) {
         </PageHeader>
         <StyledCard className="formContainer">
           {
-            isEditMode &&
+            isAddConfigWarningVisible &&
             <Alert
               description={
                 <Text>For this source configuration template is missing please click <Link to={`${RouteUrl.HINTSEARCH}/${RouteUrl.ADMIN}/${RouteUrl.SOURCES}/${RouteUrl.CONFLUENCE}/${RouteUrl.CONFIGTEMPLATE}?source=${full_source_name}`}>here</Link> to create.</Text>
@@ -199,7 +202,9 @@ function CreateConfluenceSource(props) {
                 >
 
                   <Input
-                    placeholder="Enter Source Name" onBlur={(e) =>
+                    placeholder="Enter Source Name"
+                    disabled={isEditMode}
+                    onBlur={(e) =>
                       onBlurSourceHandler(e)
                     }
                   />
@@ -224,6 +229,7 @@ function CreateConfluenceSource(props) {
 
                   <Input
                     placeholder="Enter Source Type"
+                    disabled
                   />
                 </Form.Item>
               </CustomCol>

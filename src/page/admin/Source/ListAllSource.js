@@ -50,9 +50,12 @@ function ListAllSources(props) {
     });
   }
 
-  const onDeleteSourceHandler = async (fullSource) => {
+  const onDeleteSourceHandler = async (fullSource, source_type) => {
     try {
-      const response = await dispatch(SourceActionCreator.DeleteSource(fullSource));
+      const response = await dispatch(SourceActionCreator.DeleteSource({
+        full_source_name: fullSource,
+        source_type: source_type
+      }));
     }
     catch (error) {
       ShowErrorMessage("Something Went Wrong");
@@ -105,7 +108,7 @@ function ListAllSources(props) {
               title="Are you sure to delete this source?"
               okText="Yes"
               cancelText="No"
-              onConfirm={() => onDeleteSourceHandler(text.full_source_name)}
+              onConfirm={() => onDeleteSourceHandler(text.full_source_name, text.type)}
             >
               <Button danger type="primary" shape="circle" icon={<FiTrash2 fontSize="20" />} />
             </CustomPopconfirm>

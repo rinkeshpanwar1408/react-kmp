@@ -5,9 +5,8 @@ import CustomCol from "../../components/CustomCol";
 import { FiSliders } from "react-icons/fi";
 import { StyledCard } from "../../styled-components/CommonControls";
 import { useDispatch, useSelector } from "react-redux";
-import * as SourceActionCreator from "../../store/action/sourceActions";
 import useMessage from "../../hooks/useMessage";
-import * as ActionCreators from "../../store/action/sourceConfigActions";
+
 import CustomPopover from "../../components/CustomPopover";
 import { BiNetworkChart } from "react-icons/bi";
 import { FiPlusCircle } from "react-icons/fi";
@@ -18,6 +17,10 @@ import * as RouteUrl from "../../model/route";
 import ConfigurationSwitch from "../../components/ConfigurationSwitch";
 import ConfigureInptItem from "../../components/ConfigureInptItem";
 import * as ActionCreator from "../../store/action/workspaceActions";
+import * as SourceActionCreator from "../../store/action/sourceActions";
+import { useLocation } from "react-router-dom";
+import useConfirm from "../../hooks/useConfirm";
+import clsWorkspace from "../../model/workspaceDetail";
 
 const { Step } = Steps;
 const { Text } = Typography
@@ -75,46 +78,71 @@ const PRIMARY_BUTTON_NUMBER = 0;
 
 
 function QuickSetup(props) {
+    const CurrentUser = useSelector(state => state.auth.UserDetail);
+
+    //Workspace Details Variables Start
+    const [WorkspaceDetails, setWorkspaceDetails] = useState(new clsWorkspace());
+    const [currentWorkspaceSources, setCurrentWorkspaceSources] = useState([]);
+    const [currentWorkspaceIngestionSetting, setcurrentWorkspaceIngestionSetting] = useState(null);
+    const [currentWorkSpaceSelectedConfigTemplate, setCurrentWorkSpaceSelectedConfigTemplate] = useState([]);
+
+    const CurrentWorkSpaceWorkspace = useSelector(state => state.workspace.SelectedWorkspace);
+    const [isChanged, setIsChanged] = useState(false);
+    //Workspace Details Variables End
+
+
+    const dispatch = useDispatch();
+    const RouteMatch = useRouteMatch();
+    const history = useHistory();
+    const [isEditMode, setIsEditMode] = useState(false);
+
     const UserDetail = useSelector(state => state.auth.UserDetail);
 
-    const [selectedSources, setSelectedSources] = useState([]);
-
     const [entities, setEntities] = useState(entitiesMock);
+    const [selectedWorkspaceSources, setSelectedWorkspaceSources] = useState([]);
 
     const [personalize_isSorting, setPersonalize_isSorting] = useState(false);
     const [categorize_isFacets, setCategorize_isFacets] = useState(false);
 
-
     const [current, setCurrent] = useState(0);
-    const SourceList = useSelector(state => state.source.Sources);
+    const [SourceList, setSourceList] = useState([]);
     const [isLoadingdata, setIsLoadingdata] = useState(false);
-    const dispatch = useDispatch();
-    const RouteMatch = useRouteMatch();
-    const history = useHistory();
+
     const {
         ShowSuccessMessage,
         ShowErrorMessage,
         ShowWarningMessage,
     } = useMessage();
-
-    useEffect(() => {
-        try {
-            const getData = async () => {
-                const response = await dispatch(SourceActionCreator.GetSources());
-            }
-            if (SourceList.length <= 0) {
-                getData();
-            }
-        }
-        catch (error) {
-            ShowErrorMessage("Something Went Wrong");
-        }
-    }, [dispatch]);
-
-
+    const { ShowConfirmDailog } = useConfirm();
 
     //#region Screen-1-Workspace
     const [WorkspaceForm] = Form.useForm();
+
+    useEffect(() => {
+        const getWorkspacedata = async () => {
+            const WorkSpaceDetail = await dispatch(ActionCreator.GetWorkspaceDetail(CurrentWorkSpaceWorkspace));
+            if (WorkSpaceDetail.data) {
+                setWorkspaceDetails({
+                    id: WorkSpaceDetail.data.id,
+                    workspace_name: WorkSpaceDetail.data.workspace_name,
+                    description: WorkSpaceDetail.data.description
+                });
+
+                WorkspaceForm.setFieldsValue({
+                    workspacename: WorkSpaceDetail.data.workspace_name,
+                    description: WorkSpaceDetail.data.description,
+                });
+                setIsEditMode(true);
+            }
+        }
+        if (CurrentWorkSpaceWorkspace) {
+            getWorkspacedata();
+        }
+        else {
+            WorkspaceForm.resetFields()
+        }
+    }, [dispatch, CurrentWorkSpaceWorkspace])
+
     const SaveWorkSpaceDetail = async () => {
         try {
             let formValues = null;
@@ -124,35 +152,42 @@ function QuickSetup(props) {
                 return;
             }
 
-            const result = await dispatch(
-                ActionCreator.CreateWorkSpace({
-                    workspace_name: formValues.workspacename,
-                    username: UserDetail.userName,
-                    description: formValues.description
-                }));
-            setCurrent(current + 1);
+            if (isEditMode) {
+                await dispatch(
+                    ActionCreator.UpdateWorkSpaceDetail({
+                        workspace_name: formValues.workspacename,
+                        username: UserDetail.userName,
+                        description: formValues.description
+                    }));
 
+                setWorkspaceDetails({
+                    ...WorkspaceDetails,
+                    workspace_name: formValues.workspacename,
+                    description: formValues.description
+                });
+            }
+            else {
+                const result = await dispatch(
+                    ActionCreator.CreateWorkSpace({
+                        workspace_name: formValues.workspacename,
+                        username: UserDetail.userName,
+                        description: formValues.description
+                    }));
+
+                setIsEditMode(true);
+                setWorkspaceDetails({
+                    description: formValues.description,
+                    workspace_name: formValues.workspacename,
+                    id: result.data.id
+                });
+            }
         } catch (error) {
             ShowErrorMessage("Something Went Wrong");
         }
     }
     //#endregion
 
-
     //#region Screen-2-Source
-    useEffect(() => {
-        try {
-            const getData = async () => {
-                setIsLoadingdata(true);
-                const response = await dispatch(SourceActionCreator.GetSources());
-                setIsLoadingdata(false);
-            }
-            getData();
-        }
-        catch (error) {
-            ShowErrorMessage("Something Went Wrong");
-        }
-    }, [dispatch])
 
 
     const SourceColumns = [
@@ -202,20 +237,39 @@ function QuickSetup(props) {
         try {
             const result = await dispatch(
                 ActionCreator.SaveSourcesToWorkSpace({
-                    workspace_name: "Workspace-1",
-                    selected: selectedSources
+                    workspace_name: WorkspaceDetails.workspace_name,
+                    selected: selectedWorkspaceSources
                 }));
-            setCurrent(current + 1);
+            setCurrentWorkspaceSources(selectedWorkspaceSources);
 
         } catch (error) {
             ShowErrorMessage("Something Went Wrong");
         }
     }
-    //#endregion
+
+    const SaveConfigTemplateToWorkSpace = async () => {
+        try {
+            const result = await dispatch(
+                ActionCreator.SaveConfigTemplateToWorkSpace({
+                    workspace_name: WorkspaceDetails.workspace_name,
+                    selected: entities.columns["done"].data.map(data => data.config_id)
+                }));
+
+        } catch (error) {
+            ShowErrorMessage("Something Went Wrong");
+        }
+    }
+
+    const getWorkSpaceSourceData = async () => {
+        if (SourceList.length <= 0) {
+            const response = await dispatch(SourceActionCreator.GetSources())
+            setSourceList(response.data);
+        }
+    }
 
     //#endregion
 
-    //#region Screen-3-WorkSpace
+    //#region Screen-3-Config Template
 
     const [selectedTaskIds, setSelectedTaskIds] = useState([]);
     const [draggingTaskId, setDraggingTaskId] = useState(null);
@@ -225,36 +279,65 @@ function QuickSetup(props) {
             title: 'Config Name',
             dataIndex: 'config_name',
             key: 'config_name',
-            width: "50%"
         },
         {
             title: 'Source Type',
             dataIndex: 'source_type',
             key: 'source_type',
-            width: "40%"
         },
 
-        {
-            title: 'Action',
-            key: 'action',
-            render: (text, record) => (
-                <CustomPopover
-                    placement="bottom"
-                    title={<span>Tree</span>}
-                    content={<Tree
-                        treeData={text.selected_item_tree}
-                        autoExpandParent={true}
-                        expandedKeys={text.parent_items}
-                        fieldNames={{
-                            title: "title", key: "id", children: "children"
-                        }}
-                    />} trigger="click">
-                    <Button shape="circle" icon={<BiNetworkChart fontSize="25" />} />
-                </CustomPopover>
-            ),
-        },
+        // {
+        //     title: 'Action',
+        //     key: 'action',
+        //     render: (text, record) => (
+        //         <CustomPopover
+        //             placement="bottom"
+        //             title={<span>Tree</span>}
+        //             content={<Tree
+        //                 treeData={text.selected_item_tree}
+        //                 autoExpandParent={true}
+        //                 expandedKeys={text.parent_items}
+        //                 fieldNames={{
+        //                     title: "title", key: "id", children: "children"
+        //                 }}
+        //             />} trigger="click">
+        //             <Button shape="circle" icon={<BiNetworkChart fontSize="25" />} />
+        //         </CustomPopover>
+        //     ),
+        // },
     ];
 
+    const GetConfigTemplateList = async () => {
+        try {
+            if (entities.columns["todo"].data.length <= 0) {
+                const response = await dispatch(ActionCreator.GetWorkspaceSourceConfigList({
+                    workspace_name: WorkspaceDetails.workspace_name,
+                    source_ids: selectedWorkspaceSources
+                }));
+                const newList = { ...entitiesMock };
+                newList.columns["todo"].data = response?.data.configs
+                setEntities(newList);
+            }
+        } catch (error) {
+            ShowErrorMessage("Something Went Wrong");
+        }
+    }
+
+    const GetSelectedConfigTemplateList = async () => {
+        try {
+            if (entities.columns["done"].data.length <= 0) {
+                const response = await dispatch(ActionCreator.GetWorkspaceSelectedConfigTemplate({
+                    workspace_name: WorkspaceDetails.workspace_name
+                }));
+                const newList = { ...entitiesMock };
+                newList.columns["done"].data = response?.data.configs
+                setEntities(newList);
+            }
+
+        } catch (error) {
+            ShowErrorMessage("Something Went Wrong");
+        }
+    }
 
     /**
      * On window click
@@ -346,10 +429,10 @@ function QuickSetup(props) {
         }
 
         const isSelected = selectedTaskIds.some(
-            (selectedTaskId) => selectedTaskId.id === record.id
+            (selectedTaskId) => selectedTaskId.id === record.config_id
         );
         const isGhosting =
-            isSelected && Boolean(draggingTaskId) && draggingTaskId.id !== record.id;
+            isSelected && Boolean(draggingTaskId) && draggingTaskId.id !== record.config_id;
 
         return (
             <Draggable
@@ -376,7 +459,6 @@ function QuickSetup(props) {
         );
     };
 
-
     /**
      * On before capture
      */
@@ -388,7 +470,6 @@ function QuickSetup(props) {
         if (!selected) {
             setSelectedTaskIds([]);
         }
-
         setDraggingTaskId(draggableId);
     };
 
@@ -410,7 +491,6 @@ function QuickSetup(props) {
             source,
             destination
         });
-
 
         setEntities(processed.entities);
         setDraggingTaskId(null);
@@ -452,7 +532,6 @@ function QuickSetup(props) {
         // if not selected - add it to the selected items
         if (index === -1) {
             setSelectedTaskIds([...selectedTaskIds, taskId]);
-
             return;
         }
 
@@ -543,11 +622,45 @@ function QuickSetup(props) {
 
     //#region Screen-4-Ingestion-Settings 
     const [IngestionSettingsForm] = Form.useForm();
-    const [form] = Form.useForm();
     const SaveIngestionSettings = async () => {
-        debugger;
-        const data = await form.validateFields();
+        try {
+            let formValues = null;
+            try {
+                formValues = await IngestionSettingsForm.validateFields();
+            } catch (error) {
+                return;
+            }
 
+            await dispatch(
+                ActionCreator.SaveIngestionSettingToWorkSpace({
+                    workspace_name: WorkspaceDetails.workspace_name,
+                    semantic_search: formValues.IngestionSetting_Semantic_Search,
+                    ML_model_vectorization: formValues.IngestionSetting_ML_Model,
+                    ocr: formValues.IngestionSetting_Include_OCR,
+                    file_types: formValues.IngestionSetting_File_Types,
+                    size_limit: formValues.IngestionSetting_File_size,
+                    encrypted_doc: formValues.IngestionSetting_Include_Encrytpted_Documents,
+                    summarization: formValues.IngestionSetting_Include_Summarization,
+                    password_protection: formValues.IngestionSetting_Include_Password_Protected
+                }));
+
+            setcurrentWorkspaceIngestionSetting({
+                workspace_name: WorkspaceDetails.workspace_name,
+                semantic_search: formValues.IngestionSetting_Semantic_Search,
+                ML_model_vectorization: formValues.IngestionSetting_ML_Model,
+                ocr: formValues.IngestionSetting_Include_OCR,
+                file_types: formValues.IngestionSetting_File_Types,
+                size_limit: formValues.IngestionSetting_File_size,
+                encrypted_doc: formValues.IngestionSetting_Include_Encrytpted_Documents,
+                summarization: formValues.IngestionSetting_Include_Summarization,
+                password_protection: formValues.IngestionSetting_Include_Password_Protected
+            })
+
+        } catch (error) {
+            ShowErrorMessage("Something Went Wrong");
+        }
+
+        // const data = await form.validateFields();
     }
     //#endregion
 
@@ -612,43 +725,232 @@ function QuickSetup(props) {
         //     ),
         // },
     ];
+    const [WorkspaceJobForm] = Form.useForm();
+
+    const SaveJobsToWorkspace = async (isRunJob = false) => {
+        try {
+            let formValues = null;
+            try {
+                formValues = await WorkspaceJobForm.validateFields();
+            } catch (error) {
+                return;
+            }
+
+            const result = await dispatch(
+                ActionCreator.SaveJobToWorkSpace({
+                    workspace_name: WorkspaceDetails.workspace_name,
+                    config_name: formValues.JobConfigTemplate,
+                    run_type: formValues.JobRuntype,
+                    job_type: formValues.Jobtype,
+                    status_job: isRunJob ? "run" : "create",
+                    user_name: CurrentUser.userName
+                }));
+
+        } catch (error) {
+            ShowErrorMessage("Something Went Wrong");
+        }
+    }
     //#endregion
 
     //#region Screen-6-View Setting
 
     //#endregion
 
-    const onChange = current => {
-        console.log('onChange:', current);
-        setCurrent(current);
+
+
+    const ValidateStage = (newStep, currentStep) => {
+        try {
+            switch (newStep) {
+                case 1:
+                    if (WorkspaceDetails.id <= 0) {
+                        ShowWarningMessage("Please add workspace details to continue!");
+                        return false;
+                    }
+                    return true;
+
+                case 2:
+                    if (WorkspaceDetails.id <= 0) {
+                        ShowWarningMessage("Please add workspace details to continue!");
+                        return false;
+                    }
+
+                    if (selectedWorkspaceSources.length <= 0) {
+                        ShowWarningMessage("Please select source to continue!");
+                        return false;
+                    }
+                    return true;
+
+                default:
+                    return true;
+            }
+
+        } catch (error) {
+
+        }
+    }
+
+    const DiscardChanges = (currentStep) => {
+        switch (currentStep) {
+            case 0:
+                WorkspaceForm.setFieldsValue({
+                    workspacename: WorkspaceDetails.workspace_name,
+                    description: WorkspaceDetails.description,
+                });
+                break;
+            case 1:
+                setSelectedWorkspaceSources(currentWorkspaceSources)
+                break;
+
+            case 2:
+                break;
+
+            case 3:
+                IngestionSettingsForm.setFieldsValue({
+                    IngestionSetting_Semantic_Search: currentWorkspaceIngestionSetting.semantic_search,
+                    IngestionSetting_ML_Model: currentWorkspaceIngestionSetting.ML_model_vectorization,
+                    IngestionSetting_Include_OCR: currentWorkspaceIngestionSetting.ocr,
+                    IngestionSetting_File_Types: currentWorkspaceIngestionSetting.file_types,
+                    IngestionSetting_File_size: currentWorkspaceIngestionSetting.size_limit,
+                    IngestionSetting_Include_Encrytpted_Documents: currentWorkspaceIngestionSetting.encrypted_doc,
+                    IngestionSetting_Include_Summarization: currentWorkspaceIngestionSetting.summarization,
+                    IngestionSetting_Include_Password_Protected: currentWorkspaceIngestionSetting.password_protection,
+                })
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    const getCurrentWorkspaceSelectedSources = async () => {
+        try {
+            if (currentWorkspaceSources.length <= 0) {
+                const result = await dispatch(
+                    ActionCreator.GetWorkspaceSourceDetail(WorkspaceDetails.workspace_name)
+                );
+                if (result) {
+                    setSelectedWorkspaceSources(result);
+                    setCurrentWorkspaceSources(result);
+                }
+            }
+        } catch (error) {
+            ShowErrorMessage("Something Went Wrong");
+        }
+    }
+
+    const getCurrentWorkspaceIngestionSetting = async () => {
+        try {
+            if (!currentWorkspaceIngestionSetting) {
+                const result = await dispatch(
+                    ActionCreator.GetWorkspaceIngestionDetail(WorkspaceDetails.workspace_name)
+                );
+
+                if (result) {
+                    setcurrentWorkspaceIngestionSetting({
+                        workspace_name: WorkspaceDetails.workspace_name,
+                        semantic_search: result.ingestion_settigns.semantic_search,
+                        ML_model_vectorization: result.ingestion_settigns.ML_model_vectorization,
+                        ocr: result.ingestion_settigns.ocr,
+                        file_types: result.ingestion_settigns.file_types,
+                        size_limit: result.ingestion_settigns.size_limit,
+                        encrypted_doc: result.ingestion_settigns.encrypted_doc,
+                        summarization: result.ingestion_settigns.summarization,
+                        password_protection: result.ingestion_settigns.password_protection
+                    });
+
+                    IngestionSettingsForm.setFieldsValue({
+                        workspace_name: WorkspaceDetails.workspace_name,
+                        IngestionSetting_Semantic_Search: result.ingestion_settigns.semantic_search,
+                        IngestionSetting_ML_Model: result.ingestion_settigns.ML_model_vectorization,
+                        IngestionSetting_Include_OCR: result.ingestion_settigns.ocr,
+                        IngestionSetting_File_Types: result.ingestion_settigns.file_types,
+                        IngestionSetting_File_size: result.ingestion_settigns.size_limit,
+                        IngestionSetting_Include_Encrytpted_Documents: result.ingestion_settigns.encrypted_doc,
+                        IngestionSetting_Include_Summarization: result.ingestion_settigns.summarization,
+                        IngestionSetting_Include_Password_Protected: result.ingestion_settigns.password_protection
+                    })
+                }
+            }
+        } catch (error) {
+            ShowErrorMessage("Something Went Wrong");
+        }
+    }
+
+    const onChange = newStep => {
+        let isValidate = true;
+        if (current < newStep) {
+            isValidate = ValidateStage(newStep, current);
+        }
+
+        if (isValidate) {
+            if (isChanged) {
+                ShowConfirmDailog("Discard Changes",
+                    "Your changes will be discarded, are you sure you want to continue?",
+                    () => {
+                        DiscardChanges(current);
+                    },
+                    () => { },
+                    "Yes",
+                    "No")
+            }
+
+            if (newStep >= 1) {
+                getWorkSpaceSourceData();
+                getCurrentWorkspaceSelectedSources();
+            }
+
+            if (newStep >= 2) {
+                getWorkSpaceSourceData();
+                getCurrentWorkspaceSelectedSources();
+            }
+
+
+            setIsChanged(false);
+            setCurrent(newStep)
+
+        }
     };
 
     const next = () => {
         switch (current) {
             case 0:
-                SaveWorkSpaceDetail();
+                if (isChanged) {
+                    SaveWorkSpaceDetail();
+                }
+                getWorkSpaceSourceData();
+                getCurrentWorkspaceSelectedSources();
                 break;
 
             case 1:
                 try {
-                    SaveSourcesToWorkSpace();
-
-                    const getData = async () => {
-                        const response = await dispatch(ActionCreators.GetSourceConfigList(selectedSources));
-                        const newList = { ...entitiesMock };
-                        newList.columns["todo"].data = response?.data
-                        setEntities(newList);
+                    if (isChanged) {
+                        SaveSourcesToWorkSpace();
                     }
-                    getData();
+                    GetConfigTemplateList();
+                    GetSelectedConfigTemplateList();
                 }
                 catch (error) {
                     ShowErrorMessage("Something Went Wrong");
                 }
                 break;
 
+            case 2:
+                SaveConfigTemplateToWorkSpace();
+                getCurrentWorkspaceIngestionSetting()
+                setCurrent(current + 1);
+                break;
             case 3:
                 try {
-                    SaveIngestionSettings()
+                    const GetSelectedConfigTemplateList = async () => {
+                        const response = await dispatch(ActionCreator.GetWorkspaceSelectedConfigTemplate({
+                            workspace_name: WorkspaceDetails.workspace_name
+                        }));
+                        setCurrentWorkSpaceSelectedConfigTemplate(response.data.configs)
+                    }
+
+                    SaveIngestionSettings();
+                    GetSelectedConfigTemplateList();
+                    setCurrent(current + 1);
                 }
                 catch (error) {
                     ShowErrorMessage("Something Went Wrong");
@@ -658,12 +960,14 @@ function QuickSetup(props) {
             default:
                 break;
         }
+
+        setCurrent(current + 1);
+        setIsChanged(false);
     };
 
     const prev = () => {
         setCurrent(current - 1);
     };
-
 
     return (
         <CustomRow justify="center">
@@ -672,14 +976,14 @@ function QuickSetup(props) {
                 </PageHeader>
 
                 <StyledCard className="formContainer">
-                    <Steps className="quick_setup_form" iconPrefix="a" current={current} size="small" onChange={onChange}>
+                    <Steps className="quick_setup_form" current={current} size="small" onChange={onChange}>
                         {steps.map(step => {
                             return <Step key={step.key} title={step.title} description={step.isOptional && "(Optional)"} />
                         })}
                     </Steps>
                     <div className={`quick_setup_form_content ${current === 0 && "active"}`}>
                         <Form
-                            name="basic" layout="vertical"
+                            name="WorkspaceDetailForm" layout="vertical"
                             size="large" autoComplete="off"
                             form={WorkspaceForm}>
 
@@ -693,9 +997,13 @@ function QuickSetup(props) {
                                                 required: true,
                                                 message: "Please input your Workspace Name!",
                                             },
-                                        ]}
-                                    >
-                                        <Input placeholder="Enter Workspace Name" />
+                                        ]}>
+                                        <Input
+                                            placeholder="Enter Workspace Name"
+                                            disabled={isEditMode}
+                                            onChange={() => {
+                                                setIsChanged(true)
+                                            }} />
                                     </Form.Item>
                                 </CustomCol>
                             </CustomRow>
@@ -705,8 +1013,19 @@ function QuickSetup(props) {
                                     <Form.Item
                                         name="description"
                                         label="Description"
+                                        onChange={() => {
+                                            setIsChanged(true)
+                                        }}
                                     >
                                         <TextArea rows={4} placeholder="Enter Description" />
+                                    </Form.Item>
+                                </CustomCol>
+                            </CustomRow>
+
+                            <CustomRow key="rw3">
+                                <CustomCol key="rw2.2" xl={24} >
+                                    <Form.Item name="isDefault" noStyle>
+                                        <Checkbox onChange={() => { setIsChanged(true) }}>Set As Default</Checkbox>
                                     </Form.Item>
                                 </CustomCol>
                             </CustomRow>
@@ -728,10 +1047,11 @@ function QuickSetup(props) {
                                         type: "checkbox",
                                         // selectedRowKeys:[11],
                                         onChange: (selectedRowKeys, selectedRows) => {
-                                            setSelectedSources(selectedRowKeys);
+                                            setIsChanged(true);
+                                            setSelectedWorkspaceSources(selectedRowKeys);
                                         },
+                                        selectedRowKeys: selectedWorkspaceSources
                                     }}
-
                                 />
                             </CustomCol>
                         </CustomRow>
@@ -754,7 +1074,7 @@ function QuickSetup(props) {
                                             pagination={false}
                                             dataSource={entities.columns["todo"].data}
                                             columns={tableColumns}
-                                            rowKey="id"
+                                            rowKey="config_id"
                                             components={{
                                                 body: {
                                                     // Custom tbody
@@ -790,7 +1110,7 @@ function QuickSetup(props) {
                                             bordered
                                             dataSource={entities.columns["done"].data}
                                             columns={tableColumns}
-                                            rowKey="id"
+                                            rowKey="config_id"
                                             pagination={false}
                                             components={{
                                                 body: {
@@ -828,29 +1148,41 @@ function QuickSetup(props) {
                         <CustomRow>
                             <CustomCol xl={24}>
                                 <Form
-                                    form={form}
+                                    form={IngestionSettingsForm}
                                     layout="vertical"
-                                    name="InjectionForm"
+                                    name="IngestionForm"
                                     autoComplete="off"
                                     size="large"
                                 >
                                     <CustomRow>
 
                                         <CustomCol xl={8}>
-                                            <Form.Item name="IngestionSetting_Semantic_Search" initialValue={false}>
-                                                <ConfigurationSwitch title="Include Semantic Search" />
+                                            <Form.Item name="IngestionSetting_Semantic_Search" >
+                                                <ConfigurationSwitch
+                                                    onChange={() => {
+                                                        setIsChanged(true);
+                                                    }}
+                                                    title="Include Semantic Search" />
                                             </Form.Item>
                                         </CustomCol>
 
                                         <CustomCol xl={8}>
-                                            <Form.Item name="IngestionSetting_Include_OCR" initialValue={false}>
-                                                <ConfigurationSwitch title="Include OCR" onValueChange={(val) => { }} />
+                                            <Form.Item name="IngestionSetting_Include_OCR" >
+                                                <ConfigurationSwitch
+                                                    onChange={() => {
+                                                        setIsChanged(true);
+                                                    }}
+                                                    title="Include OCR" />
                                             </Form.Item>
                                         </CustomCol>
 
                                         <CustomCol xl={8}>
-                                            <Form.Item name="IngestionSetting_Include_Encrytpted_Documents" initialValue={false}>
-                                                <ConfigurationSwitch title="Include encrytpted documents" />
+                                            <Form.Item name="IngestionSetting_Include_Encrytpted_Documents" >
+                                                <ConfigurationSwitch
+                                                    onChange={() => {
+                                                        setIsChanged(true);
+                                                    }}
+                                                    title="Include encrytpted documents" />
                                             </Form.Item>
                                         </CustomCol>
                                     </CustomRow>
@@ -859,42 +1191,69 @@ function QuickSetup(props) {
                                         <CustomCol xl={8}>
                                             <Form.Item
                                                 name="IngestionSetting_Include_Password_Protected"
-                                                initialValue={false}
                                             >
-                                                <ConfigurationSwitch title="Include password protected documents" />
+                                                <ConfigurationSwitch
+                                                    onChange={() => {
+                                                        setIsChanged(true);
+                                                    }}
+                                                    title="Include password protected documents" />
                                             </Form.Item>
                                         </CustomCol>
                                         <CustomCol xl={8}>
                                             <Form.Item
-                                                name="IngestionSetting_"
-                                                initialValue={false}
+                                                name="IngestionSetting_Include_Summarization"
                                             >
-                                                <ConfigurationSwitch title="Include Summarization Toggle" />
+                                                <ConfigurationSwitch
+                                                    onChange={() => {
+                                                        setIsChanged(true);
+                                                    }}
+                                                    title="Include Summarization Toggle" />
                                             </Form.Item>
                                         </CustomCol>
                                     </CustomRow>
 
                                     <CustomRow>
                                         <CustomCol xl={8}>
-                                            <Form.Item name="IngestionSetting_ML_Model" required label="Choose ML Model for vectorization">
+                                            <Form.Item
+                                                name="IngestionSetting_ML_Model"
+                                                rules={[
+                                                    {
+                                                        required: true,
+                                                        message: 'Please select ml model!',
+                                                    },
+                                                ]}
+                                                label="Choose ML Model for vectorization">
                                                 <Select
+                                                    onChange={() => {
+                                                        setIsChanged(true);
+                                                    }}
                                                     showSearch
                                                     placeholder="Select a ML Model"
                                                     optionFilterProp="children"
                                                     filterOption={(input, option) =>
                                                         option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                                                    }
-                                                >
-                                                    <Option key={"op1"} value={"Modified Date"}>msmarco-roberta-base-v3</Option>
-                                                    <Option key={"op2"} value={"Size"}>bert-large-nli-stsb-mean-tokens</Option>
+                                                    }>
+                                                    <Option key={"op1"} value={"msmarco-roberta-base-v3"}>msmarco-roberta-base-v3</Option>
+                                                    <Option key={"op2"} value={"bert-large-nli-stsb-mean-tokens"}>bert-large-nli-stsb-mean-tokens</Option>
                                                 </Select>
                                             </Form.Item>
 
                                         </CustomCol>
 
-                                        <CustomCol xl={12}>
-                                            <Form.Item name="IngestionSetting_File_Types" required label="Include File types">
-                                                <Select mode="multiple" allowClear placeholder="Please select">
+                                        <CustomCol xl={10}>
+                                            <Form.Item name="IngestionSetting_File_Types"
+                                                rules={[
+                                                    {
+                                                        required: true,
+                                                        message: 'Please select file type!',
+                                                    },
+                                                ]}
+                                                label="Include File types">
+                                                <Select
+                                                    onChange={() => {
+                                                        setIsChanged(true);
+                                                    }}
+                                                    mode="multiple" allowClear placeholder="Please select">
                                                     <Option key={"op1"} value={".docx"}>.docx</Option>
                                                     <Option key={"op2"} value={".pdf"}>.pdf</Option>
                                                     <Option key={"op3"} value={".pptx"}>.pptx</Option>
@@ -905,17 +1264,27 @@ function QuickSetup(props) {
                                             </Form.Item>
                                         </CustomCol>
 
-                                        <CustomCol xl={4}>
-                                            <Form.Item name="IngestionSetting_File_size" label="Limit the size of documents">
-                                                <InputNumber placeholder="" />
+                                        <CustomCol xl={6}>
+                                            <Form.Item
+                                                required
+                                                name="IngestionSetting_File_size"
+                                                rules={[
+                                                    {
+                                                        required: true,
+                                                        message: 'Please add file size!',
+                                                    },
+                                                ]}
+                                                label="Limit the size of documents">
+                                                <InputNumber
+                                                    onChange={() => {
+                                                        setIsChanged(true);
+                                                    }}
+                                                    placeholder="Size"
+                                                />
                                             </Form.Item>
                                         </CustomCol>
                                     </CustomRow>
-
                                 </Form>
-
-
-                            
                             </CustomCol>
                         </CustomRow>
                     </div>
@@ -929,16 +1298,16 @@ function QuickSetup(props) {
                             <CustomCol xl={9}>
                                 <StyledCard title="Add New Job" className="inner-card">
                                     <Form
-                                        name="basic"
+                                        name="JobForm"
                                         layout="vertical"
                                         size="large"
                                         autoComplete="off"
+                                        form={WorkspaceJobForm}
                                     >
                                         <CustomRow key="rw2">
-
                                             <CustomCol key="rw2.1" >
                                                 <Form.Item
-                                                    name="workspace"
+                                                    name="JobConfigTemplate"
                                                     label="Configuration"
                                                     rules={[{
                                                         required: true, message: "Please select configuration!",
@@ -952,17 +1321,17 @@ function QuickSetup(props) {
                                                             option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                                                         }
                                                     >
-                                                        <Option key="wOp-1" value="wOption-1">{"Configuration-1"}</Option>
-                                                        <Option key="wOp-2" value="wOption-2">{"Configuration-2"}</Option>
-                                                        <Option key="wOp-3" value="wOption-3">{"Configuration-3"}</Option>
-                                                        <Option key="wOp-4" value="wOption-4">{"Configuration-4"}</Option>
+                                                        {currentWorkSpaceSelectedConfigTemplate.map(item => {
+                                                            return <Option key={`JobConfig-${item.config_id}`} value={item.config_name}>{item.config_name}</Option>
+                                                        })}
+
                                                     </Select>
                                                 </Form.Item>
                                             </CustomCol>
 
                                             <CustomCol key="rw2.3" >
                                                 <Form.Item
-                                                    name="runtype"
+                                                    name="JobRuntype"
                                                     label="Run Type"
                                                     rules={[{
                                                         required: true, message: "Please select run type!",
@@ -984,7 +1353,7 @@ function QuickSetup(props) {
 
                                             <CustomCol key="rw2.4" >
                                                 <Form.Item
-                                                    name="runtype"
+                                                    name="Jobtype"
                                                     label="Job Type"
                                                     rules={[{
                                                         required: true, message: "Please select job type!",
@@ -1008,10 +1377,10 @@ function QuickSetup(props) {
                                         <CustomRow key="rw3">
                                             <CustomCol key="rw3.1" xxl={24} xl={24} className="text-right">
                                                 <Space direction="horizontal">
-                                                    <Button type="primary">
+                                                    <Button type="primary" onClick={() => SaveJobsToWorkspace(true)}>
                                                         Create And Run
                                                     </Button>
-                                                    <Button type="primary" htmlType="submit" >
+                                                    <Button type="primary" htmlType="submit" onClick={() => SaveJobsToWorkspace(false)}>
                                                         Create
                                                     </Button>
                                                 </Space>
@@ -1108,9 +1477,9 @@ function QuickSetup(props) {
                                                         <CustomRow key="rw3">
                                                             <CustomCol key="rw3.1" xxl={24} xl={24} className="text-right">
                                                                 <Space direction="horizontal">
-                                                                    <Button type="primary">
+                                                                    {/* <Button type="primary">
                                                                         Apply
-                                                                    </Button>
+                                                                    </Button> */}
                                                                     <Button type="primary">
                                                                         Apply For All
                                                                     </Button>
@@ -1175,7 +1544,7 @@ function QuickSetup(props) {
                                                         <CustomRow key="rw3">
                                                             <CustomCol key="rw3.1" xxl={24} xl={24} className="text-right">
                                                                 <Space direction="horizontal">
-                                                                    <Button type="primary">Apply</Button>
+                                                                    {/* <Button type="primary">Apply</Button> */}
                                                                     <Button type="primary">Apply For All</Button>
                                                                     <Button type="primary">Preview</Button>
                                                                 </Space>

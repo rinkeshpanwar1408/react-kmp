@@ -55,7 +55,7 @@ const GetSourceConfigDetailApi = async (fullSourceConfigName) => {
 
 const DeleteSourceConfigApi = async (payload) => {
     try {
-        const response = await Api.delete("/del/config", {
+        const response = await Api.delete("/source/config/del", {
             data: { "full_config_name": payload }
         });
         return response;

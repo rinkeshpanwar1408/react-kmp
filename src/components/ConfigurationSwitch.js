@@ -9,7 +9,6 @@ const { Text, Title } = Typography;
 
 function ConfigurationSwitch(props) {
     const [status, setstatus] = useState(false)
-
     const change = (checked) => {
         setstatus(checked);
         props.onChange(checked);
@@ -22,13 +21,19 @@ function ConfigurationSwitch(props) {
         <div className="configuration_item" value={status}>
             <div className="configuration_item_title_container">
                 <Text className="configuration_item_title_container-title">{props.title}</Text>
-                <CustomPopover title="Info" content={<div>
-                    <p>Content</p>
-                </div>}>
+                <CustomPopover title="Info" content={
+                    <div>
+                        <p>Content</p>
+                    </div>}>
                     <AiOutlineQuestionCircle size={18} className="configuration_item_title_container-hint" />
                 </CustomPopover>
             </div>
-            <Switch checkedChildren="On" unCheckedChildren="Off" defaultChecked={status} onChange={change} />
+            <Switch
+                checkedChildren="On"
+                unCheckedChildren="Off"
+                defaultChecked={status} 
+                checked={props.value}
+                onChange={change} />
         </div>
     );
 }

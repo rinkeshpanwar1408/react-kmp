@@ -428,8 +428,7 @@ function CreateWorkSpace(props) {
 
                     <DragDropContext
                         onBeforeCapture={onBeforeCapture}
-                        onDragEnd={onDragEnd}
-                    >
+                        onDragEnd={onDragEnd}>
                         <CustomRow>
                             <CustomCol xl={12}>
                                 <StyledCard title="Configurations" className={`formContainer c-multi-drag-table ${draggingTaskId ? "is-dragging" : ""}`}>

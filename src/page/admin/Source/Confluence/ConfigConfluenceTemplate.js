@@ -16,6 +16,9 @@ import { sourceApi } from "../../../../utility/axios";
 import { ConfluenceSourceConfig } from "../../../../model/Source";
 import { CONFLUENCE, TEMPLATE } from "../../../../model/constant";
 import * as ActionCreator from "../../../../store/action/sourceConfigActions";
+import CustomPopover from "../../../../components/CustomPopover";
+import { ImTree } from 'react-icons/im';
+import CustomModal from "../../../../components/CustomModal";
 
 const { Title, Text } = Typography;
 const { Option } = Select;
@@ -133,11 +136,9 @@ function ConfigConfluenceTemplate(props) {
 
       if (IsEditMode) {
         const result = await dispatch(ActionCreator.UpdateSourceConfig(SorceConfig));
-
         if (result.data) {
           ShowSuccessMessage("Config Template updated successfully");
         }
-
       }
       else {
         const result = await dispatch(SourceConfigActionCreator.CreateSourceConfig(SorceConfig));
@@ -258,7 +259,7 @@ function ConfigConfluenceTemplate(props) {
   return (
     <React.Fragment>
       <CustomRow justify="center">
-        <CustomCol xl={18} >
+        <CustomCol xl={20} >
           <PageHeader
             title={IsEditMode ? "Update Config Template" : "Create Config Template"}
 
@@ -310,7 +311,7 @@ function ConfigConfluenceTemplate(props) {
                   </Form.Item>
                 </CustomCol>
 
-                <CustomCol key="rw1.2" xl={8}  >
+                <CustomCol key="rw1.2" xl={9}  >
                   <Form.Item
                     name="source"
                     label="Source"
@@ -333,7 +334,7 @@ function ConfigConfluenceTemplate(props) {
                   </Form.Item>
                 </CustomCol>
 
-                <CustomCol key="rw1.3" xl={6} className="source_type_divider">
+                <CustomCol key="rw1.3" xl={5} className="source_type_divider">
                   <Title level={4} className=" m-b-0">-Template</Title>
                 </CustomCol>
               </CustomRow>
@@ -355,7 +356,7 @@ function ConfigConfluenceTemplate(props) {
                     />
                   </Form.Item>
                 </CustomCol>
-                <CustomCol key="rw2.2" xl={8}>
+                <CustomCol key="rw2.2" xl={9}>
                   <Form.Item label={<div className="form_title_with_sub">
                     <Text className="form_title_with_sub-title">Recursive Flag</Text>
                     <Text type="secondary" className="form_title_with_sub-subtitle">Turn this off to select specific child pages</Text>
@@ -363,25 +364,30 @@ function ConfigConfluenceTemplate(props) {
                     <Switch checkedChildren="On" defaultChecked={showOtherFields} unCheckedChildren="Off" onChange={() => setshowOtherFields(!showOtherFields)} />
                     {showOtherFields === false &&
                       <React.Fragment>
-                        <Button type="primary" size="small" className="m-b-10" onClick={() => {
+                        <Button type="primary" size="small" className="m-l-10" onClick={() => {
                           onModalToggleHandler()
                         }}>
                           Fetch Confluence Page Tree
                         </Button>
-                        <Tree
-                          treeData={newData}
-                          autoExpandParent={false}
-                          // expandedKeys={JSON.parse(localStorage.getItem("parentArr"))}
-                          fieldNames={{
-                            title: "title", key: "id", children: "children"
-                          }}
-                        />
+                        {newData.length > 0 && null
+                          // <CustomPopover content={
+                          //   <Tree
+                          //     treeData={newData}
+                          //     autoExpandParent={false}
+                          //     // expandedKeys={JSON.parse(localStorage.getItem("parentArr"))}
+                          //     fieldNames={{
+                          //       title: "title", key: "id", children: "children"
+                          //     }}
+                          //   />}>
+                          //   <ImTree size={18} />
+                          // </CustomPopover>
+                        }
                       </React.Fragment>
                     }
                   </Form.Item>
 
                 </CustomCol>
-                <CustomCol key="rw2.3" xl={6}>
+                <CustomCol key="rw2.3" xl={5}>
                   <Form.Item label="Retrive Attachments?" name="retriveattachments" valuePropName="checked" >
                     <Switch checkedChildren="Yes" unCheckedChildren="No" />
                   </Form.Item>
@@ -404,7 +410,7 @@ function ConfigConfluenceTemplate(props) {
         </CustomCol>
       </CustomRow >
 
-      <Modal
+      <CustomModal
         title="Confluence Page Tree"
         visible={showPageSelectionModal}
         onCancel={() => {
@@ -443,7 +449,7 @@ function ConfigConfluenceTemplate(props) {
           fieldNames={{
             title: "title", key: "id", children: "children"
           }} />
-      </Modal>
+      </CustomModal>
     </React.Fragment>
   );
 }

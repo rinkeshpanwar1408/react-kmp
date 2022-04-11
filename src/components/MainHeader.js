@@ -8,6 +8,7 @@ import {
   Space,
   Image,
   Divider,
+  Empty,
 } from "antd";
 import background_dark from "../assests/image/header_bg_dark.jpg";
 import background_light from "../assests/image/header_bg_light.png";
@@ -25,6 +26,7 @@ import {
   FiPlusCircle,
   FiSettings,
   FiSun,
+  FiCheck
 } from "react-icons/fi";
 import { AiOutlineFolder, AiOutlineEdit, AiOutlineFolderAdd, AiOutlineFolderView, AiOutlineFolderOpen } from "react-icons/ai";
 import { MdOutlineKeyboardVoice, MdSearch } from "react-icons/md";
@@ -45,6 +47,7 @@ import * as RouteUrl from "../model/route";
 import { AutoLogin } from "../store/action/AuthActions";
 import * as WorkspaceActionCreator from "../store/action/workspaceActions";
 import useMessage from "../hooks/useMessage";
+import CustomMenuDropdown from "./CustomMenuDropdown";
 
 const { Content } = Layout;
 const { Title, Text } = Typography;
@@ -213,13 +216,20 @@ function MainHeader(props) {
       if (localStorage.getItem("userDetail")) {
         Dispatch(AuthActionCreator.AutoLogin(localStorage.getItem("userDetail")));
       }
+
       else {
-        history.push(RouteUrl.LOGIN)
+        history.push(RouteUrl.LOGIN);
+        return;
       }
     }
+
+    const getData = async () => {
+      await Dispatch(WorkspaceActionCreator.GetWorkspaces());
+    }
+    if (userName) {
+      getData();
+    }
   }, [userName, history])
-
-
 
   const onSearchTextChangeHandler = (event) => {
     setSearchWord(event.target.value);
@@ -252,20 +262,6 @@ function MainHeader(props) {
       document.removeEventListener("fullscreenchange", onFullScreenHandler);
     };
   }, [isFullScreen, onFullScreenHandler]);
-
-
-
-  useEffect(() => {
-    try {
-      const getData = async () => {
-        await Dispatch(WorkspaceActionCreator.GetWorkspaces());
-      }
-      getData();
-    }
-    catch (error) {
-      ShowErrorMessage("Something Went Wrong");
-    }
-  }, [Dispatch])
 
 
   return (
@@ -305,7 +301,7 @@ function MainHeader(props) {
                 level={5}
                 className="mainheader_container_navbar_brandContainer-title"
               >
-                Platform | Enterprise Search
+                Platform | Search Wizard 
               </Title>
             </div>
           </div>
@@ -330,8 +326,7 @@ function MainHeader(props) {
                   onClick={() => {
                     history.replace(`${match.url}/${RouteUrl.SEARCH}`);
                   }}
-                  className="mainheader_container_navbar_searchcontainer_actionBox-search"
-                >
+                  className="mainheader_container_navbar_searchcontainer_actionBox-search">
                   <MdSearch size={20} onClick={onSearchClickHandler} />
                 </div>
               </div>
@@ -363,7 +358,7 @@ function MainHeader(props) {
           </div>
 
           <div className="mainheader_container_navbar_userContainer">
-            <div className="mainheader_container_navbar_userContainer_menus">
+            {/* <div className="mainheader_container_navbar_userContainer_menus">
               <Dropdown
                 overlayClassName="mainheader_container_navbar_userContainer_menus_items"
                 overlay={menu}
@@ -372,12 +367,12 @@ function MainHeader(props) {
               >
                 <div className="mainheader_container_navbar_userContainer_menus_menu">
                   <Text className="mainheader_container_navbar_userContainer_menus_menu-title">
-                    Prouduct Journeys
+                    Product Journeys
                   </Text>
                   <DownOutlined />
                 </div>
               </Dropdown>
-              {/*
+              
               <Dropdown
                 overlayClassName="mainheader_container_navbar_userContainer_menus_items"
                 overlay={menu2}
@@ -390,8 +385,8 @@ function MainHeader(props) {
                   </Text>
                   <DownOutlined />
                 </div>
-              </Dropdown>*/}
-            </div>
+              </Dropdown>
+            </div> */}
 
             {isFullScreen ?
               <FiMinimize
@@ -409,7 +404,8 @@ function MainHeader(props) {
               className="mainheader_container_navbar_userContainer-homeIcon"
               onClick={() => history.replace(`${match.url}`)}
             />
-            <Dropdown
+            <CustomMenuDropdown
+              trigger="click"
               overlay={<UserMenu />}
               placement="bottomRight"
               arrow
@@ -420,7 +416,7 @@ function MainHeader(props) {
                   {userName}
                 </Text>
               </div>
-            </Dropdown>
+            </CustomMenuDropdown>
           </div>
         </div>
         {/* <div
@@ -442,8 +438,6 @@ function UserMenu(props) {
   const match = useRouteMatch();
   const dispatch = useDispatch();
   const currentTheme = useSelector((state) => state.theme.Theme);
-
-
 
   const onThemeClickChange = (themetype, color) => {
     switch (color) {
@@ -505,8 +499,28 @@ function UserMenu(props) {
 }
 
 function WorkSpaceMenu(props) {
-
   const WorkspaceList = useSelector(state => state.workspace.WorkSpaces);
+  const SelectedWorkspace = useSelector(state => state.workspace.SelectedWorkspace);
+  const Dispatch = useDispatch();
+  const history = useHistory();
+  const match = useRouteMatch();
+
+  const {
+    ShowSuccessMessage,
+    ShowErrorMessage,
+    ShowWarningMessage,
+  } = useMessage();
+
+  const onWorkspaceChangeHandler = async (workspace) => {
+    try {
+      const result = await Dispatch(
+        WorkspaceActionCreator.ChangeWorkSpace(workspace)
+      );
+    } catch (error) {
+      ShowErrorMessage("Something Went Wrong");
+    }
+  }
+
   return (
     <div className="DropDownMenu WorkSpace">
       <div className="WorkSpace-header">
@@ -514,20 +528,38 @@ function WorkSpaceMenu(props) {
         <Text>Current Work Space</Text>
       </div>
       <Divider />
-      <div>
-        {WorkspaceList.map(item => {
-         return <DropDownMenuItem title={item.w_name} icon={<AiOutlineFolder size={22} />} />
-        })}
-      </div>
+      {WorkspaceList.length === 0 && <Empty description="No Workspace" image={Empty.PRESENTED_IMAGE_SIMPLE} />}
+      {WorkspaceList.length > 0 && WorkspaceList.map(item => {
+        return <div style={{ display: 'flex', alignItems: 'center',padding: "0.2rem 1rem" }} onClick={() => { onWorkspaceChangeHandler(item.w_name) }}>
+          <DropDownMenuItem title={item.w_name} icon={<AiOutlineFolder size={22} />} />
+          {SelectedWorkspace === item.w_name && <FiCheck />}
+        </div>
+      })}
       <Divider />
-      <div>
+      <div className="WorkSpace-footer">
         <DropDownMenuItem
           title="Create New Work Space"
           icon={<AiOutlineFolderAdd size={22} />}
+          onClick={() => {
+            history.push({
+              pathname: `${match.path}/${RouteUrl.ADMIN}/${RouteUrl.QUICKSETUP}`,
+              hash: "new"
+            });
+          }}
         />
         <DropDownMenuItem
           title="Edit Current Work Space"
           icon={<AiOutlineEdit size={22} />}
+          onClick={() => {
+            if (!SelectedWorkspace) {
+              ShowWarningMessage("Please select at lease one workspace as default");
+              return;
+            }
+            history.push({
+              pathname: `${match.path}/${RouteUrl.ADMIN}/${RouteUrl.QUICKSETUP}`,
+              hash: "edit"
+            });
+          }}
         />
       </div>
     </div>

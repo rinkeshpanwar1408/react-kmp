@@ -4,7 +4,9 @@ import { useSelector } from "react-redux";
 const CustomModal = props => {
     const currentTheme = useSelector((state) => state.theme.Theme);
 
-    return (<Modal wrapClassName="abc" className={`${currentTheme.themestyle} ${currentTheme.themecolor} ${props.className}`} {...props} >
+    return (<Modal
+        className={`${currentTheme.themestyle} ${currentTheme.themecolor} ${props.className}`}
+        {...props}>
         {props.children}
     </Modal>)
 }

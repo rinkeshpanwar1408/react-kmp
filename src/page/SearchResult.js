@@ -23,7 +23,7 @@ function SearchResult(props) {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const Dispatch = useDispatch();
   const [showFilter, setshowFilter] = useState(true);
-  const [isLoading,setisLoading] = useState(false);
+  const [isLoading, setisLoading] = useState(false);
 
   useEffect(() => {
     Dispatch(ActionCreators.getSearchedData());
@@ -54,7 +54,7 @@ function SearchResult(props) {
         <div className="search_result_container-resultContainer">
           <Row gutter={[8, 8]}>
             <CustomCol xl={17}>
-              {searchedData.length>0?searchedData.map((item, i) => {
+              {searchedData.length > 0 ? searchedData.map((item, i) => {
                 return (
                   <SearchResultItem
                     item={item}
@@ -62,7 +62,7 @@ function SearchResult(props) {
                     onSearchItemInfoClick={searchItemInfoClickHandler}
                   />
                 );
-              }): <StyledCard>search not found</StyledCard>}
+              }) : <StyledCard>search not found</StyledCard>}
 
               <Modal
                 title="Document details"

@@ -5,10 +5,13 @@
   padding: 1.2rem 0;
 
   &Item {
-    padding: 0.5rem 2rem;
+    // padding: 0.5rem 1rem;
     display: flex;
     align-items: center;
-  
+    // margin: .5rem 0;  
+    margin: 1rem 1.5rem;
+    flex: 1;
+
     &-title {
       margin-left: 1rem;
     }

@@ -29,7 +29,10 @@ const UpdateSourceApi = async (payload) => {
 const DeleteSourceApi = async (payload) => {
   try {
     const response = await Api.delete("/source/del", {
-      data: { "full_source_name": payload }
+      data: {
+        "full_source_name": payload.full_source_name,
+        "source_type": payload.source_type
+      }
     });
     return response;
   } catch (error) {
@@ -100,10 +103,11 @@ export function DeleteSource(payload) {
   return async function (dispatch) {
     try {
       const response = await DeleteSourceApi(payload);
+      debugger;
       if (response.data) {
         dispatch({
           type: Actions.DELETESOURCE,
-          payload: payload
+          payload: payload.full_source_name
         })
       }
       return response;

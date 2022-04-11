@@ -39,19 +39,15 @@ function HintSearch(props) {
   const history = useHistory();
   const location = useLocation();
 
-
   const [collapsed, setcollapsed] = useState(true);
   const onCollapseHandler = () => {
     setcollapsed(!collapsed);
   };
 
-
-
   let headerClass = "";
   if (location.pathname === `${match.path}/${RouteUrl.MAINSEARCH}`) {
     headerClass = "expanded-header"
   }
-
 
   return (
     <React.Fragment>
@@ -249,11 +245,11 @@ function HintSearch(props) {
                 </Menu.Item>
               </SubMenu>
 
-              <Menu.Item key="Menu4" icon={<FiList className="text-color-7" />}>
+              {/* <Menu.Item key="Menu4" icon={<FiList className="text-color-7" />}>
                 <Link to={`${match.path}/${RouteUrl.ADMIN}/${RouteUrl.QUICKSETUP}`}>
                   Quick Setup
                 </Link>
-              </Menu.Item>
+              </Menu.Item> */}
             </Menu>
           </SimpleBar>
 

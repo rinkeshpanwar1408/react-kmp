@@ -13,7 +13,7 @@ export const StyledCard = styled(Card)`
       : Theme.dark_shadow_color},
       0.5
     );
-    background-color:${(props) => props.theme.themestyle === "light" ? Theme.common_light_extra_color_8 : Theme.common_dark_extra_color_8};
+  background-color:${(props) => props.theme.themestyle === "light" ? Theme.common_light_extra_color_8 : Theme.common_dark_extra_color_8};
   margin-bottom: 1.6rem;
   border: none;
 `;
