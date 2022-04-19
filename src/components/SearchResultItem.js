@@ -9,7 +9,7 @@ import {
   BiShare,
   BiUserPlus,
 } from "react-icons/bi";
-import { BsEyeFill } from "react-icons/bs";
+import { BsEyeFill, BsHeart, BsHeartFill } from "react-icons/bs";
 import * as ActionCreator from "../store/action/actions";
 import { useDispatch } from "react-redux";
 import { DropDownMenuItem } from "./DropDownMenuItem";
@@ -21,6 +21,10 @@ function SearchResultItem(props) {
 
   const onSearchResultItemClickHandler = (id) => {
     dispatch(ActionCreator.getQuickLinkDetails(id));
+  };
+
+  const onSearchResultItemLikeClickHandler = (id, feedback) => {
+    dispatch(ActionCreator.addremoveLikeFromSearchResult(id, feedback));
   };
 
   const ActionMenu = (
@@ -50,16 +54,19 @@ function SearchResultItem(props) {
   //   ? props.item.elasticDocumentRating.thumbsDownCount
   //   : 0;
 
+
+
+
   const toggleEllipsis = () => {
     setEllipsis(!ellipsis);
   };
 
-  return ( props.item?
+  return (props.item ?
     <StyledCard
       className={`search_result ${props.active && "active"}`}
       onClick={() => onSearchResultItemClickHandler(props.item.id)}
     >
-      <SearchResultItemHeader title={props.item.fileName} iconFA={props.item.source} linkReDirect={props.item.weburl}/>
+      <SearchResultItemHeader title={props.item.fileName} iconFA={props.item.source} linkReDirect={props.item.weburl} />
 
       <div className="search_result_body">
         <div
@@ -82,13 +89,26 @@ function SearchResultItem(props) {
               </Text>
             </div>
 
-            <Badge
+            <div className="search_result_body_othercontainer_icons_views">
+              {props.item.isThumbsUp
+                ? <BsHeartFill size={18}
+                  color="red"
+                  onClick={() => onSearchResultItemLikeClickHandler(props.item.id, false)} />
+                : <BsHeart size={18}
+                  onClick={() => onSearchResultItemLikeClickHandler(props.item.id, true)} />
+              }
+              <Text className="search_result_body_othercontainer_icons_views-count">
+                {likeCount}
+              </Text>
+            </div>
+
+            {/* <Badge
               showZero
               count={likeCount}
               className="search_result_body_othercontainer_icons-like"
             >
               <FiThumbsUp size={20} />
-            </Badge>
+            </Badge> */}
 
             {/* <Badge
               showZero
@@ -115,10 +135,10 @@ function SearchResultItem(props) {
             ellipsis={
               ellipsis
                 ? {
-                    rows: 3,
-                    expandable: false,
-                    symbol: () => {},
-                  }
+                  rows: 3,
+                  expandable: false,
+                  symbol: () => { },
+                }
                 : false
             }
           >

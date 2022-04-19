@@ -1,11 +1,12 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Button, Checkbox, Divider, Empty, Form, Input, InputNumber, Menu, PageHeader, Popover, Progress, Radio, Select, Space, Steps, Table, Tabs, Tag, Tooltip, Tree, Typography } from "antd";
+import { Button, Card, Checkbox, Divider, Dropdown, Empty, Form, Input, InputNumber, Menu, PageHeader, Popover, Progress, Radio, Select, Space, Steps, Table, Tabs, Tag, Tooltip, Tree, Typography } from "antd";
 import CustomRow from "../../components/CustomRow";
 import CustomCol from "../../components/CustomCol";
 import { FiSliders } from "react-icons/fi";
 import { StyledCard } from "../../styled-components/CommonControls";
 import { useDispatch, useSelector } from "react-redux";
 import useMessage from "../../hooks/useMessage";
+import { HomeOutlined, UserOutlined, DownOutlined } from '@ant-design/icons'
 
 import CustomPopover from "../../components/CustomPopover";
 import { BiNetworkChart } from "react-icons/bi";
@@ -17,10 +18,11 @@ import * as RouteUrl from "../../model/route";
 import ConfigurationSwitch from "../../components/ConfigurationSwitch";
 import ConfigureInptItem from "../../components/ConfigureInptItem";
 import * as ActionCreator from "../../store/action/workspaceActions";
-import * as SourceActionCreator from "../../store/action/sourceActions";
 import { useLocation } from "react-router-dom";
 import useConfirm from "../../hooks/useConfirm";
 import clsWorkspace from "../../model/workspaceDetail";
+import { sourceApi as Api } from "../../utility/axios";
+import { CONFLUENCE } from "../../model/constant"
 
 const { Step } = Steps;
 const { Text } = Typography
@@ -51,6 +53,11 @@ const steps = [
     },
     {
         key: 'step-6',
+        title: 'User Management',
+        isOptional: true
+    },
+    {
+        key: 'step-7',
         title: 'Visualization Settings',
         isOptional: true
     },
@@ -76,7 +83,6 @@ const entitiesMock = {
 const COLUMN_ID_DONE = "done";
 const PRIMARY_BUTTON_NUMBER = 0;
 
-
 function QuickSetup(props) {
     const CurrentUser = useSelector(state => state.auth.UserDetail);
 
@@ -88,8 +94,8 @@ function QuickSetup(props) {
 
     const CurrentWorkSpaceWorkspace = useSelector(state => state.workspace.SelectedWorkspace);
     const [isChanged, setIsChanged] = useState(false);
-    //Workspace Details Variables End
 
+    //Workspace Details Variables End
 
     const dispatch = useDispatch();
     const RouteMatch = useRouteMatch();
@@ -106,7 +112,12 @@ function QuickSetup(props) {
 
     const [current, setCurrent] = useState(0);
     const [SourceList, setSourceList] = useState([]);
-    const [isLoadingdata, setIsLoadingdata] = useState(false);
+    const [JobList, setJobList] = useState([]);
+    const [UserList, setUserList] = useState([]);
+
+    const [maxValidateStep, setMaxValidateStep] = useState(0)
+    const [newStep, setNewStep] = useState(0);
+    const [stepLoading, setStepLoading] = useState(false);
 
     const {
         ShowSuccessMessage,
@@ -114,6 +125,28 @@ function QuickSetup(props) {
         ShowWarningMessage,
     } = useMessage();
     const { ShowConfirmDailog } = useConfirm();
+    const location = useLocation();
+
+    const sourceListMenu = (
+        <Menu>
+            <Menu.Item key="1" onClick={() => {
+                history.push({
+                    pathname: `${RouteUrl.HINTSEARCH}/${RouteUrl.ADMIN}/${RouteUrl.SOURCES}/${RouteUrl.CONFLUENCE}/${RouteUrl.CREATESOURCE}`,
+                    search: `?isFromQuickLinks=true&isEditMode=${isEditMode}`
+                });
+            }} >{CONFLUENCE}</Menu.Item>
+            <Menu.Item key="2" onClick={() => {
+                history.push({
+                    pathname: `${RouteMatch.path}/${RouteUrl.SHAREPOINT}/${RouteUrl.CREATESOURCE}`,
+                });
+            }}>
+                Sourcepoint Online
+            </Menu.Item>
+            <Menu.Item key="3" >
+                3rd menu item
+            </Menu.Item>
+        </Menu>
+    );
 
     //#region Screen-1-Workspace
     const [WorkspaceForm] = Form.useForm();
@@ -125,14 +158,22 @@ function QuickSetup(props) {
                 setWorkspaceDetails({
                     id: WorkSpaceDetail.data.id,
                     workspace_name: WorkSpaceDetail.data.workspace_name,
-                    description: WorkSpaceDetail.data.description
+                    description: WorkSpaceDetail.data.description,
+                    set_default: WorkSpaceDetail.data.set_default
                 });
 
                 WorkspaceForm.setFieldsValue({
                     workspacename: WorkSpaceDetail.data.workspace_name,
                     description: WorkSpaceDetail.data.description,
+                    isDefault: WorkSpaceDetail.data.set_default
                 });
+                setMaxValidateStep(1);
                 setIsEditMode(true);
+
+                const params = new URLSearchParams(location.search);
+                if (params.has("step")) {
+                    setNewStep(params.get("step") - 1);
+                }
             }
         }
         if (CurrentWorkSpaceWorkspace) {
@@ -157,27 +198,32 @@ function QuickSetup(props) {
                     ActionCreator.UpdateWorkSpaceDetail({
                         workspace_name: formValues.workspacename,
                         username: UserDetail.userName,
-                        description: formValues.description
+                        description: formValues.description,
+                        set_default: formValues.isDefault
                     }));
 
                 setWorkspaceDetails({
                     ...WorkspaceDetails,
                     workspace_name: formValues.workspacename,
-                    description: formValues.description
+                    description: formValues.description,
+                    set_default: formValues.isDefault
                 });
             }
             else {
+
                 const result = await dispatch(
                     ActionCreator.CreateWorkSpace({
                         workspace_name: formValues.workspacename,
                         username: UserDetail.userName,
-                        description: formValues.description
+                        description: formValues.description,
+                        set_default: formValues.isDefault ? true : false
                     }));
 
                 setIsEditMode(true);
                 setWorkspaceDetails({
                     description: formValues.description,
                     workspace_name: formValues.workspacename,
+                    set_default: formValues.isDefault ? true : false,
                     id: result.data.id
                 });
             }
@@ -188,7 +234,6 @@ function QuickSetup(props) {
     //#endregion
 
     //#region Screen-2-Source
-
 
     const SourceColumns = [
         {
@@ -262,8 +307,13 @@ function QuickSetup(props) {
 
     const getWorkSpaceSourceData = async () => {
         if (SourceList.length <= 0) {
-            const response = await dispatch(SourceActionCreator.GetSources())
-            setSourceList(response.data);
+            const response = await dispatch(ActionCreator.GetWorkSpaceSourceList({
+                workspace_name: WorkspaceDetails.workspace_name,
+                username: CurrentUser.userName
+            }))
+            setSourceList(response);
+
+
         }
     }
 
@@ -317,6 +367,7 @@ function QuickSetup(props) {
                 const newList = { ...entitiesMock };
                 newList.columns["todo"].data = response?.data.configs
                 setEntities(newList);
+
             }
         } catch (error) {
             ShowErrorMessage("Something Went Wrong");
@@ -332,6 +383,9 @@ function QuickSetup(props) {
                 const newList = { ...entitiesMock };
                 newList.columns["done"].data = response?.data.configs
                 setEntities(newList);
+                if (newList.columns["done"].data.length > 0 && maxValidateStep < 3) {
+                    setMaxValidateStep(3);
+                }
             }
 
         } catch (error) {
@@ -623,6 +677,7 @@ function QuickSetup(props) {
     //#region Screen-4-Ingestion-Settings 
     const [IngestionSettingsForm] = Form.useForm();
     const SaveIngestionSettings = async () => {
+
         try {
             let formValues = null;
             try {
@@ -630,18 +685,17 @@ function QuickSetup(props) {
             } catch (error) {
                 return;
             }
-
             await dispatch(
                 ActionCreator.SaveIngestionSettingToWorkSpace({
                     workspace_name: WorkspaceDetails.workspace_name,
-                    semantic_search: formValues.IngestionSetting_Semantic_Search,
+                    semantic_search: formValues.IngestionSetting_Semantic_Search ? true : false,
                     ML_model_vectorization: formValues.IngestionSetting_ML_Model,
-                    ocr: formValues.IngestionSetting_Include_OCR,
+                    ocr: formValues.IngestionSetting_Include_OCR ? true : false,
                     file_types: formValues.IngestionSetting_File_Types,
                     size_limit: formValues.IngestionSetting_File_size,
-                    encrypted_doc: formValues.IngestionSetting_Include_Encrytpted_Documents,
-                    summarization: formValues.IngestionSetting_Include_Summarization,
-                    password_protection: formValues.IngestionSetting_Include_Password_Protected
+                    encrypted_doc: formValues.IngestionSetting_Include_Encrytpted_Documents ? true : false,
+                    summarization: formValues.IngestionSetting_Include_Summarization ? true : false,
+                    password_protection: formValues.IngestionSetting_Include_Password_Protected ? true : false
                 }));
 
             setcurrentWorkspaceIngestionSetting({
@@ -654,7 +708,10 @@ function QuickSetup(props) {
                 encrypted_doc: formValues.IngestionSetting_Include_Encrytpted_Documents,
                 summarization: formValues.IngestionSetting_Include_Summarization,
                 password_protection: formValues.IngestionSetting_Include_Password_Protected
-            })
+            });
+
+
+
 
         } catch (error) {
             ShowErrorMessage("Something Went Wrong");
@@ -668,36 +725,47 @@ function QuickSetup(props) {
     const JobDetailsColumns = [
         {
             title: 'Job Name',
-            dataIndex: 'jobname',
-            key: 'jobname',
+            dataIndex: 'job_name',
+            key: 'job_name',
+        },
+        {
+            title: 'Config Name',
+            dataIndex: 'config_name',
+            key: 'config_name',
         },
         {
             title: 'Status',
-            dataIndex: 'status',
-            key: 'status',
+            dataIndex: 'job_status',
+            key: 'job_status',
+            render: (text, record) => {
+                if (text.toUpperCase() === "CREATED") {
+                    return <Tag color="warning">Created</Tag>
+                }
+                return <Tag color="success">Started</Tag>
+            }
         },
         {
             title: 'Document Count',
-            dataIndex: 'documentcount',
-            key: 'documentcount',
+            dataIndex: 'document_count',
+            key: 'document_count',
         },
 
         {
             title: 'Run By',
-            dataIndex: 'runby',
-            key: 'runby',
-        },
-
-        {
-            title: 'Start Date Time',
-            dataIndex: 'startdatetime',
-            key: 'startdatetime',
+            dataIndex: 'user_name',
+            key: 'user_name',
         },
 
         {
             title: 'Job Run Type',
-            dataIndex: 'jobruntype',
-            key: 'jobruntype',
+            dataIndex: 'run_type',
+            key: 'run_type',
+        },
+
+        {
+            title: 'Job Run Type',
+            dataIndex: 'run_type',
+            key: 'run_type',
         },
 
         // {
@@ -750,12 +818,152 @@ function QuickSetup(props) {
             ShowErrorMessage("Something Went Wrong");
         }
     }
+
+    const getWorkSpaceJobData = async () => {
+        if (JobList.length <= 0) {
+            const response = await dispatch(ActionCreator.GetWorkspaceJobs(
+                {
+                    workspace_name: WorkspaceDetails.workspace_name,
+                    user_name: CurrentUser.userName
+                }
+            ))
+            setJobList(response.data);
+        }
+    }
     //#endregion
 
-    //#region Screen-6-View Setting
+    //#region Screen-7-View Setting
 
     //#endregion
 
+    //#region Screen-6-UserScreen
+    const [searchWord, setSearchWord] = useState("");
+    const [suggessionUserList, setSuggessionUserList] = useState([]);
+    const [WorkspaceUserForm] = Form.useForm();
+
+    const UserListColumns = [
+        {
+            title: 'User Name',
+            dataIndex: 'username',
+            key: 'username',
+        },
+
+        {
+            title: 'Admin Access',
+            dataIndex: 'isAdmin',
+            key: 'isAdmin',
+            render: (text, record) => {
+                if (text) {
+                    return <Tag color="success">Yes</Tag>
+                }
+                return <Tag color="error">No</Tag>
+            }
+        },
+
+        {
+            title: 'Readonly Access',
+            dataIndex: 'isAdmin',
+            key: 'isAdmin',
+            render: (text) => {
+                if (!text) {
+                    return <Tag color="success">Yes</Tag>
+                }
+                return <Tag color="error">No</Tag>
+            }
+        },
+
+
+    ];
+
+    useEffect(() => {
+        let timer;
+        try {
+            timer = setTimeout(() => {
+                getdata();
+            }, 500);
+
+            const getdata = async () => {
+                if (searchWord) {
+                    const result = await Api.post(`/workspace/search`, {
+                        "search_str": searchWord,
+                        "usernames": []
+                    });
+                    setSuggessionUserList(result.data.usernames);
+                }
+            };
+
+            return () => {
+                clearTimeout(timer);
+            };
+        } catch (error) {
+            console.log(error);
+        }
+    }, [searchWord]);
+
+    const SaveWorkSpaceUserDetail = async () => {
+        try {
+
+            let formValues = null;
+            try {
+                formValues = await WorkspaceUserForm.validateFields();
+                const data = {
+                    workspace_name: WorkspaceDetails.workspace_name,
+                    admin: formValues.UserAccess === "AdminAccess" ? [formValues.WorkSpaceuser] : [],
+                    read_only: formValues.UserAccess === "ReadOnlyAccess" ? [formValues.WorkSpaceuser] : []
+                }
+
+                await dispatch(ActionCreator.SaveUserToWorkSpace(data))
+
+                console.log(formValues);
+            } catch (error) {
+                return;
+            }
+
+            // if (isEditMode) {
+            //     await dispatch(
+            //         ActionCreator.UpdateWorkSpaceDetail({
+            //             workspace_name: formValues.workspacename,
+            //             username: UserDetail.userName,
+            //             description: formValues.description
+            //         }));
+
+            //     setWorkspaceDetails({
+            //         ...WorkspaceDetails,
+            //         workspace_name: formValues.workspacename,
+            //         description: formValues.description
+            //     });
+            // }
+            // else {
+            //     const result = await dispatch(
+            //         ActionCreator.CreateWorkSpace({
+            //             workspace_name: formValues.workspacename,
+            //             username: UserDetail.userName,
+            //             description: formValues.description
+            //         }));
+
+            //     setIsEditMode(true);
+            //     setWorkspaceDetails({
+            //         description: formValues.description,
+            //         workspace_name: formValues.workspacename,
+            //         id: result.data.id
+            //     });
+            // }
+        } catch (error) {
+            ShowErrorMessage("Something Went Wrong");
+        }
+    }
+
+    const getWorkSpaceUsersData = async () => {
+        if (UserList.length <= 0) {
+            const response = await dispatch(ActionCreator.GetWorkspaceUser(
+                {
+                    workspace_name: WorkspaceDetails.workspace_name,
+                }
+            ))
+            setUserList(response);
+        }
+    }
+    //#endregion
 
 
     const ValidateStage = (newStep, currentStep) => {
@@ -764,28 +972,27 @@ function QuickSetup(props) {
                 case 1:
                     if (WorkspaceDetails.id <= 0) {
                         ShowWarningMessage("Please add workspace details to continue!");
-                        return false;
+                        return false
                     }
-                    return true;
-
+                    return true
                 case 2:
                     if (WorkspaceDetails.id <= 0) {
                         ShowWarningMessage("Please add workspace details to continue!");
-                        return false;
+                        return false
                     }
 
                     if (selectedWorkspaceSources.length <= 0) {
                         ShowWarningMessage("Please select source to continue!");
-                        return false;
+                        return false
+
                     }
-                    return true;
+                    return true
 
                 default:
-                    return true;
+                    return true
+
             }
-
         } catch (error) {
-
         }
     }
 
@@ -826,9 +1033,15 @@ function QuickSetup(props) {
         try {
             if (currentWorkspaceSources.length <= 0) {
                 const result = await dispatch(
-                    ActionCreator.GetWorkspaceSourceDetail(WorkspaceDetails.workspace_name)
+                    ActionCreator.GetWorkSpaceSelectedSourceDetail({
+                        workspace_name: WorkspaceDetails.workspace_name,
+                        username: CurrentUser.userName
+                    })
                 );
                 if (result) {
+                    if (result) {
+                        setMaxValidateStep(2);
+                    }
                     setSelectedWorkspaceSources(result);
                     setCurrentWorkspaceSources(result);
                 }
@@ -868,7 +1081,10 @@ function QuickSetup(props) {
                         IngestionSetting_Include_Encrytpted_Documents: result.ingestion_settigns.encrypted_doc,
                         IngestionSetting_Include_Summarization: result.ingestion_settigns.summarization,
                         IngestionSetting_Include_Password_Protected: result.ingestion_settigns.password_protection
-                    })
+                    });
+                    if (entities.columns["done"].data.length > 0 && maxValidateStep < 4) {
+                        setMaxValidateStep(4);
+                    }
                 }
             }
         } catch (error) {
@@ -876,39 +1092,101 @@ function QuickSetup(props) {
         }
     }
 
-    const onChange = newStep => {
+    useEffect(() => {
         let isValidate = true;
-        if (current < newStep) {
-            isValidate = ValidateStage(newStep, current);
+        if (newStep > -1 && newStep <= maxValidateStep) {
+            if (current < newStep) {
+                isValidate = ValidateStage(newStep, current);
+
+                if (isValidate) {
+                    if (isChanged) {
+                        ShowConfirmDailog("Discard Changes",
+                            "Your changes will be discarded, are you sure you want to continue?",
+                            () => {
+                                DiscardChanges(current);
+                                setIsChanged(false);
+                                setCurrent(newStep)
+                            },
+                            () => {
+                                setNewStep(-1)
+                            },
+                            "Yes",
+                            "No")
+                    }
+                    else {
+                        debugger;
+                        setCurrent(newStep);
+                        setNewStep(-1)
+                    }
+                }
+
+            }
+            else if (newStep > -1) {
+                if (isChanged) {
+                    ShowConfirmDailog("Discard Changes",
+                        "Your changes will be discarded, are you sure you want to continue?",
+                        () => {
+                            DiscardChanges(current);
+                            setIsChanged(false);
+                            setCurrent(newStep)
+                        },
+                        () => {
+                            setNewStep(-1)
+                        },
+                        "Yes",
+                        "No")
+                }
+                else {
+                    setCurrent(newStep);
+                    setNewStep(-1);
+                }
+            }
+        }
+    }, [newStep, maxValidateStep])
+
+    // useEffect(() => {
+    //     if (WorkspaceDetails.id > 0 && newStep >= 1 && isChanged === false) {
+    //         getWorkSpaceSourceData();
+    //         getCurrentWorkspaceSelectedSources();
+    //     }
+
+    //     if (selectedWorkspaceSources.length > 0 && newStep >= 2 && isChanged === false) {
+    //         GetConfigTemplateList();
+    //         GetSelectedConfigTemplateList();
+    //     }
+
+    //     if (WorkspaceDetails.id > 0 && newStep >= 3 && isChanged === false) {
+    //         getCurrentWorkspaceIngestionSetting();
+    //     }
+    // }, [selectedWorkspaceSources, newStep]);
+
+    useEffect(() => {
+        if (newStep >= 1 && maxValidateStep >= 1 && isChanged === false) {
+            getWorkSpaceSourceData();
+            getCurrentWorkspaceSelectedSources();
         }
 
-        if (isValidate) {
-            if (isChanged) {
-                ShowConfirmDailog("Discard Changes",
-                    "Your changes will be discarded, are you sure you want to continue?",
-                    () => {
-                        DiscardChanges(current);
-                    },
-                    () => { },
-                    "Yes",
-                    "No")
-            }
-
-            if (newStep >= 1) {
-                getWorkSpaceSourceData();
-                getCurrentWorkspaceSelectedSources();
-            }
-
-            if (newStep >= 2) {
-                getWorkSpaceSourceData();
-                getCurrentWorkspaceSelectedSources();
-            }
-
-
-            setIsChanged(false);
-            setCurrent(newStep)
-
+        if (newStep >= 2 && maxValidateStep >= 2 && isChanged === false) {
+            debugger;
+            GetConfigTemplateList();
+            GetSelectedConfigTemplateList();
         }
+
+        if (newStep >= 3 && maxValidateStep >= 3 && isChanged === false) {
+            getCurrentWorkspaceIngestionSetting();
+        }
+
+        if (newStep >= 4 && maxValidateStep >= 4 && isChanged === false) {
+        }
+
+        if (newStep >= 4 && maxValidateStep >= 4 && isChanged === false) {
+        }
+
+    }, [newStep, maxValidateStep]);
+
+
+    const onChange = newStep => {
+        setNewStep(newStep);
     };
 
     const next = () => {
@@ -947,9 +1225,9 @@ function QuickSetup(props) {
                         }));
                         setCurrentWorkSpaceSelectedConfigTemplate(response.data.configs)
                     }
-
                     SaveIngestionSettings();
                     GetSelectedConfigTemplateList();
+                    getWorkSpaceJobData();
                     setCurrent(current + 1);
                 }
                 catch (error) {
@@ -957,11 +1235,15 @@ function QuickSetup(props) {
                 }
                 break;
 
+            case 4:
+                getWorkSpaceUsersData();
+                setCurrent(current + 1);
+                break;
+
             default:
                 break;
         }
-
-        setCurrent(current + 1);
+        setNewStep(current + 1);
         setIsChanged(false);
     };
 
@@ -1024,8 +1306,8 @@ function QuickSetup(props) {
 
                             <CustomRow key="rw3">
                                 <CustomCol key="rw2.2" xl={24} >
-                                    <Form.Item name="isDefault" noStyle>
-                                        <Checkbox onChange={() => { setIsChanged(true) }}>Set As Default</Checkbox>
+                                    <Form.Item name="isDefault" valuePropName="checked" initialValue={false} >
+                                        <Checkbox value={false} onChange={() => { setIsChanged(true) }}>Set As Default WorkSpace</Checkbox>
                                     </Form.Item>
                                 </CustomCol>
                             </CustomRow>
@@ -1057,7 +1339,11 @@ function QuickSetup(props) {
                         </CustomRow>
                         <CustomRow>
                             <CustomCol className="text-right">
-                                <Button className="m-t-10">Add New Source</Button>
+                                <Dropdown overlay={sourceListMenu}>
+                                    <Button className="m-t-10">
+                                        Create Source <DownOutlined />
+                                    </Button>
+                                </Dropdown>
                             </CustomCol>
                         </CustomRow>
                     </div>
@@ -1155,9 +1441,9 @@ function QuickSetup(props) {
                                     size="large"
                                 >
                                     <CustomRow>
-
                                         <CustomCol xl={8}>
-                                            <Form.Item name="IngestionSetting_Semantic_Search" >
+                                            <Form.Item name="IngestionSetting_Semantic_Search"
+                                            >
                                                 <ConfigurationSwitch
                                                     onChange={() => {
                                                         setIsChanged(true);
@@ -1167,8 +1453,10 @@ function QuickSetup(props) {
                                         </CustomCol>
 
                                         <CustomCol xl={8}>
-                                            <Form.Item name="IngestionSetting_Include_OCR" >
+                                            <Form.Item name="IngestionSetting_Include_OCR"
+                                                initialValue={false}>
                                                 <ConfigurationSwitch
+                                                    value={false}
                                                     onChange={() => {
                                                         setIsChanged(true);
                                                     }}
@@ -1177,7 +1465,8 @@ function QuickSetup(props) {
                                         </CustomCol>
 
                                         <CustomCol xl={8}>
-                                            <Form.Item name="IngestionSetting_Include_Encrytpted_Documents" >
+                                            <Form.Item name="IngestionSetting_Include_Encrytpted_Documents"
+                                                initialValue={false}>
                                                 <ConfigurationSwitch
                                                     onChange={() => {
                                                         setIsChanged(true);
@@ -1191,6 +1480,8 @@ function QuickSetup(props) {
                                         <CustomCol xl={8}>
                                             <Form.Item
                                                 name="IngestionSetting_Include_Password_Protected"
+                                                initialValue={false}
+
                                             >
                                                 <ConfigurationSwitch
                                                     onChange={() => {
@@ -1202,6 +1493,7 @@ function QuickSetup(props) {
                                         <CustomCol xl={8}>
                                             <Form.Item
                                                 name="IngestionSetting_Include_Summarization"
+                                                initialValue={false}
                                             >
                                                 <ConfigurationSwitch
                                                     onChange={() => {
@@ -1210,6 +1502,8 @@ function QuickSetup(props) {
                                                     title="Include Summarization Toggle" />
                                             </Form.Item>
                                         </CustomCol>
+
+
                                     </CustomRow>
 
                                     <CustomRow>
@@ -1222,7 +1516,7 @@ function QuickSetup(props) {
                                                         message: 'Please select ml model!',
                                                     },
                                                 ]}
-                                                label="Choose ML Model for vectorization">
+                                                label="Choose ML Model for vectorization" >
                                                 <Select
                                                     onChange={() => {
                                                         setIsChanged(true);
@@ -1290,12 +1584,8 @@ function QuickSetup(props) {
                     </div>
                     <div className={`quick_setup_form_content ${current === 4 && "active"}`}>
                         <CustomRow>
-                            <CustomCol xl={15}>
-                                <StyledCard title="Job List" className="inner-card">
-                                    <Table columns={JobDetailsColumns} bordered pagination={false} />
-                                </StyledCard>
-                            </CustomCol>
-                            <CustomCol xl={9}>
+
+                            <CustomCol xl={24}>
                                 <StyledCard title="Add New Job" className="inner-card">
                                     <Form
                                         name="JobForm"
@@ -1305,7 +1595,7 @@ function QuickSetup(props) {
                                         form={WorkspaceJobForm}
                                     >
                                         <CustomRow key="rw2">
-                                            <CustomCol key="rw2.1" >
+                                            <CustomCol key="rw2.1" xl={8}>
                                                 <Form.Item
                                                     name="JobConfigTemplate"
                                                     label="Configuration"
@@ -1329,7 +1619,7 @@ function QuickSetup(props) {
                                                 </Form.Item>
                                             </CustomCol>
 
-                                            <CustomCol key="rw2.3" >
+                                            <CustomCol key="rw2.3" xl={8}>
                                                 <Form.Item
                                                     name="JobRuntype"
                                                     label="Run Type"
@@ -1351,7 +1641,7 @@ function QuickSetup(props) {
                                                 </Form.Item>
                                             </CustomCol>
 
-                                            <CustomCol key="rw2.4" >
+                                            <CustomCol key="rw2.4" xl={8}>
                                                 <Form.Item
                                                     name="Jobtype"
                                                     label="Job Type"
@@ -1389,9 +1679,72 @@ function QuickSetup(props) {
                                     </Form>
                                 </StyledCard>
                             </CustomCol>
+
+                            <CustomCol xl={24}>
+                                <StyledCard title="Job List" className="inner-card">
+                                    <Table dataSource={JobList} columns={JobDetailsColumns} bordered pagination={false} />
+                                </StyledCard>
+                            </CustomCol>
                         </CustomRow>
                     </div>
                     <div className={`quick_setup_form_content ${current === 5 && "active"}`}>
+
+                        <CustomRow>
+
+                            <CustomCol xl={24}>
+                                <StyledCard title="Add New Job" className="inner-card">
+                                    <Form
+                                        form={WorkspaceUserForm}
+                                        layout="vertical"
+                                        name="WorkspaceUserForm"
+                                        autoComplete="off"
+                                        size="large"
+                                    >
+                                        <CustomRow key="rw2">
+                                            <CustomCol key="rw2.1" xl={8}>
+                                                <Form.Item label="Select User" name="WorkSpaceuser" rules={[
+                                                    {
+                                                        required: true,
+                                                        message: "Please select correct user!",
+                                                    },
+                                                ]}>
+                                                    <SearchUserItem title="Search and Select User" />
+                                                </Form.Item>
+
+                                                <Form.Item name="UserAccess" noStyle>
+                                                    <Radio.Group value={"ReadOnlyAccess"}>
+                                                        <Radio value={"AdminAccess"}>Admin Access</Radio>
+                                                        <Radio value={"ReadOnlyAccess"} checked>Readonly Access</Radio>
+                                                    </Radio.Group>
+                                                </Form.Item>
+                                            </CustomCol>
+
+
+                                        </CustomRow>
+
+                                        <CustomRow key="rw3">
+                                            <CustomCol key="rw3.1" xxl={24} xl={24} className="text-right">
+                                                <Space direction="horizontal">
+                                                    <Button type="primary" onClick={() => SaveWorkSpaceUserDetail()}>
+                                                        Add
+                                                    </Button>
+                                                </Space>
+                                            </CustomCol>
+                                        </CustomRow>
+                                    </Form>
+                                </StyledCard>
+                            </CustomCol>
+
+                            <CustomCol xl={24}>
+                                <StyledCard title="Job List" className="inner-card">
+                                    <Table dataSource={UserList} columns={UserListColumns} bordered pagination={false} />
+                                </StyledCard>
+                            </CustomCol>
+                        </CustomRow>
+
+
+                    </div>
+                    <div className={`quick_setup_form_content ${current === 6 && "active"}`}>
                         <CustomRow>
                             <CustomCol xl={24}>
                                 <Tabs defaultActiveKey="1" centered>
@@ -1585,7 +1938,6 @@ function QuickSetup(props) {
                             </div>
                         </CustomCol>
                     </CustomRow>
-
                 </StyledCard>
             </CustomCol>
         </CustomRow >
@@ -1593,3 +1945,77 @@ function QuickSetup(props) {
 }
 
 export default QuickSetup;
+
+const SearchUserItem = props => {
+    const [searchWord, setSearchWord] = useState("");
+    const [suggessionUserList, setSuggessionUserList] = useState([]);
+    const [selectedVal, setselectedVal] = useState("")
+    const [isVisible, setisVisible] = useState(false)
+
+    const change = (selected_val) => {
+        setisVisible(false);
+        setselectedVal(selected_val);
+        props.onChange(selected_val);
+        if (props.onValueChange) {
+            props.onValueChange(selected_val);
+        }
+    };
+
+    useEffect(() => {
+        let timer;
+        try {
+            timer = setTimeout(() => {
+                getdata();
+            }, 500);
+
+            const getdata = async () => {
+                if (searchWord) {
+                    const result = await Api.post(`/workspace/search`, {
+                        "search_str": searchWord,
+                        "usernames": []
+                    });
+                    setSuggessionUserList(result.data.usernames);
+                }
+            };
+
+            return () => {
+                clearTimeout(timer);
+            };
+        } catch (error) {
+            console.log(error);
+        }
+    }, [searchWord]);
+
+    return <div className="QuickSetup_UserSuggestion" >
+        <Input value={selectedVal.length <= 0 ? searchWord : selectedVal}
+            placeholder={props.title}
+            onKeyDown={() => {
+                if (selectedVal.length > 0) {
+                    setselectedVal("");
+                    setSearchWord("");
+                }
+            }}
+            onChange={(event) => {
+                setselectedVal("");
+                change("");
+                setisVisible(true);
+                setSearchWord(event.target.value)
+            }} />
+        {isVisible &&
+            <StyledCard className="QuickSetup_UserSuggestion_ListContainer">
+                {suggessionUserList.map(item => {
+                    return <div onClick={() => change(item)} className="QuickSetup_UserSuggestion_ListItem">
+                        <Text style={{ flex: "1" }}>{item}</Text>
+                    </div>
+                }
+                )}
+                {suggessionUserList.length <= 0 &&
+                    <Text style={{ flex: "1" }}>No Data Found</Text>
+
+                }
+            </StyledCard>}
+    </div>
+}
+
+
+

@@ -16,7 +16,6 @@ const CreateSourceApi = async (payload) => {
 
 const UpdateSourceApi = async (payload) => {
   try {
-    debugger;
     const response = await Api.put("/source/update", payload);
     return response;
   } catch (error) {
@@ -86,7 +85,6 @@ export function CreateSource(payload) {
 export function UpdateSource(payload) {
   return async function (dispatch) {
     try {
-      debugger;
       const response = await UpdateSourceApi(payload);
       if (response.data) {
         //dispatch(createSource(payload));
@@ -103,7 +101,6 @@ export function DeleteSource(payload) {
   return async function (dispatch) {
     try {
       const response = await DeleteSourceApi(payload);
-      debugger;
       if (response.data) {
         dispatch({
           type: Actions.DELETESOURCE,

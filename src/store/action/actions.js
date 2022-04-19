@@ -1,11 +1,11 @@
 import * as Actions from "./index";
 import { instanceApi as Api } from "../../utility/axios";
 
-export const getSearchedData = (searchedWord,filters={"authorFilter": [],"sourceFilter": [],"departmentFilter": []}) => {
-  return async (dispatch,getState) => {
-    const userDetails = getState().auth;
+export const getSearchedData = (searchedWord, page = 1, filters = { "authorFilter": [], "sourceFilter": [], "departmentFilter": [] }) => {
+  return async (dispatch, getState) => {
+    const userDetails = getState().auth.UserDetail;
     let response = await Api.post(
-      `/text/searchlist.json/${searchedWord}/1/false/department/false/true/?params=%7B%7D`,
+      `/text/searchlist.json/${searchedWord}/${page}/false/department/false/true/?params=%7B%7D`,
       {
         "userName": userDetails.userName,
         "userDepartment": userDetails.userDepartment,
@@ -16,7 +16,7 @@ export const getSearchedData = (searchedWord,filters={"authorFilter": [],"source
         ...filters
       }
     );
- 
+    debugger;
     dispatch({
       type: Actions.GETSEARCHDATA,
       payload: {
@@ -57,6 +57,33 @@ export const getCaseStudyDetails = (techName) => {
         techName: techName,
       },
     });
+  };
+};
+
+export const addremoveLikeFromSearchResult = (searchresultId, feedback) => {
+  return async (dispatch, getState) => {
+    const userDetails = getState().auth.UserDetail;
+    const searchDetail = getState().searchresults;
+    debugger;
+    let response = await Api.post(
+      `document/feedback`, {
+      enableFeedback: feedback,
+      feedBackType: true,
+      id: searchresultId,
+      searchStr: searchDetail.searchValue,
+      userName: userDetails.userName,
+    });
+
+
+    debugger;
+    dispatch({
+      type: Actions.ADDREMOVELIKEFROMSEARCHRESULT,
+      payload: {
+        searchId: searchresultId,
+        feedback
+      },
+    });
+
   };
 };
 

@@ -2377,6 +2377,32 @@ body {
   display: block;
 }
 
+.QuickSetup_UserSuggestion {
+  position: relative;
+}
+
+.QuickSetup_UserSuggestion_ListContainer {
+  position: absolute;
+  width: 100%;
+  margin-top: 1rem;
+  z-index: 10;
+  border-radius: 1rem;
+}
+
+.QuickSetup_UserSuggestion_ListContainer .ant-card-body {
+  padding: 1rem;
+}
+
+.QuickSetup_UserSuggestion_ListItem {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin: 1rem;
+}
+
 .ant-divider {
   border-color: rgba(145, 158, 171, 0.2);
 }

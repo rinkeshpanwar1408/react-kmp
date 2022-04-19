@@ -30,10 +30,10 @@ function SearchResultItemHeader(props) {
           {/* <FiCommand /> */}
         </div>
       )}
-      {/* <Link className="search_result_header-title" href={props.linkReDirect} target="_blank">{props.title}</Link> */}
-      <Text className="search_result_header-title">
+     <Link className="search_result_header-title" href={props.linkReDirect} target="_blank">{props.title}</Link> 
+      {/* <Text className="search_result_header-title">
         {props.title}
-      </Text>
+      </Text> */}
       
       
     

@@ -88,7 +88,6 @@ export function CreateSourceConfig(payload) {
 
 export function UpdateSourceConfig(payload) {
     return async function (dispatch) {
-        debugger;
         try {
             const response = await UpdateSourceConfigApi(payload);
             if (response.data) {
@@ -108,7 +107,6 @@ export function UpdateSourceConfig(payload) {
 export function DeleteSourceConfig(payload) {
     return async function (dispatch) {
         try {
-            debugger;
             const response = await DeleteSourceConfigApi(payload);
             if (response.data) {
                 dispatch({

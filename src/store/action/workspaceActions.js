@@ -51,8 +51,19 @@ const SaveSourcesToWorkSpaceApi = async (payload) => {
 
 const SaveJobToWorkSpaceApi = async (payload) => {
     try {
-        debugger;
         const response = await Api.post("/jobs/create", payload);
+        return response;
+    } catch (error) {
+        let errorInfo;
+        errorInfo = error.message;
+        throw errorInfo;
+    }
+}
+
+
+const SaveUserToWorkSpaceApi = async (payload) => {
+    try {
+        const response = await Api.post("/workspace/add/users", payload);
         return response;
     } catch (error) {
         let errorInfo;
@@ -94,7 +105,19 @@ const GetWorkspaceDetailApi = async (workspace_name) => {
     }
 };
 
-const GetWorkspaceSourceDetailApi = async (payload) => {
+const GetWorkSpaceSelectedSourceDetailApi = async (payload) => {
+    try {
+        const response = await Api.post(`/workspace/sources`, payload);
+        return response;
+    } catch (error) {
+        let errorInfo;
+        errorInfo = error.message;
+        throw errorInfo;
+    }
+};
+
+
+const GetWorkSpaceSourceListApi = async (payload) => {
     try {
         const response = await Api.post(`/workspace/sources`, payload);
         return response;
@@ -138,6 +161,39 @@ const GetWorkspaceSelectedConfigTemplateApi = async (payload) => {
             '/workspace/configs',
             { "workspace_name": payload.workspace_name }
         );
+        return response;
+    } catch (error) {
+        let errorInfo;
+        errorInfo = error.message;
+        throw errorInfo;
+    }
+};
+
+const GetWorkspaceUserDetailApi = async (payload) => {
+    try {
+        const response = await Api.post(`/workspace/view/users`, payload);
+        return response;
+    } catch (error) {
+        let errorInfo;
+        errorInfo = error.message;
+        throw errorInfo;
+    }
+};
+
+const GetWorkspaceJobsApi = async (payload) => {
+    try {
+        const response = await Api.post(`/jobs/all`, payload);
+        return response;
+    } catch (error) {
+        let errorInfo;
+        errorInfo = error.message;
+        throw errorInfo;
+    }
+};
+
+const GetWorkspaceUsersApi = async (payload) => {
+    try {
+        const response = await Api.post(`/workspace/view/users`, payload);
         return response;
     } catch (error) {
         let errorInfo;
@@ -276,6 +332,24 @@ export function SaveJobToWorkSpace(payload) {
     };
 }
 
+export function SaveUserToWorkSpace(payload) {
+    return async function (dispatch) {
+        try {
+            const response = await SaveUserToWorkSpaceApi(payload);
+            if (response.data) {
+                // dispatch({
+                //     type: Actions.CREATEWORKSPACE,
+                //     payload: payload
+                // });
+            }
+            return response;
+        } catch (error) {
+            dispatch({ type: Actions.SETERROR, payload: error });
+            throw (error);
+        }
+    };
+}
+
 export function GetWorkspaceDetail(payload) {
     return async function (dispatch) {
         try {
@@ -291,14 +365,10 @@ export function GetWorkspaceDetail(payload) {
     };
 }
 
-export function GetWorkspaceSourceDetail(payload) {
+export function GetWorkSpaceSelectedSourceDetail(payload) {
     return async function (dispatch, getState) {
         try {
-            const state = getState();
-            const response = await GetWorkspaceSourceDetailApi({
-                workspace_name: payload,
-                username: state.auth.UserDetail.userName
-            });
+            const response = await GetWorkSpaceSelectedSourceDetailApi(payload);
             if (response?.data) {
                 return response.data.selected_source_ids;
             }
@@ -312,6 +382,22 @@ export function GetWorkspaceSourceDetail(payload) {
     };
 }
 
+export function GetWorkSpaceSourceList(payload) {
+    return async function (dispatch, getState) {
+        try {
+            const response = await GetWorkSpaceSourceListApi(payload);
+            if (response?.data) {
+                return response.data.source_list;
+            }
+            else {
+                return null;
+            }
+        } catch (error) {
+            dispatch({ type: Actions.SETERROR, payload: error });
+            throw (error);
+        }
+    };
+}
 export function GetWorkspaceSourceConfigList(payload) {
     return async function (dispatch, getState) {
         try {
@@ -355,11 +441,9 @@ export function GetWorkspaceSelectedConfigTemplate(payload) {
     };
 }
 
-
 export function GetWorkspaceIngestionDetail(payload) {
     return async function (dispatch, getState) {
         try {
-            debugger;
             const response = await GetWorkspaceIngestionApi({
                 workspace_name: payload,
             });
@@ -376,5 +460,47 @@ export function GetWorkspaceIngestionDetail(payload) {
     };
 }
 
+export function GetWorkspaceUserDetail(payload) {
+    return async function (dispatch) {
+        try {
+            const WorkSpaceDetail = await GetWorkspaceUserDetailApi(payload);
+            if (WorkSpaceDetail?.data) {
+                return WorkSpaceDetail;
+            }
+            return null;
+        } catch (error) {
+            dispatch({ type: Actions.SETERROR, payload: error });
+            throw (error);
+        }
+    };
+}
 
+export function GetWorkspaceJobs(payload) {
+    return async function (dispatch, getState) {
+        try {
+            const WorkSpaceJobsDetail = await GetWorkspaceJobsApi(payload);
+            if (WorkSpaceJobsDetail?.data) {
+                return WorkSpaceJobsDetail;
+            }
+            return null;
+        } catch (error) {
+            dispatch({ type: Actions.SETERROR, payload: error });
+            throw (error);
+        }
+    };
+}
 
+export function GetWorkspaceUser(payload) {
+    return async function (dispatch, getState) {
+        try {
+            const WorkSpaceusersDetail = await GetWorkspaceUsersApi(payload);
+            if (WorkSpaceusersDetail?.data) {
+                return WorkSpaceusersDetail.data.users;
+            }
+            return null;
+        } catch (error) {
+            dispatch({ type: Actions.SETERROR, payload: error });
+            throw (error);
+        }
+    };
+}

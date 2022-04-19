@@ -9,7 +9,7 @@ import * as ActionCreator from "../../../../store/action/sourceActions";
 import useNotification from "../../../../hooks/useNotification";
 import useMessage from "../../../../hooks/useMessage";
 import useConfirm from "../../../../hooks/useConfirm";
-import { Link, useHistory, useRouteMatch } from "react-router-dom";
+import { Link, useHistory, useLocation, useRouteMatch } from "react-router-dom";
 import * as RouteUrl from "../../../../model/route";
 import { useParams } from "react-router-dom";
 import { sourceApi } from "../../../../utility/axios";
@@ -23,6 +23,7 @@ function CreateConfluenceSource(props) {
   const [validate, setValidate] = useState(false);
   const [CreateSourceForm] = Form.useForm();
   const [isEditMode, setisEditMode] = useState(false);
+  const [isFromQuickSetup, setIsFromQuickSetup] = useState(false);
   const [sourceId, setsourceId] = useState(0);
   const [IsSubmitLoading, setIsSubmitLoading] = useState(false);
   const [isAddConfigWarningVisible, setIsAddConfigWarningVisible] = useState(false);
@@ -38,6 +39,14 @@ function CreateConfluenceSource(props) {
 
   const { ShowConfirmDailog } = useConfirm();
   const { full_source_name } = useParams();
+  const location = useLocation();
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    if (params.has("isFromQuickLinks")) {
+      setIsFromQuickSetup(true);
+    }
+  }, [location.search])
 
   useEffect(() => {
     try {
@@ -74,48 +83,61 @@ function CreateConfluenceSource(props) {
       const values = await CreateSourceForm.validateFields();
 
       if (isEditMode) {
-        const result = await dispatch(
-          ActionCreator.UpdateSource({
-            id: sourceId,
-            source_name: values.sourcename,
-            source_type: CONFLUENCE,
-            base_url: values.base_url,
-            user_id: values.userId,
-            password: values.password,
-            userName: UserDetail.userName,
-            validated: validate
-          })
-        );
+        // const result = await dispatch(
+        //   ActionCreator.UpdateSource({
+        //     id: sourceId,
+        //     source_name: values.sourcename,
+        //     source_type: CONFLUENCE,
+        //     base_url: values.base_url,
+        //     user_id: values.userId,
+        //     password: values.password,
+        //     userName: UserDetail.userName,
+        //     validated: validate
+        //   })
+        // );
 
-        if (result.data) {
-          ShowSuccessMessage("Source updated successfully");
-        }
+        // if (result.data) {
+        //   ShowSuccessMessage("Source updated successfully");
+        // }
       }
       else {
-        const result = await dispatch(
-          ActionCreator.CreateSource({
-            id: 0,
-            source_name: values.sourcename,
-            source_type: "Confluence",
-            base_url: values.base_url,
-            user_id: values.userId,
-            password: values.password,
-            userName: UserDetail.userName,
-            validated: validate
-          })
-        );
-        if (result.data) {
+        // const result = await dispatch(
+        //   ActionCreator.CreateSource({
+        //     id: 0,
+        //     source_name: values.sourcename,
+        //     source_type: "Confluence",
+        //     base_url: values.base_url,
+        //     user_id: values.userId,
+        //     password: values.password,
+        //     userName: UserDetail.userName,
+        //     validated: validate
+        //   })
+        // );
+
+
+        // if (result.data) {
           ShowSuccessMessage("Source created successfully");
           ShowConfirmDailog("Configure Source",
             "Do you want to create source config?",
             () => {
               history.push(`${RouteUrl.HINTSEARCH}/${RouteUrl.ADMIN}/${RouteUrl.SOURCES}/${RouteUrl.CONFLUENCE}/${RouteUrl.CONFIGTEMPLATE}?source=${values.sourcename}-Confluence`)
             },
-            () => { },
+            () => {
+
+              ShowConfirmDailog("Back",
+                "Do you want to create another source?",
+                () => {
+                },
+                () => {
+                  history.push(`${RouteUrl.HINTSEARCH}/${RouteUrl.ADMIN}/${RouteUrl.SOURCES}/${RouteUrl.CONFLUENCE}/${RouteUrl.CONFIGTEMPLATE}?source=${values.sourcename}-Confluence`)
+                },
+                "Yes",
+                "Go, Back to quick setup")
+            },
             "Yes",
             "No")
         }
-      }
+      // }
     }
     catch (error) {
       ShowErrorMessage("Something Went Wrong");
@@ -148,24 +170,40 @@ function CreateConfluenceSource(props) {
         <PageHeader
           title={isEditMode ? "Edit Source" : "Create Source"}
           className="FormPageHeader"
-          extra={[
-            <Breadcrumb>
-              <Breadcrumb.Item>
-                <Link to={`${RouteUrl.HINTSEARCH}/${RouteUrl.ADMIN}/${RouteUrl.MONITORJOBS}`}>
-                  <HomeOutlined />
-                </Link>
-              </Breadcrumb.Item>
-              <Breadcrumb.Item>
-                <Link to={`${RouteUrl.HINTSEARCH}/${RouteUrl.ADMIN}/${RouteUrl.SOURCES}`}>
-                  Sources
-                </Link>
-              </Breadcrumb.Item>
-              <Breadcrumb.Item>Confluence</Breadcrumb.Item>
-              {!full_source_name && <Breadcrumb.Item>Create Source</Breadcrumb.Item>}
-              {full_source_name && <Breadcrumb.Item>{full_source_name}</Breadcrumb.Item>}
-              {full_source_name && <Breadcrumb.Item>Edit</Breadcrumb.Item>}
-            </Breadcrumb>
-          ]}
+          extra={
+            isFromQuickSetup ?
+              <Breadcrumb>
+                <Breadcrumb.Item>
+                  <Link to={`${RouteUrl.HINTSEARCH}/${RouteUrl.ADMIN}/${RouteUrl.MONITORJOBS}`}>
+                    <HomeOutlined />
+                  </Link>
+                </Breadcrumb.Item>
+                <Breadcrumb.Item>
+                  <Link to={`${RouteUrl.HINTSEARCH}/${RouteUrl.ADMIN}/${RouteUrl.SOURCES}`}>
+                    QuickSetup
+                  </Link>
+                </Breadcrumb.Item>
+                <Breadcrumb.Item>Confluence</Breadcrumb.Item>
+                <Breadcrumb.Item>Create Source</Breadcrumb.Item>
+              </Breadcrumb> :
+              <Breadcrumb>
+                <Breadcrumb.Item>
+                  <Link to={`${RouteUrl.HINTSEARCH}/${RouteUrl.ADMIN}/${RouteUrl.MONITORJOBS}`}>
+                    <HomeOutlined />
+                  </Link>
+                </Breadcrumb.Item>
+                <Breadcrumb.Item>
+                  <Link to={`${RouteUrl.HINTSEARCH}/${RouteUrl.ADMIN}/${RouteUrl.SOURCES}`}>
+                    Sources
+                  </Link>
+                </Breadcrumb.Item>
+                <Breadcrumb.Item>Confluence</Breadcrumb.Item>
+                {!full_source_name && <Breadcrumb.Item>Create Source</Breadcrumb.Item>}
+                {full_source_name && <Breadcrumb.Item>{full_source_name}</Breadcrumb.Item>}
+                {full_source_name && <Breadcrumb.Item>Edit</Breadcrumb.Item>}
+              </Breadcrumb>
+
+          }
         >
         </PageHeader>
         <StyledCard className="formContainer">

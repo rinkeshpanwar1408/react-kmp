@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import { Checkbox, Switch, Typography } from "antd";
+import { Switch, Typography } from "antd";
 
 import { AiOutlineQuestionCircle } from 'react-icons/ai';
 import CustomPopover from "./CustomPopover";
 
-
-const { Text, Title } = Typography;
+const { Text } = Typography;
 
 function ConfigurationSwitch(props) {
     const [status, setstatus] = useState(false)
@@ -31,7 +30,7 @@ function ConfigurationSwitch(props) {
             <Switch
                 checkedChildren="On"
                 unCheckedChildren="Off"
-                defaultChecked={status} 
+                defaultChecked={status}
                 checked={props.value}
                 onChange={change} />
         </div>

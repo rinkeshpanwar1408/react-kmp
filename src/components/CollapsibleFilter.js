@@ -64,7 +64,7 @@ function CollapsibleFilter() {
       warning();
     }else{
       const filterSearchValue = localStorage.getItem("filter_search");
-      Dispatch(ActionCreator.getSearchedData(filterSearchValue,selectedFilters));
+      Dispatch(ActionCreator.getSearchedData(filterSearchValue,1,selectedFilters));
       setTimeout(() => {
         console.log("ok filter is apply----- " + filterSearchValue);
       }, 2000);
@@ -78,7 +78,7 @@ function CollapsibleFilter() {
   }
 
   return (
-    <div className="filters" style={{ position: "fixed" }}>
+    <div className="filters" >
       <Collapse
         className="filters_container"
         defaultActiveKey={1}

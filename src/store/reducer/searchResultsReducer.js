@@ -87,7 +87,6 @@ const SearchResultsReducer = (state = intialState, action) => {
   switch (action.type) {
     case Actions.GETSEARCHDATA:
       const searchedData = action.payload.data;
-
       if (searchedData && searchedData.length > 0) {
         let sourceArray = [];
         let roleArray = [];
@@ -112,17 +111,17 @@ const SearchResultsReducer = (state = intialState, action) => {
         });
 
         const filters = [{
-            title: "Source",
-            data: sourceArray,
-          },
-          {
-            title: "Role",
-            data: roleArray,
-          },
-          {
-            title: "Author",
-            data: authorArray,
-          },
+          title: "Source",
+          data: sourceArray,
+        },
+        {
+          title: "Role",
+          data: roleArray,
+        },
+        {
+          title: "Author",
+          data: authorArray,
+        },
         ];
 
         const result = getQuickLinks(searchedData, searchedData[0].id);
@@ -144,6 +143,7 @@ const SearchResultsReducer = (state = intialState, action) => {
             filters: filters,
             quickLinkDetail: result.quickLinkDetail,
             tags: result.tags,
+            searchValue: action.payload.keyword,
             ...otherCaseStudyData,
           };
         }
@@ -154,14 +154,14 @@ const SearchResultsReducer = (state = intialState, action) => {
           filters: filters,
           quickLinkDetail: result.quickLinkDetail,
           tags: result.tags,
+          searchValue: action.payload.keyword,
         };
       }
-
       return {
         ...state,
         searchedData: searchedData,
+        searchValue: action.payload.keyword
       };
-
     case Actions.GETQUICKLINKDETAIL:
       const result = getQuickLinks(state.searchedData, action.payload.id);
 
@@ -186,9 +186,8 @@ const SearchResultsReducer = (state = intialState, action) => {
       return {
         ...state,
         quickLinkDetail: result.quickLinkDetail,
-          tags: result.tags,
+        tags: result.tags,
       };
-
     case Actions.GETSEARCHITEMPREVIEWDATA:
       const previewData = state.searchedData.find((item) => item.id === action.payload.id);
 
@@ -241,6 +240,35 @@ const SearchResultsReducer = (state = intialState, action) => {
         ...state,
         searchValue: action.payload.searchValue,
       };
+
+    case Actions.ADDREMOVELIKEFROMSEARCHRESULT:
+      const searchResultItem = state.searchedData.find((item) => item.id === action.payload.searchId);
+      const searchResultItemIndex = state.searchedData.findIndex((item) => item.id === action.payload.searchId);
+
+      if (searchResultItem) {
+        const newResult = { ...searchResultItem };
+        const newSearchData = [...state.searchedData];
+        if (!newResult.elasticDocumentRating) {
+          newResult.elasticDocumentRating = {
+            thumbsUpCount: action.payload.feedback ? 1 : 0,
+            thumbsDownCount: 0,
+            searchString: state.searchValue
+          }
+        }
+        else {
+          let thumbsUpCount = newResult.elasticDocumentRating.thumbsUpCount;
+          newResult.elasticDocumentRating.thumbsUpCount = action.payload.feedback ? thumbsUpCount + 1 : thumbsUpCount - 1
+        }
+        newResult.isThumbsUp = action.payload.feedback ? true : null
+
+        newSearchData[searchResultItemIndex] = newResult;
+        return {
+          ...state,
+          searchedData: newSearchData,
+        };
+      }
+
+      return state;
 
     default:
       return state;
