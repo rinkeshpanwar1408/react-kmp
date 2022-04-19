@@ -15,6 +15,7 @@ function OrganizationDetailCard(props) {
 
   const Tags = useSelector((state) => state.searchresults.tags);
 
+
   return (
     <React.Fragment>
       <CaseStudyCard title={OrganizationDetail.clients && OrganizationDetail?.clients[0]} isQuickLinks>
@@ -25,8 +26,8 @@ function OrganizationDetailCard(props) {
         </div>
         {Tags && (
           <div className="caseStudyResult_body_tagcontainer">
-            {Tags.map((technology) => {
-              return <TechnologyTag item={technology} />;
+            {Tags.map((technology, k) => {
+              return <TechnologyTag key={k} item={technology} />;
             })}
           </div>
         )}

@@ -46,9 +46,9 @@ function SearchResultItem(props) {
   const likeCount = props.item.elasticDocumentRating
     ? props.item.elasticDocumentRating.thumbsUpCount
     : 0;
-  const dislikeCount = props.item.elasticDocumentRating
-    ? props.item.elasticDocumentRating.thumbsDownCount
-    : 0;
+  // const dislikeCount = props.item.elasticDocumentRating
+  //   ? props.item.elasticDocumentRating.thumbsDownCount
+  //   : 0;
 
   const toggleEllipsis = () => {
     setEllipsis(!ellipsis);
@@ -59,7 +59,7 @@ function SearchResultItem(props) {
       className={`search_result ${props.active && "active"}`}
       onClick={() => onSearchResultItemClickHandler(props.item.id)}
     >
-      <SearchResultItemHeader title={props.item.fileName} />
+      <SearchResultItemHeader title={props.item.fileName} iconFA={props.item.source} linkReDirect={props.item.weburl}/>
 
       <div className="search_result_body">
         <div
@@ -90,13 +90,13 @@ function SearchResultItem(props) {
               <FiThumbsUp size={20} />
             </Badge>
 
-            <Badge
+            {/* <Badge
               showZero
               count={dislikeCount}
               className="search_result_body_othercontainer_icons-dislike"
             >
               <FiThumbsDown size={20} />
-            </Badge>
+            </Badge> */}
 
 
             <Dropdown

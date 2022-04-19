@@ -24,29 +24,32 @@ const getQuickLinks = (searchedData, id) => {
 
   if (quickLinkDetail) {
     quickLinkDetail.technology.forEach((item, i) => {
-      const sameTechData = JSON.parse(quickLinkDetail.graphDetails.sameTech);
-      const sameIndustryData = JSON.parse(
-        quickLinkDetail.graphDetails.sameIndustry
-      );
+      if (quickLinkDetail.graphDetails) {
+        const sameTechData = JSON.parse(quickLinkDetail.graphDetails.sameTech);
+        const sameIndustryData = JSON.parse(
+          quickLinkDetail.graphDetails.sameIndustry
+        );
 
-      if (sameTechData[item] && sameTechData[item][0].name) {
-        activetags.push({
-          active: i === 0 && true,
-          disable: false,
-          title: item,
-        });
-      } else if (sameIndustryData[item] && sameIndustryData[item][0].name) {
-        activetags.push({
-          active: i === 0 && true,
-          disable: false,
-          title: item,
-        });
-      } else {
-        disabletags.push({
-          active: i === 0 && true,
-          disable: true,
-          title: item,
-        });
+        if (sameTechData[item] && sameTechData[item][0].name) {
+          activetags.push({
+            active: i === 0 && true,
+            disable: false,
+            title: item,
+          });
+        } else if (sameIndustryData[item] && sameIndustryData[item][0].name) {
+          activetags.push({
+            active: i === 0 && true,
+            disable: false,
+            title: item,
+          });
+        } else {
+          disabletags.push({
+            active: i === 0 && true,
+            disable: true,
+            title: item,
+          });
+        }
+
       }
     });
 
@@ -84,7 +87,7 @@ const SearchResultsReducer = (state = intialState, action) => {
   switch (action.type) {
     case Actions.GETSEARCHDATA:
       const searchedData = action.payload.data;
-   
+
       if (searchedData && searchedData.length > 0) {
         let sourceArray = [];
         let roleArray = [];
@@ -108,8 +111,7 @@ const SearchResultsReducer = (state = intialState, action) => {
           }
         });
 
-        const filters = [
-          {
+        const filters = [{
             title: "Source",
             data: sourceArray,
           },
@@ -128,10 +130,13 @@ const SearchResultsReducer = (state = intialState, action) => {
         if (result.quickLinkDetail && result.tags.length > 0) {
           const activeTag = result.tags.find((tag) => tag.active);
 
-          const otherCaseStudyData = getCaseStudyLinks(
-            result.quickLinkDetail,
-            activeTag.title
-          );
+          let otherCaseStudyData = null;
+          if (activeTag) {
+            otherCaseStudyData = getCaseStudyLinks(
+              result.quickLinkDetail,
+              activeTag.title
+            );
+          }
 
           return {
             ...state,
@@ -162,10 +167,13 @@ const SearchResultsReducer = (state = intialState, action) => {
 
       if (result) {
         const activeTag = result.tags.find((tag) => tag.active);
-        const otherCaseStudyData = getCaseStudyLinks(
-          result.quickLinkDetail,
-          activeTag.title
-        );
+        let otherCaseStudyData = null;
+        if (activeTag) {
+          otherCaseStudyData = getCaseStudyLinks(
+            result.quickLinkDetail,
+            activeTag.title
+          );
+        }
 
         return {
           ...state,
@@ -178,7 +186,7 @@ const SearchResultsReducer = (state = intialState, action) => {
       return {
         ...state,
         quickLinkDetail: result.quickLinkDetail,
-        tags: result.tags,
+          tags: result.tags,
       };
 
     case Actions.GETSEARCHITEMPREVIEWDATA:
@@ -190,7 +198,10 @@ const SearchResultsReducer = (state = intialState, action) => {
 
         return {
           ...state,
-          previewData: { ...previewData, author: authorsString },
+          previewData: {
+            ...previewData,
+            author: authorsString
+          },
         };
       }
 

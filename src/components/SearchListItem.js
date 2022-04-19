@@ -10,11 +10,11 @@ function SearchListItem(props) {
       className="mainheader_searchlist_container_item"
       onClick={() => props.onClick(props.item)}
     >
-      <FiClock className="mainheader_searchlist_container_item-clock" />
+      {/* <FiClock className="mainheader_searchlist_container_item-clock" /> */}
       <Text className="mainheader_searchlist_container_item-title">
         {props.item}
       </Text>
-      <FiTrash className="mainheader_searchlist_container_item-trash" />
+      {/* <FiTrash className="mainheader_searchlist_container_item-trash" /> */}
     </div>
   );
 }

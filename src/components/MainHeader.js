@@ -26,9 +26,15 @@ import {
   FiPlusCircle,
   FiSettings,
   FiSun,
-  FiCheck
+  FiCheck,
 } from "react-icons/fi";
-import { AiOutlineFolder, AiOutlineEdit, AiOutlineFolderAdd, AiOutlineFolderView, AiOutlineFolderOpen } from "react-icons/ai";
+import {
+  AiOutlineFolder,
+  AiOutlineEdit,
+  AiOutlineFolderAdd,
+  AiOutlineFolderView,
+  AiOutlineFolderOpen,
+} from "react-icons/ai";
 import { MdOutlineKeyboardVoice, MdSearch } from "react-icons/md";
 import SearchListItem from "../components/SearchListItem";
 import { useHistory, useLocation, useRouteMatch } from "react-router-dom";
@@ -49,6 +55,11 @@ import * as WorkspaceActionCreator from "../store/action/workspaceActions";
 import useMessage from "../hooks/useMessage";
 import CustomMenuDropdown from "./CustomMenuDropdown";
 
+import SearchHome from "./SearchHome";
+//importing spinner loading
+import { Spin } from "antd";
+import { LoadingOutlined } from "@ant-design/icons";
+const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 const { Content } = Layout;
 const { Title, Text } = Typography;
 
@@ -180,12 +191,11 @@ function MainHeader(props) {
 
   let headerClass = "";
   if (location.pathname === `${match.url}/${RouteUrl.MAINSEARCH}`) {
-    headerClass = "expanded-header"
+    headerClass = "expanded-header";
   }
 
-
   const onSearchClickHandler = () => {
-    setvisibleSuggestion(false)
+    setvisibleSuggestion(false);
     Dispatch(ActionCreator.getSearchedData(searchWord));
   };
 
@@ -214,10 +224,10 @@ function MainHeader(props) {
   useEffect(() => {
     if (!userName) {
       if (localStorage.getItem("userDetail")) {
-        Dispatch(AuthActionCreator.AutoLogin(localStorage.getItem("userDetail")));
-      }
-
-      else {
+        Dispatch(
+          AuthActionCreator.AutoLogin(localStorage.getItem("userDetail"))
+        );
+      } else {
         history.push(RouteUrl.LOGIN);
         return;
       }
@@ -225,11 +235,11 @@ function MainHeader(props) {
 
     const getData = async () => {
       await Dispatch(WorkspaceActionCreator.GetWorkspaces());
-    }
+    };
     if (userName) {
       getData();
     }
-  }, [userName, history])
+  }, [userName, history]);
 
   const onSearchTextChangeHandler = (event) => {
     setSearchWord(event.target.value);
@@ -238,6 +248,10 @@ function MainHeader(props) {
   const onSuggestionItemClickHandler = (text) => {
     setSearchWord(text);
     setvisibleSuggestion(false);
+    {
+      history.replace(`${match.url}/${RouteUrl.SEARCH}`);
+    }
+    Dispatch(ActionCreator.getSearchedData(searchWord));
   };
 
   const onFullScreenHandler = useCallback(async () => {
@@ -247,32 +261,34 @@ function MainHeader(props) {
       document.documentElement.requestFullscreen();
     }
     setIsFullscreen(!isFullScreen);
-  }, [isFullScreen])
-
+  }, [isFullScreen]);
 
   useEffect(() => {
     // subscribe event
     document.addEventListener("fullscreenchange", (e) => {
       if (document.fullscreenElement && !isFullScreen) {
-        onFullScreenHandler(isFullScreen)
+        onFullScreenHandler(isFullScreen);
       }
-    })
+    });
     return () => {
       // unsubscribe event
       document.removeEventListener("fullscreenchange", onFullScreenHandler);
     };
   }, [isFullScreen, onFullScreenHandler]);
 
-
   return (
     <Content
       className={`mainheader ${headerClass}`}
-      style={{ backgroundImage: `url(${currentTheme.themestyle === "dark" ? background_dark : background_light})` }}
+      style={{
+        backgroundImage: `url(${
+          currentTheme.themestyle === "dark"
+            ? background_dark
+            : background_light
+        })`,
+      }}
     >
       <div className="mainheader_container">
         <div className="mainheader_container_navbar">
-
-
           <div className="mainheader_container_navbar_brandContainer">
             <Dropdown overlay={<WorkSpaceMenu />} placement="bottomRight" arrow>
               <div className="WorkSpaceContainer">WS</div>
@@ -283,7 +299,7 @@ function MainHeader(props) {
                 width: "8rem",
                 display: "flex",
                 alignItems: "center",
-                margin: "0 1rem"
+                margin: "0 1rem",
               }}
             >
               <Image src={infy} preview={false} />
@@ -301,12 +317,15 @@ function MainHeader(props) {
                 level={5}
                 className="mainheader_container_navbar_brandContainer-title"
               >
-                Platform | Search Wizard 
+                Platform | Search Wizard
               </Title>
             </div>
           </div>
 
-          <div className="mainheader_container_navbar_searchcontainer">
+          {/* This is the search home top*/}
+          <SearchHome />
+
+          {/* <div className="mainheader_container_navbar_searchcontainer">
             <Title className="mainheader_container_navbar_searchcontainer-title">Hi, how can we help you?</Title>
             <div className="mainheader_container_navbar_searchcontainer_inputBox">
               <Input
@@ -355,7 +374,7 @@ function MainHeader(props) {
 
               }
             </div>
-          </div>
+          </div> */}
 
           <div className="mainheader_container_navbar_userContainer">
             {/* <div className="mainheader_container_navbar_userContainer_menus">
@@ -388,17 +407,19 @@ function MainHeader(props) {
               </Dropdown>
             </div> */}
 
-            {isFullScreen ?
+            {isFullScreen ? (
               <FiMinimize
                 size={22}
                 className="mainheader_container_navbar_userContainer-fullscreen"
                 onClick={() => onFullScreenHandler()}
-              /> :
+              />
+            ) : (
               <FiMaximize
                 size={22}
                 className="mainheader_container_navbar_userContainer-fullscreen"
                 onClick={() => onFullScreenHandler()}
-              />}
+              />
+            )}
             <FiHome
               size={22}
               className="mainheader_container_navbar_userContainer-homeIcon"
@@ -411,7 +432,10 @@ function MainHeader(props) {
               arrow
             >
               <div className="mainheader_container_navbar_userContainer_userProfile">
-                <FiUser size={22} className="mainheader_container_navbar_userContainer_userProfile-userIcon" />
+                <FiUser
+                  size={22}
+                  className="mainheader_container_navbar_userContainer_userProfile-userIcon"
+                />
                 <Text className="mainheader_container_navbar_userContainer_userProfile-text">
                   {userName}
                 </Text>
@@ -457,9 +481,9 @@ function UserMenu(props) {
   };
 
   const onLogoutClickHandler = () => {
-    dispatch(AuthActionCreator.LogoutUser())
+    dispatch(AuthActionCreator.LogoutUser());
     history.replace(`${RouteUrl.LOGIN}`);
-  }
+  };
 
   return (
     <div className="DropDownMenu userMenu">
@@ -499,17 +523,16 @@ function UserMenu(props) {
 }
 
 function WorkSpaceMenu(props) {
-  const WorkspaceList = useSelector(state => state.workspace.WorkSpaces);
-  const SelectedWorkspace = useSelector(state => state.workspace.SelectedWorkspace);
+  const WorkspaceList = useSelector((state) => state.workspace.WorkSpaces);
+  const SelectedWorkspace = useSelector(
+    (state) => state.workspace.SelectedWorkspace
+  );
   const Dispatch = useDispatch();
   const history = useHistory();
   const match = useRouteMatch();
 
-  const {
-    ShowSuccessMessage,
-    ShowErrorMessage,
-    ShowWarningMessage,
-  } = useMessage();
+  const { ShowSuccessMessage, ShowErrorMessage, ShowWarningMessage } =
+    useMessage();
 
   const onWorkspaceChangeHandler = async (workspace) => {
     try {
@@ -519,7 +542,7 @@ function WorkSpaceMenu(props) {
     } catch (error) {
       ShowErrorMessage("Something Went Wrong");
     }
-  }
+  };
 
   return (
     <div className="DropDownMenu WorkSpace">
@@ -528,13 +551,33 @@ function WorkSpaceMenu(props) {
         <Text>Current Work Space</Text>
       </div>
       <Divider />
-      {WorkspaceList.length === 0 && <Empty description="No Workspace" image={Empty.PRESENTED_IMAGE_SIMPLE} />}
-      {WorkspaceList.length > 0 && WorkspaceList.map(item => {
-        return <div style={{ display: 'flex', alignItems: 'center',padding: "0.2rem 1rem" }} onClick={() => { onWorkspaceChangeHandler(item.w_name) }}>
-          <DropDownMenuItem title={item.w_name} icon={<AiOutlineFolder size={22} />} />
-          {SelectedWorkspace === item.w_name && <FiCheck />}
-        </div>
-      })}
+      {WorkspaceList.length === 0 && (
+        <Empty
+          description="No Workspace"
+          image={Empty.PRESENTED_IMAGE_SIMPLE}
+        />
+      )}
+      {WorkspaceList.length > 0 &&
+        WorkspaceList.map((item) => {
+          return (
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                padding: "0.2rem 1rem",
+              }}
+              onClick={() => {
+                onWorkspaceChangeHandler(item.w_name);
+              }}
+            >
+              <DropDownMenuItem
+                title={item.w_name}
+                icon={<AiOutlineFolder size={22} />}
+              />
+              {SelectedWorkspace === item.w_name && <FiCheck />}
+            </div>
+          );
+        })}
       <Divider />
       <div className="WorkSpace-footer">
         <DropDownMenuItem
@@ -543,7 +586,7 @@ function WorkSpaceMenu(props) {
           onClick={() => {
             history.push({
               pathname: `${match.path}/${RouteUrl.ADMIN}/${RouteUrl.QUICKSETUP}`,
-              hash: "new"
+              hash: "new",
             });
           }}
         />
@@ -552,12 +595,14 @@ function WorkSpaceMenu(props) {
           icon={<AiOutlineEdit size={22} />}
           onClick={() => {
             if (!SelectedWorkspace) {
-              ShowWarningMessage("Please select at lease one workspace as default");
+              ShowWarningMessage(
+                "Please select at lease one workspace as default"
+              );
               return;
             }
             history.push({
               pathname: `${match.path}/${RouteUrl.ADMIN}/${RouteUrl.QUICKSETUP}`,
-              hash: "edit"
+              hash: "edit",
             });
           }}
         />

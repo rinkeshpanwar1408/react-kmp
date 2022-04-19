@@ -6,14 +6,14 @@ import { StyledCard } from "../styled-components/CommonControls";
 const { Text } = Typography;
 function CaseStudyCard(props) {
   return (
-    <StyledCard className="caseStudyResult" >
+    <StyledCard className="caseStudyResult" style={props.style} >
       <div className="caseStudyResult_header">
         {!props.isQuickLinks && (
           <div className="caseStudyResult_header_icons">
-            <FiGrid
+            {/* <FiGrid
               fontSize={25}
               className="caseStudyResult_header_icons-confluence"
-            />
+            /> */}
           </div>
         )}
         <div className="caseStudyResult_header_textContainer">
