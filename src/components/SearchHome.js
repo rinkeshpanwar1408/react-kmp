@@ -3,7 +3,7 @@ import {
   Typography,
   Input,
 } from "antd";
-import { MdOutlineKeyboardVoice, MdSearch } from "react-icons/md";
+import { MdOutlineKeyboardVoice, MdSearch, MdClose } from "react-icons/md";
 import SearchListItem from "./SearchListItem";
 import { useHistory, useRouteMatch } from "react-router-dom";
 import { instanceApi as Api } from "../utility/axios";
@@ -20,8 +20,7 @@ const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
 const { Title, Text } = Typography;
 
-function SearchHome() {
-    const match = useRouteMatch();
+function SearchHome(props) {
   const history = useHistory();
   const Dispatch = useDispatch();
 
@@ -35,7 +34,7 @@ function SearchHome() {
   const onSearchClickHandler =  () => {
     setvisibleSuggestion(false)
     Dispatch(ActionCreator.getSearchedData(searchWord));
-
+    
     // history.replace(`${match.url}/${RouteUrl.SEARCH}`);
   };
 
@@ -56,7 +55,16 @@ function SearchHome() {
 
       const getdata = async () => {
         if (searchWord) {
-          const result = await Api.get(`/suggest/${searchWord}`);
+          // const result = await Api.get(`/suggest/${searchWord}`);
+          const result = await new Promise((resolve) => {
+            setTimeout(() => {
+              resolve(
+                {
+                  data: ["legacy modernization","application modernizationroadmap","modernization financial erp platform","datacenter modernization journey","tailored modernization roadmap"]
+                }
+              )
+            }, 1);
+          })
           setSuggessionsList(result.data);
         }
       };
@@ -75,9 +83,9 @@ function SearchHome() {
     const valueText = event.target.value;
     localStorage.setItem("loading_text", valueText);
     localStorage.setItem("filter_search", valueText);
-      if(valueText === ''){
-          setSuggessionsList([]);
-      }
+      // if(valueText === ''){
+      //     setSuggessionsList([]);
+      // }
       setSearchWord(valueText);
   };
 
@@ -87,7 +95,7 @@ function SearchHome() {
     localStorage.setItem("filter_search", text);
     setvisibleSuggestion(false);
     Dispatch(ActionCreator.getSearchedData(text));
-    history.replace(`${match.url}/${RouteUrl.SEARCH}`);
+    history.push(props.searchPath);
   };
 
   const onFullScreenHandler = useCallback(async () => {
@@ -116,10 +124,9 @@ function SearchHome() {
     return ( 
         <>
           <div className="mainheader_container_navbar_searchcontainer">
-            <Title className="mainheader_container_navbar_searchcontainer-title">Hi, how can we help you?</Title>
             <div className="mainheader_container_navbar_searchcontainer_inputBox">
               <Input
-                placeholder="Hi, how can we help you?"
+                placeholder="Search"
                 className="mainheader_container_navbar_searchcontainer_inputBox-input"
                 onFocus={() => searchWord ? setvisibleSuggestion(true) : setvisibleSuggestion(false)}
                 value={searchWord}
@@ -129,19 +136,9 @@ function SearchHome() {
                 }}
               />
 
-              <div className="mainheader_container_navbar_searchcontainer_actionBox">
-                <MdOutlineKeyboardVoice size={18} />
-                <div
-                  onClick={() => {
-                    history.replace(`${match.url}/${RouteUrl.SEARCH}`);
-                  }}
-                  className="mainheader_container_navbar_searchcontainer_actionBox-search" style={{cursor: "pointer"}}>
-                  <MdSearch size={20} onClick={onSearchClickHandler} />
-                </div>
-              </div>
+              
               
               {
-            //   suggessionsList.length > 0 ?
               ((visibleSuggestion && searchWord) && (suggessionsList.length > 0 ?
                 <StyledCard className="mainheader_searchlist_container">
                   <SimpleBar className="mainheader_searchlist_container-scrollContainer">
@@ -174,17 +171,37 @@ function SearchHome() {
                         </StyledCard>)
                     )
                 ))
-            //    : (
-            //     searchWord !== "" ? console.log('nothing show') :
-            //   (<StyledCard className="mainheader_searchlist_container">
-            //   <SimpleBar className="mainheader_searchlist_container-scrollContainer">
-            //     <Text className="mainheader_searchlist_container_item-title">
-            //       Loading...
-            //     </Text>
-            //   </SimpleBar>
-            // </StyledCard>))
-            } 
+              } 
             </div>
+            <div className="mainheader_container_navbar_searchcontainer_actionBox">
+                {
+                  (searchWord.length > 0) &&
+                  <MdClose
+                    style={{
+                      cursor: "pointer",
+                      color: "#265fd5"
+                    }}
+                    className="clear_search"
+                    onClick={()=>{
+                      setvisibleSuggestion(false);
+                      setSearchWord("");
+                      localStorage.setItem("loading_text", "");
+                      localStorage.setItem("filter_search", "");
+                  }}
+                  size={18}
+                  />
+                }
+                <div
+                  onClick={() => {
+                    history.push(props.searchPath);
+                  }}
+                  className="mainheader_container_navbar_searchcontainer_actionBox-search" style={{cursor: "pointer"}}>
+                  <MdSearch size={20} onClick={onSearchClickHandler} />
+                </div>
+            </div>
+          </div>
+          <div className="microphone_section">
+            <MdOutlineKeyboardVoice size={18} />
           </div>
         </>
      );

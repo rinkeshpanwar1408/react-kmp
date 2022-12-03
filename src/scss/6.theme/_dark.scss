@@ -455,8 +455,9 @@
           }
 
           &-homeIcon,
-          &-fullscreen {
+          &-fullscreen, &-bellIcon {
             color: $common_extra_color_1;
+            cursor: pointer;
           }
 
           &_menus {
@@ -637,11 +638,81 @@
       }
     }
   }
+  .search_item {
+   color:$DarkBlue-primary-text ;
+    
+   
+     .title {
+    
+     color: $common_dark_extra_color_6;
+     }
 
+    
+      .text {
+        color: rgba($color: $DarkBlue-primary-text, $alpha: 0.8);
+      }
+
+      .link {
+        color: $DarkBlue-primary !important;
+      }
+  
+  //   .container_1 {
+     
+  //     .view {
+       
+  //     }
+  //     .like {
+       
+  //     }
+  //     .more_menu {
+       
+  //     }
+  //   }
+  //   .content {
+     
+  //   }
+  //   .sub_content{
+      
+  //   }
+
+  //   .para {
+      
+  //     .text {
+       
+        
+  //     }
+  //     .show_more {
+        
+       
+  //     }
+  //   }
+
+  // .footer{
+   
+  // }
+  }
+
+  
+  .DropDownMenu {
+    color: $dark_font_color;
+    background-color: $common_dark_extra_color_9;
+    &Item {
+      &:hover {
+        background-color: $dark_shadow_color;
+      }
+
+      &-logout {
+        &:hover {
+          background-color: $light_danger_primary;
+        }
+      }
+
+     }
+     
+  }
   .search_result {
     &_header {
-      border-bottom: 0.1rem solid
-        rgba($color: $bordercolor, $alpha: $opacity-medium);
+      
 
       &_icons {
         &-confluence {
@@ -694,15 +765,7 @@
         }
       }
 
-      &_contentcontainer {
-        &-text {
-          color: rgba($color: $DarkBlue-primary-text, $alpha: 0.8);
-        }
-
-        &-link {
-          color: $DarkBlue-primary !important;
-        }
-      }
+    
     }
   }
 

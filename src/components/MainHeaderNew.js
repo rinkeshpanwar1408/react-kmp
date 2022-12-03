@@ -8,10 +8,10 @@ import {
   Space,
   Image,
   Divider,
-  Empty,
+  Empty, Avatar
 } from "antd";
 import background_dark from "../assests/image/header_bg_dark.jpg";
-import background_light from "../assests/image/header_bg_light.png";
+// import background_light from "../assests/image/header_bg_light.png";
 import infy from "../assests/image/InfosysLogo.png";
 import { DownOutlined } from "@ant-design/icons";
 import {
@@ -27,6 +27,7 @@ import {
   FiSettings,
   FiSun,
   FiCheck,
+  FiBell
 } from "react-icons/fi";
 import {
   AiOutlineFolder,
@@ -35,6 +36,9 @@ import {
   AiOutlineFolderView,
   AiOutlineFolderOpen,
 } from "react-icons/ai";
+
+import {BsToggle2On, BsToggle2Off, BsFillSunFill, BsMoonStarsFill} from "react-icons/bs";
+
 import { MdOutlineKeyboardVoice, MdSearch } from "react-icons/md";
 import SearchListItem from "../components/SearchListItem";
 import { useHistory, useLocation, useRouteMatch } from "react-router-dom";
@@ -47,7 +51,7 @@ import * as ActionCreator from "../store/action/actions";
 import * as AuthActionCreator from "../store/action/AuthActions";
 import { DropDownMenuItem } from "./DropDownMenuItem";
 import * as Actions from "../store/action/index";
-import { DarkBlueTheme, LightBlueTheme } from "../model/Theme";
+import { DarkBlueTheme, large_font, LightBlueTheme } from "../model/Theme";
 import { StyledCard } from "../styled-components/CommonControls";
 import * as RouteUrl from "../model/route";
 import { AutoLogin } from "../store/action/AuthActions";
@@ -62,6 +66,7 @@ import { LoadingOutlined } from "@ant-design/icons";
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 const { Content } = Layout;
 const { Title, Text } = Typography;
+const background_light = "linear-gradient(to right, #120338, #3B185F)";
 
 const menu = (
   <Menu
@@ -173,7 +178,7 @@ const menu2 = (
   </Menu>
 );
 
-function MainHeader(props) {
+function MainHeaderNew(props) {
   const match = useRouteMatch();
   const history = useHistory();
   const location = useLocation();
@@ -224,6 +229,7 @@ function MainHeader(props) {
   useEffect(() => {
     if (!userName) {
       if (localStorage.getItem("userDetail")) {
+        console.log(localStorage.getItem("userDetail"),"-------------");
         Dispatch(
           AuthActionCreator.AutoLogin(localStorage.getItem("userDetail"))
         );
@@ -280,11 +286,10 @@ function MainHeader(props) {
     <Content
       className={`mainheader ${headerClass}`}
       style={{
-        backgroundImage: `url(${
-          currentTheme.themestyle === "dark"
-            ? background_dark
-            : background_light
-        })`,
+        backgroundImage: background_light,
+            
+            boxShadow: 'rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px'
+        
       }}
     >
       <div className="mainheader_container">
@@ -325,6 +330,12 @@ function MainHeader(props) {
           {/* This is the search home top*/}
 
           <div className="mainheader_container_navbar_userContainer">
+            
+            <FiHome
+              size={22}
+              className="mainheader_container_navbar_userContainer-homeIcon"
+              onClick={() => history.replace(`${match.url}`)}
+            />
 
             {isFullScreen ? (
               <FiMinimize
@@ -339,11 +350,13 @@ function MainHeader(props) {
                 onClick={() => onFullScreenHandler()}
               />
             )}
-            <FiHome
-              size={22}
-              className="mainheader_container_navbar_userContainer-homeIcon"
-              onClick={() => history.replace(`${match.url}`)}
+
+            <FiBell
+                size={22}
+                className="mainheader_container_navbar_userContainer-bellIcon"
+                onClick={() => {}}
             />
+          
             <CustomMenuDropdown
               trigger="click"
               overlay={<UserMenu />}
@@ -351,13 +364,14 @@ function MainHeader(props) {
               arrow
             >
               <div className="mainheader_container_navbar_userContainer_userProfile">
-                <FiUser
-                  size={22}
+                <Avatar
+                  size={50}
                   className="mainheader_container_navbar_userContainer_userProfile-userIcon"
-                />
-                <Text className="mainheader_container_navbar_userContainer_userProfile-text">
+                  style={{color: "gold", backgroundColor: "#495C83", cursor: "pointer"}}
+                >SV</Avatar>
+                {/* <Text className="mainheader_container_navbar_userContainer_userProfile-text">
                   {userName}
-                </Text>
+                </Text> */}
               </div>
             </CustomMenuDropdown>
           </div>
@@ -372,6 +386,7 @@ function UserMenu(props) {
   const match = useRouteMatch();
   const dispatch = useDispatch();
   const currentTheme = useSelector((state) => state.theme.Theme);
+  const { userName, userEmail } = useSelector((state) => state.auth.UserDetail);
 
   const onThemeClickChange = (themetype, color) => {
     switch (color) {
@@ -396,36 +411,47 @@ function UserMenu(props) {
   };
 
   return (
-    <div className="DropDownMenu userMenu">
+    <div className="DropDownMenu userMenu ">
       <div className="userMenu-header">
-        <Text>Admin</Text>
-        <Text>demo@infosys.com</Text>
+        <span style={{textAlign: "center", fontSize: large_font}}><b>{userName}</b></span>
+        <span style={{textAlign:"center"}}>Admin</span>
+        <span>{userEmail}</span>
       </div>
+      
       <Divider />
       <div>
-        <DropDownMenuItem title="My Profile" icon={<FiUser size={20} />} />
+        <DropDownMenuItem title="My Profile" icon={<FiUser size={20} style={{marginLeft: "1.5rem"}}/>} />
         <DropDownMenuItem
           title="Admin Console"
-          icon={<FiSettings size={20} />}
+          icon={<FiSettings size={20} style={{marginLeft: "1.5rem"}}/>}
           onClick={() => history.replace(`${match.url}/${RouteUrl.ADMIN}`)}
         />
         <DropDownMenuItem
-          title="Dark Mode"
-          icon={<FiMoon size={20} />}
-          onClick={() => onThemeClickChange("dark", currentTheme.themecolor)}
+          icon={!(currentTheme.themestyle === "dark") 
+          ? 
+            <><BsFillSunFill size={20} style={{color: "darkgray", marginLeft: "1.5rem", marginRight: "1rem"}}/> <BsToggle2Off size={20}/> <BsMoonStarsFill size={20} style={{color: "#FFBF00", marginLeft: "1rem"}} /></>
+          : 
+            <><BsFillSunFill size={20} style={{color: "gold", marginLeft: "1.5rem", marginRight: "1rem"}}/> <BsToggle2On size={20}/> <BsMoonStarsFill size={20} style={{color: "darkgrey", marginLeft: "1rem"}}/></>}
+
+          onClick={() => {currentTheme.themestyle === "dark" 
+          ?
+           onThemeClickChange("light", currentTheme.themecolor)
+          : 
+           onThemeClickChange("dark", currentTheme.themecolor)}}
         />
-        <DropDownMenuItem
+        {/* <DropDownMenuItem
           title="Light Mode"
-          icon={<FiSun size={20} />}
+          icon={<FiSun size={20} style={{marginLeft: "1.5rem"}}/>}
           onClick={() => onThemeClickChange("light", currentTheme.themecolor)}
-        />
+        /> */}
       </div>
       <Divider />
       <div>
         <DropDownMenuItem
           title="Logout"
-          icon={<FiLogOut size={20} />}
+          icon={<FiLogOut size={20} style={{marginLeft: "1.5rem"}}/>}
           onClick={onLogoutClickHandler}
+          style={{marginBotton: "0.2rem"}}
         />
       </div>
     </div>
@@ -521,4 +547,4 @@ function WorkSpaceMenu(props) {
   );
 }
 
-export default MainHeader;
+export default MainHeaderNew;

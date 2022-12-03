@@ -453,8 +453,9 @@
           }
 
           &-homeIcon,
-          &-fullscreen {
+          &-fullscreen,&-bellIcon {
             color: $common_extra_color_1;
+            cursor: pointer;
           }
 
           &_menus {
@@ -637,11 +638,61 @@
       }
     }
   }
+  .search_item {
+    color:$LightBlue-primary-text ;
+     
+    
+     .title {
+     color:$common_light_extra_color_6 ;
+      
+      }
+   //   .container_1 {
+      
+   //     .view {
+        
+   //     }
+   //     .like {
+        
+   //     }
+   //     .more_menu {
+        
+   //     }
+   //   }
+   //   .content {
+      
+   //   }
+      
+       
+          .text {
+            color: rgba($color: $LightBlue-primary-text, $alpha: 0.8);
+          }
+  
+          .link {
+            color: $LightBlue-primary !important;
+          }
+        
+ 
+ 
+   //   .para {
+       
+   //     .text {
+        
+         
+   //     }
+   //     .show_more {
+         
+        
+   //     }
+   //   }
+ 
+   // .footer{
+    
+   // }
+   }
 
   .search_result {
     &_header {
-      border-bottom: 0.1rem solid
-        rgba($color: $bordercolor, $alpha: $opacity-medium);
+      
 
       &_icons {
         &-confluence {
@@ -694,17 +745,27 @@
         }
       }
 
-      &_contentcontainer {
-        &-text {
-          color: rgba($color: $LightBlue-primary-text, $alpha: 0.8);
-        }
-
-        &-link {
-          color: $LightBlue-primary !important;
-        }
-      }
+     
     }
   }
+  .DropDownMenu {
+    color: $light_font_color;
+    background-color: $common_light_extra_color_8;
+    &Item {
+      &:hover {
+        background-color: $lightBg;
+      }
+
+      &-logout {
+        &:hover {
+          background-color: $light_danger_primary;
+          color: $dark_font_color;
+        }
+      }
+
+     }
+}
+
 
   .recent_activity_article_item {
     &_detail {

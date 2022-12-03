@@ -9,7 +9,6 @@ const { Title, Text, Link } = Typography;
 function SearchResultItemHeader(props) {
   const ext = props.title.split(".").pop();
 
-
   const [enablePdfModal, setEnablePdfModal] = useState(false);
   const togglePdfModal = () => {
     setEnablePdfModal(!enablePdfModal);
@@ -18,25 +17,38 @@ function SearchResultItemHeader(props) {
     <div className={`search_result_header`}>
       {!props.isFromQuickLinks && (
         <div className="search_result_header_icons">
-          {props.iconFA === "Confluence" ? 
-          (<FaConfluence
-            fontSize={16}
-            className="search_result_header_icons-confluence"
-          />) : 
-          (<FiGrid
-            fontSize={25}
-            className="search_result_header_icons-confluence"
-          />)}
+          {props.iconFA === "Confluence" ? (
+            <FaConfluence
+              fontSize={16}
+              className="search_result_header_icons-confluence"
+            />
+          ) : (
+            <FiGrid
+              fontSize={25}
+              className="search_result_header_icons-confluence"
+            />
+          )}
           {/* <FiCommand /> */}
         </div>
       )}
-     <Link className="search_result_header-title" href={props.linkReDirect} target="_blank">{props.title}</Link> 
+      <Link
+        style={{
+          fontSize: "18px",
+          lineHeight: "28px",
+          lineClamp: "none",
+          fontWeight: "600",
+          marginLeft: "3px",
+        }}
+        className="search_result_header-title"
+        href={props.linkReDirect}
+        target="_blank"
+      >
+        {props.title}
+      </Link>
       {/* <Text className="search_result_header-title">
         {props.title}
       </Text> */}
-      
-      
-    
+
       {ext === "pdf" && (
         <Link className="search_result_header-pdf" onClick={togglePdfModal}>
           <AiOutlineFilePdf /> PDF

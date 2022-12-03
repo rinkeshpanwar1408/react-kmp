@@ -1,13 +1,11 @@
 import React from "react";
-import { Typography } from "antd";
-
-const { Text } = Typography;
 
 export const DropDownMenuItem = (props) => {
   return (
-    <li key={props.key} className={`DropDownMenuItem ${props.DropDownMenuItem}`} onClick={props.onClick}>
+    <li key={props.key} className={!(props.title === "Logout") ?`DropDownMenuItem`: "DropDownMenuItem DropDownMenuItem-logout"} onClick={props.onClick}>
       {props.icon}
-      <Text className="DropDownMenuItem-title">{props.title}</Text>
+      <span className={!(props.title === "Logout") ?`DropDownMenuItem-title`: "DropDownMenuItem-title DropDownMenuItem-logout"}>{props.title}</span>
+      
     </li>
   );
 };

@@ -3,18 +3,15 @@ import { Col, Layout, Row } from "antd";
 import PopularTopics from "../components/PopularTopics";
 import RecentArticals from "../components/RecentArticals";
 import CustomCol from "../components/CustomCol";
+import SearchHome from "../components/SearchHome";
+import * as RouteUrl from "../model/route";
 
 function MainSearch(props) {
   return (
     <React.Fragment>
-       <Row>
-        <CustomCol lg={24}>{<RecentArticals /> }</CustomCol>
-      </Row> 
-      <Row>
-        <CustomCol lg={24}>
-          <PopularTopics />
-        </CustomCol>
-      </Row>
+      <div className="mainheader_container_body_section">
+        <SearchHome searchPath={RouteUrl.SEARCH}/>
+      </div>
     </React.Fragment>
   );
 }

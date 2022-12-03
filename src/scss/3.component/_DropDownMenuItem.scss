@@ -2,18 +2,32 @@
   background-color: $common_light_extra_color_8;
   border-radius: $border-radius-large;
   box-shadow: 0px 1px 2px $light_shadow_color;
-  padding: 1.2rem 0;
+  padding: 1.2rem 0 1rem 0;
+  
 
   &Item {
     // padding: 0.5rem 1rem;
     display: flex;
     align-items: center;
     // margin: .5rem 0;  
-    margin: 1rem 1.5rem;
+    padding: 1rem 0;
     flex: 1;
+    cursor: pointer;
+
+    // &:hover {
+    //   background-color: whitesmoke;
+    // }
+
+    // &-logout {
+    //   &:hover {
+    //   background-color: #D2001A;
+    //   color: white;
+    //   }
+    // }
 
     &-title {
       margin-left: 1rem;
+      padding: 1rem auto;
     }
   }
 }

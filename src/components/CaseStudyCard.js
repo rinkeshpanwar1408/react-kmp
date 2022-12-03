@@ -6,7 +6,8 @@ import { StyledCard } from "../styled-components/CommonControls";
 const { Text } = Typography;
 function CaseStudyCard(props) {
   return (
-    <StyledCard className="caseStudyResult" style={props.style} >
+    // <StyledCard className="caseStudyResult" style={props.style} >
+      <StyledCard className="" style={props.style} >
       <div className="caseStudyResult_header">
         {!props.isQuickLinks && (
           <div className="caseStudyResult_header_icons">

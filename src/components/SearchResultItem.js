@@ -3,20 +3,26 @@ import SearchResultItemHeader from "./SearchResultItemHeader";
 import parse from "html-react-parser";
 import { Badge, Typography, Menu, Dropdown, Skeleton } from "antd";
 import { FiThumbsUp, FiThumbsDown } from "react-icons/fi";
+import {CaretRightOutlined} from '@ant-design/icons'
+
+
+import { LikeOutlined, MoreOutlined, LikeFilled,EyeFilled } from "@ant-design/icons";
+
 import {
   BiDotsHorizontalRounded,
   BiInfoCircle,
   BiShare,
   BiUserPlus,
 } from "react-icons/bi";
-import { BsEyeFill, BsHeart, BsHeartFill } from "react-icons/bs";
 import * as ActionCreator from "../store/action/actions";
 import { useDispatch } from "react-redux";
 import { DropDownMenuItem } from "./DropDownMenuItem";
 import { StyledCard } from "../styled-components/CommonControls";
 
 const { Paragraph, Link, Text } = Typography;
+
 function SearchResultItem(props) {
+  const [islike, setIsLike] = useState(false);
   const dispatch = useDispatch();
 
   const onSearchResultItemClickHandler = (id) => {
@@ -36,11 +42,7 @@ function SearchResultItem(props) {
       />
       <DropDownMenuItem
         title="Info"
-        icon={
-          <BiInfoCircle
-            size={20}
-          />
-        }
+        icon={<BiInfoCircle size={20} />}
         onClick={() => props.onSearchItemInfoClick(props.item.id)}
       />
     </div>
@@ -54,84 +56,61 @@ function SearchResultItem(props) {
   //   ? props.item.elasticDocumentRating.thumbsDownCount
   //   : 0;
 
-
-
-
   const toggleEllipsis = () => {
     setEllipsis(!ellipsis);
   };
 
-  return (props.item ?
-    <StyledCard
-      className={`search_result ${props.active && "active"}`}
-      onClick={() => onSearchResultItemClickHandler(props.item.id)}
-    >
-      <SearchResultItemHeader title={props.item.fileName} iconFA={props.item.source} linkReDirect={props.item.weburl} />
+  return (
+   
+    props.item ? (
+      <>
+        {/* {console.log(props.item)} */}
+        <div  className={`search_item ${props.active && "active"}`}
+       onClick={() => onSearchResultItemClickHandler(props.item.id)}>
+         
+          <SearchResultItemHeader className="title" title={props.item.fileName} iconFA={props.item.source} linkReDirect={props.item.weburl} />
 
-      <div className="search_result_body">
-        <div
-          className="search_result_body_othercontainer"
-          style={{ marginBottom: "1rem" }}
-        >
-          <div className="search_result_body_othercontainer_department">
-            <Text className="search_result_body_othercontainer_department-title">
-              Department:
-            </Text>
-            <Text className="search_result_body_othercontainer_department-value">
-              {props.item.departments.join(",")}
-            </Text>
-          </div>
-          <div className="search_result_body_othercontainer_icons">
-            <div className="search_result_body_othercontainer_icons_views">
-              <BsEyeFill size={18} />
-              <Text className="search_result_body_othercontainer_icons_views-count">
-                12
-              </Text>
+          <div className="container_1">
+            <div className="created_at">
+              <span style={{ fontSize: "12px" }}>
+                Created at : {props.item.createdDate.substring(0, 10)}
+              </span>
             </div>
-
-            <div className="search_result_body_othercontainer_icons_views">
-              {props.item.isThumbsUp
-                ? <BsHeartFill size={18}
-                  color="red"
-                  onClick={() => onSearchResultItemLikeClickHandler(props.item.id, false)} />
-                : <BsHeart size={18}
-                  onClick={() => onSearchResultItemLikeClickHandler(props.item.id, true)} />
-              }
-              <Text className="search_result_body_othercontainer_icons_views-count">
-                {likeCount}
-              </Text>
+            <div
+              className="view"
+              onClick={() => props.onSearchItemInfoClick(props.item.id)}
+            >
+              <EyeFilled  /> 
             </div>
-
-            {/* <Badge
-              showZero
-              count={likeCount}
-              className="search_result_body_othercontainer_icons-like"
+            <div
+              className="like"
+              onClick={() => {
+                setIsLike(!islike);
+              }}
             >
-              <FiThumbsUp size={20} />
-            </Badge> */}
-
-            {/* <Badge
-              showZero
-              count={dislikeCount}
-              className="search_result_body_othercontainer_icons-dislike"
-            >
-              <FiThumbsDown size={20} />
-            </Badge> */}
-
-
-            <Dropdown
-              overlay={ActionMenu}
-              trigger={["click"]}
-              placement="bottomCenter"
-              overlayClassName="search_result_action_menu"
-            >
-              <BiDotsHorizontalRounded size={20} />
-            </Dropdown>
+              {islike ? (
+                <LikeFilled style={{ color: "blue" }} />
+              ) : (
+                <LikeOutlined />
+              )}
+            </div>
+            <div className="more_menu">
+              <MoreOutlined />
+            </div>
           </div>
-        </div>
-        <div className="search_result_body_contentcontainer">
-          <Paragraph
-            className="search_result_body_contentcontainer-text"
+          <div className="content">
+            {" "}
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+            ad minim Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+          </div>
+
+          {/* <SubContent className="sub_content" limit="350" >
+            {props.item.content}
+          </SubContent> */}
+          
+           <Paragraph
+             className="text"
             ellipsis={
               ellipsis
                 ? {
@@ -147,21 +126,40 @@ function SearchResultItem(props) {
           {ellipsis ? (
             <Link
               onClick={toggleEllipsis}
-              className="search_result_body_contentcontainer-link"
+              className="link"
             >
-              see more
+              <CaretRightOutlined />see more
             </Link>
           ) : (
             <Link
               onClick={toggleEllipsis}
-              className="search_result_body_contentcontainer-link"
+              className="link"
             >
-              see less
+              <CaretRightOutlined />see less
             </Link>
           )}
+           
+
+          <div style={{ fontSize: "small", marginTop: "1em" }}>
+            More document from same result
+          </div>
+
+          <br></br>
+          <hr
+            style={{
+              width: "100%",
+              height: "1px",
+              borderWidth: "0",
+              color: "gray",
+              backgroundColor: "gray",
+            }}
+          ></hr>
+          <br></br>
         </div>
-      </div>
-    </StyledCard> : <Skeleton active></Skeleton>
+      </>
+    ) : (
+      <Skeleton active></Skeleton>
+    )
   );
 }
 

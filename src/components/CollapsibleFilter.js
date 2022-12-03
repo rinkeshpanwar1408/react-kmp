@@ -53,7 +53,7 @@ function CollapsibleFilter() {
         break;
     }
     setSelectedFilters(result);
-    // console.log(result);
+    console.log(result);
   };
   const allClearFilterHandler = () => {
     console.log('all clear');
@@ -115,6 +115,7 @@ function CollapsibleFilter() {
                     header={filter.title}
                     array={filter.data}
                     key={keyID}
+                   
                   />
                 );
               })

@@ -28,7 +28,12 @@ const UpdateWorkSpaceDetailApi = async (payload) => {
 
 const GetWorkspacesApi = async (payload) => {
     try {
-        const response = await Api.post('/workspace/all', { "username": payload.username });
+        // const response = await Api.post('/workspace/all', { "username": payload.username });
+        const response  = await new Promise((res,rej) => {
+            setTimeout(() => {
+                res({data: {"workspaces_all":[]}})
+            }, 2000);
+        })
         return response;
     } catch (error) {
         let errorInfo;

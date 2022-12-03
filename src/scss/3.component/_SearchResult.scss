@@ -14,8 +14,7 @@
 
   &_header {
     display: flex;
-    border-bottom: 0.1rem solid rgba($color: $bordercolor, $alpha: $opacity-medium);
-    padding: 1.2rem 1.5rem;
+     
     align-items: center;
 
     &.quickLinks {
@@ -37,11 +36,11 @@
     }
     &-content {
       margin: 0 !important;
-      // background-color: $color-10;
+       background-color: $color-10;
     }
 
     &-pdf {
-      background-color: rgba($color: $common_light_extra_color_7, $alpha: $opacity-medium) ;
+ background-color: rgba($color: $common_light_extra_color_7, $alpha: $opacity-medium) ;
       padding: 0.2rem 1rem;
       display: flex;
       align-items: center;
@@ -207,6 +206,7 @@
   &_container {
     display: flex;
     align-items: flex-start;
+    margin-top: 8em;
 
     &-filterContainer {
       position: relative;
@@ -274,7 +274,20 @@
   }
 }
 
+
+.filterCheckBox {
+  display:none;
+}
+:checked + .cross {
+  
+ 
+  border: 1px solid rgb(6, 73, 92);
+  box-shadow: 0 0 5px rgb(100, 51, 8);
+}
+
+
 .hideFilter.search_result_container {
+  
   &-filterContainer {
     width: 5%;
 

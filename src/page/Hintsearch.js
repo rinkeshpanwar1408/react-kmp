@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Row, Col, Slider, Layout, Menu } from "antd";
 import MainFooter from "../components/MainFooter";
-import MainHeader from "../components/MainHeader";
+import MainHeader from "../components/MainHeaderNew";
 import { Link, Route, Switch, useHistory, useLocation } from "react-router-dom";
 import { useRouteMatch, Redirect } from "react-router-dom";
 import MainSearch from "./MainSearch";
@@ -268,7 +268,7 @@ function HintSearch(props) {
         </Sider>
       </Route>
 
-      <StyledMainContentContainer className={`main-container ${headerClass}`}>
+      <StyledMainContentContainer>
         <Switch>
           <Route path={`${match.path}/${RouteUrl.MAINSEARCH}`} exact>
             <MainSearch />
