@@ -120,10 +120,6 @@ const Login = (props) => {
               </CustomCol>
             </Row>
 
-            {/* <Form.Item name="remember" valuePropName="checked">
-              <Checkbox>Remember me</Checkbox>
-            </Form.Item> */}
-
             <Row key="rw2">
               <CustomCol key="rw1.3" xxl={24} xl={24} className="text-right">
                 <Button type="primary" htmlType="submit" loading={isLoading}>

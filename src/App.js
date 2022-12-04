@@ -17,6 +17,7 @@ import * as RouteUrl from "./model/route";
 import Login from "./page/Login";
 import ErrorPage from "./page/Error";
 import PageNotFound from "./page/PageNotFound";
+import Auth from "./page/Auth";
 
 function App() {
   const currentTheme = useSelector((state) => state.theme.Theme);
@@ -37,7 +38,8 @@ function App() {
         >
           {!Error &&
             <Switch>
-              <Route path={RouteUrl.LOGIN} exact><Login /></Route>
+              <Route path={RouteUrl.LOGIN} exact><Auth /></Route>
+              {/* <Route path={RouteUrl.LOGIN} exact><Login /></Route> */}
               <Route path={RouteUrl.HINTSEARCH} >
                 <HintSearch />
               </Route>

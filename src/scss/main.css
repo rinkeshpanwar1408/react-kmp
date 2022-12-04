@@ -1979,6 +1979,88 @@ body {
   margin: 1rem;
 }
 
+.auth_page {
+  display: flex;
+  height: 100vh;
+  max-height: -webkit-fit-content;
+  max-height: -moz-fit-content;
+  max-height: fit-content;
+  width: 100vw;
+  padding: 3rem 2rem;
+  background-color: #ECECEC;
+}
+.auth_page .auth_left_section {
+  padding-left: 1.2rem;
+  flex: 3;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  background-color: #47B9EE;
+  border-top-left-radius: 0.8rem;
+  border-bottom-left-radius: 0.8rem;
+}
+.auth_page .auth_left_section .headline_name {
+  color: #FEFFFF;
+  font-size: 1.6rem;
+}
+.auth_page .auth_left_section .headline_name :hover {
+  color: #ECECEC;
+}
+.auth_page .auth_right_section {
+  flex: 2;
+  background-color: #FEFFFF;
+  border-top-right-radius: 0.8rem;
+  border-bottom-right-radius: 0.8rem;
+}
+.auth_page .auth_right_section .loginContainer {
+  display: none;
+  flex: 1;
+  flex-direction: column;
+  justify-content: space-evenly;
+  height: 100%;
+  padding: 10%;
+}
+.auth_page .auth_right_section .loginContainer .submitButton {
+  width: 100%;
+  background-color: #007CC3;
+  outline-color: #00FFFF;
+}
+.auth_page .auth_right_section .loginContainer .submitButton :hover {
+  background-color: #007CC3;
+}
+.auth_page .auth_right_section .inputButton {
+  border-radius: 0.5rem;
+  border-color: #007CC3;
+  height: 3.7rem;
+}
+.auth_page .auth_right_section .signupContainer {
+  display: none;
+  flex: 1;
+  flex-direction: column;
+  justify-content: space-evenly;
+  height: 100%;
+  padding-left: 10%;
+  padding-right: 10%;
+}
+.auth_page .auth_right_section .auth_or_option {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+.auth_page .auth_right_section .auth_or_option .hr_divider {
+  margin-top: 3px;
+  margin-left: 7px;
+  margin-right: 7px;
+  flex: 1;
+}
+.auth_page .auth_right_section .other_text {
+  color: #007CC3;
+  font-weight: 500;
+  cursor: pointer;
+}
+
 .ant-divider {
   border-color: rgba(145, 158, 171, 0.2);
 }

@@ -1,5 +1,6 @@
 //Main Pages
 export const LOGIN = "/Login";
+export const AUTH = "/Auth";
 export const ERROR = "/Error";
 export const HINTSEARCH = "/Hintsearch";
 
