@@ -19,13 +19,13 @@ const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
 
 const { Title, Text } = Typography;
-
+var recognition;
 function SearchHome(props) {
   const history = useHistory();
+  const [Microphone, setMicrophone] = useState(false);
   const Dispatch = useDispatch();
-
   const [isFullScreen, setIsFullscreen] = useState(false);
-
+  const [Listening, setListening] = useState(false);
   const [visibleSuggestion, setvisibleSuggestion] = useState(false);
   const [suggessionsList, setSuggessionsList] = useState([]);
   const [searchWord, setSearchWord] = useState("");
@@ -99,7 +99,53 @@ function SearchHome(props) {
       document.removeEventListener("fullscreenchange", onFullScreenHandler);
     };
   }, [isFullScreen, onFullScreenHandler]);
+  function stopListening(){ 
+    recognition.stop()
+    setListening(false) 
+  }
 
+  function startListening(){ 
+    recognition.start() 
+  }
+
+  function toggleMicrophone(){  
+    if(Listening){  
+      stopListening()
+    }else{  
+      startListening()
+    }
+  } 
+  useEffect(() => { 
+  const speech = window.SpeechRecognition || window.webkitSpeechRecognition
+  if(speech == undefined){
+    setMicrophone(false)
+  }else{
+    setMicrophone(true)
+    recognition = new speech()
+
+    recognition.continuous = true
+    recognition.lang = 'en-US'
+    recognition.interimResults = true
+    recognition.maxAlternatives = 1
+    
+    recognition.onstart = function() {
+      setListening(true)
+      setvisibleSuggestion(true)
+    }
+    recognition.onend = function(){ 
+      setListening(false)
+      setvisibleSuggestion(false)
+    }
+    recognition.onresult =  function(speech) { 
+      let result = speech.results[speech.resultIndex];
+      setSearchWord(result[0].transcript);
+    }     
+  }
+
+  return () => { 
+    recognition.stop();
+  }
+  }, [])
     return ( 
         <>
           <div className="mainheader_container_navbar_searchcontainer">
@@ -176,9 +222,11 @@ function SearchHome(props) {
                 </div>
             </div>
           </div>
-          <div className="microphone_section">
-            <MdOutlineKeyboardVoice size={18} />
-          </div>
+          {Microphone && 
+            <div className="microphone_section" onClick={toggleMicrophone}>
+              <MdOutlineKeyboardVoice size={18} />
+            </div>
+          }
         </>
      );
 }
