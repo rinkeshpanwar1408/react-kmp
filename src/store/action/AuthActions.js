@@ -5,30 +5,9 @@ import * as Actions from "./index";
 export const Login = async (data) => {
   try {
     const response = await Api.post("/user/login", { "userName": data.username, "password": data.password });
-    // const response = await new Promise((resolve,reject)=>setTimeout(() => {
-    //   if (data.username && data.password && data.username==="srikanth.valluri" && data.password === "admin"){
-    //     resolve(
-    //       {
-    //       data: {"jobTitle":"Senior Architect","userEmail":"srikanth.valluri@infosys.com","userDepartment":"Product Owner","isAdmin":true,"userName":"srikanth.valluri","managementLevelId":6}
-    //       }
-    //     )
-    //   } else {
-    //     reject(
-    //       {
-    //         message:"Invalid username and password"
-    //       });
-    //   }
-    // }, 2000))
     return response;
   } catch (error) {
     let errorInfo;
-    // if (error.response) {
-    //   errorInfo = error.response.data.ErrorInfo["0"];
-    //   // displayErrorMessage(error.response)
-    // } else {
-    //   errorInfo = error.message;
-    //   // displayErrorMessage(error.message)
-    // }
     errorInfo = error.message;
     throw errorInfo;
   }
@@ -38,6 +17,13 @@ export function signUpUser(payload, cb, errorcb) {
   return async function (dispatch) {
     try {
       const response = await Api.post("/user/createUser", payload);
+      if (response.data) {
+        dispatch({
+          type: Actions.LOGINUSER,
+          payload: {...payload}
+        }
+        );
+      }
       return response;
     } catch (error) {
       return {

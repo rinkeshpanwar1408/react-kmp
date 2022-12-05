@@ -37,15 +37,6 @@ function SearchHome(props) {
     
     // history.replace(`${match.url}/${RouteUrl.SEARCH}`);
   };
-
-  
-  // const onApplyFilterClickHandler =  (filters) => {
-  //   setvisibleSuggestion(false)
-  //   Dispatch(ActionCreator.getSearchedData(searchWord,filters));
-
-  //   // history.replace(`${match.url}/${RouteUrl.SEARCH}`);
-  // };
-
   useEffect(() => {
     let timer;
     try {
@@ -55,16 +46,7 @@ function SearchHome(props) {
 
       const getdata = async () => {
         if (searchWord) {
-          // const result = await Api.get(`/suggest/${searchWord}`);
-          const result = await new Promise((resolve) => {
-            setTimeout(() => {
-              resolve(
-                {
-                  data: ["legacy modernization","application modernizationroadmap","modernization financial erp platform","datacenter modernization journey","tailored modernization roadmap"]
-                }
-              )
-            }, 1);
-          })
+          const result = await Api.get(`elastic/suggest/${searchWord}`);
           setSuggessionsList(result.data);
         }
       };
@@ -83,10 +65,7 @@ function SearchHome(props) {
     const valueText = event.target.value;
     localStorage.setItem("loading_text", valueText);
     localStorage.setItem("filter_search", valueText);
-      // if(valueText === ''){
-      //     setSuggessionsList([]);
-      // }
-      setSearchWord(valueText);
+    setSearchWord(valueText);
   };
 
   const onSuggestionItemClickHandler = (text) => {
@@ -135,9 +114,6 @@ function SearchHome(props) {
                   setvisibleSuggestion(true);
                 }}
               />
-
-              
-              
               {
               ((visibleSuggestion && searchWord) && (suggessionsList.length > 0 ?
                 <StyledCard className="mainheader_searchlist_container">

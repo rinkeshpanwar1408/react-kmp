@@ -5,26 +5,18 @@ import staticJson from "../../staticjson_searchresults.json";
 export const getSearchedData = (searchedWord, page = 1, filters = { "authorFilter": [], "sourceFilter": [], "departmentFilter": [] }) => {
   return async (dispatch, getState) => {
     const userDetails = getState().auth.UserDetail;
-    // let response = await Api.post(
-    //   `/text/searchlist.json/${searchedWord}/${page}/false/department/false/true/?params=%7B%7D`,
-    //   {
-    //     "userName": userDetails.userName,
-    //     "userDepartment": userDetails.userDepartment,
-    //     "managementLevelId": userDetails.managementLevelId,
-    //     "jobTitle": userDetails.jobTitle,
-    //     "documentCategory": "",
-    //     "sortedFilter": "",
-    //     ...filters
-    //   }
-    // );
-    // debugger;
-    const response = await new Promise((resolve) => {
-      setTimeout(() => {
-        resolve({
-          data: staticJson
-        })
-      }, 1000);
-    })
+    let response = await Api.post(
+      `elastic/text/search?searchString=${searchedWord}`,
+      {
+        "userName": userDetails.userName,
+        "userDepartment": userDetails.userDepartment,
+        "managementLevelId": userDetails.managementLevelId,
+        "jobTitle": userDetails.jobTitle,
+        "documentCategory": "",
+        "sortedFilter": "",
+        ...filters
+      }
+    );
     dispatch({
       type: Actions.GETSEARCHDATA,
       payload: {

@@ -179,7 +179,7 @@ function SearchResult(props) {
           </Row>
         </div>
         {/* <StyledCard > */}
-        {/* {searchedData.length<=0 &&  <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} /> } */}
+        {searchedData.length<=0 &&  <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} /> }
         {/* </StyledCard>            */}
       </div>
     </React.Fragment >

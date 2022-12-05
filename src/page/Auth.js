@@ -56,7 +56,7 @@ function Auth() {
       const values = await signUpForm.validateFields();
       const result = await dispatch(
         ActionCreator.signUpUser({
-          username: values.username,
+          userName: values.username,
           userDepartment: values.password,
           managementLevelId: values.managementLevelId,
           jobTitle: values.jobTitle,
